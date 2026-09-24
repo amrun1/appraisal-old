@@ -1,0 +1,228 @@
+.error { color: red; }
+.control-group.error .control-label, .control-group.error .help-block, .control-group.error .help-inline {
+    color: red;
+}
+.panel {
+    border: 1px dashed #ddd;
+    padding: 5px;
+}
+body {
+    padding: 0px;
+    font-size: 11px;
+    font-family: "BBLSans05-Regular" !important;
+}
+input, button, select, textarea {
+  font-family: "BBLSans05-Regular" !important;
+}
+h1 {font-size: 24px;}
+h2 {font-size: 20px;}
+h3 {font-size: 18px;}
+h1, h2, h3 {line-height: 20px;}
+.container {
+	padding-left: 5px;
+	padding-right: 5px;
+	width: 98%;
+	/*margin-top:60px;*/
+}
+.page-header {
+    padding-bottom: 0px;
+    margin: 3px 0 8px;
+    border-bottom: 1px solid #eeeeee;
+}
+.absolute-right {
+    position: absolute;
+    right: 25px;
+}
+.form-horizontal .control-group {
+    margin-bottom: 3px;
+}
+
+form {
+    margin: 0 0 3px;
+}
+
+/* datatable jquery custome */
+table.dataTable {
+    border-spacing: 1px;
+}
+table.dataTable thead th {
+    background: #002850;
+    color: white;
+}
+table.dataTable tbody tr.odd {
+    background-color: #F9F9F9;
+}
+.dataTables_length label {
+    margin-bottom: 3px;
+}
+.dataTables_length label select {
+    width: auto;
+    margin-bottom: 0px;
+}
+.table caption + thead tr:first-child th,
+.table caption + thead tr:first-child td,
+.table colgroup + thead tr:first-child th,
+.table colgroup + thead tr:first-child td,
+.table thead:first-child tr:first-child th,
+.table thead:first-child tr:first-child td {
+    border-top: 1px solid #111;
+}
+table.dataTable thead th, table.dataTable thead td {
+    padding: 3px 8px;
+}
+table.dataTable tbody th, table.dataTable tbody td {
+    padding: 5px 3px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 5px 8px;
+}
+
+#form_search {
+    display : none;
+    margin : 20px 0 20px;
+}
+
+.nav {
+    margin-bottom: 5px;
+}
+.nav-tabs > li > a {
+    padding: 4px;
+}
+
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+    padding: 1px 4px;
+    font-size: 11px;
+}
+
+label, input, button, select, textarea {
+    font-size: 11px;
+}
+.btn-group > .btn, .btn-group > .dropdown-menu, .btn-group > .popover {
+    font-size: 11px;
+}
+input.btn, button.btn, .btn {
+    font-size: 11px;
+    padding: 1px 8px;
+}
+[class^="icon-"], [class*=" icon-"] {
+    width: 10px;
+    height: 10px;
+    margin-top: 1px;
+    *margin-right: .3em;
+    line-height: 14px;
+    vertical-align: middle;
+    padding: 0 5px 5px 0;
+}
+.form-horizontal .control-group {
+    margin-bottom: 0px;
+}
+
+.form-horizontal .control-label {
+    padding-top: 3px;
+}
+select {
+    height: 25px;
+}
+
+.page-header-page {
+    padding-bottom: 0px;
+    margin: 0px 0 8px;
+    position: fixed;
+    top: 0;
+    background: white;
+    width: 100%;
+    padding-top: 4px;
+    z-index: 1005;
+}
+
+.tab-content {
+    padding-top: 15px;
+}
+.form-horizontal input + .help-block, .form-horizontal select + .help-block, .form-horizontal textarea + .help-block, .form-horizontal .uneditable-input + .help-block, .form-horizontal .input-prepend + .help-block, .form-horizontal .input-append + .help-block {
+    margin-top: 2px;
+    margin-bottom: 5px;
+}
+.custom-ui input[type=radio], input[type=checkbox] {
+    float: left;
+    margin-right: 10px;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+    margin-top: 2px;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+table.dataTable thead th {
+    vertical-align: middle;
+}
+
+.loading{
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 999; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    text-align: center;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.2); /* Black w/ opacity */
+}
+
+.btn-group > .btn:first-child{
+    border-bottom-left-radius:10px !important;
+    border-top-left-radius:10px !important;
+}
+
+.btn-group > .btn:last-child{
+    border-bottom-right-radius:10px !important;
+    border-top-right-radius:10px !important;
+}
+
+.btn-info {
+    background-color: #0064ff !important;
+    background-image: linear-gradient(to bottom, #0064ff, #0064ff) !important;
+}
+
+.btn-success {
+    background-color: #0064ff !important;
+    background-image: linear-gradient(to bottom, #0064ff, #0064ff) !important;
+}
+.btn{
+    border-radius: 10px;
+}
+.input-append .btn:last-child{
+    border-radius: 0 10px 10px 0;
+}
+.input-append .btn:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+@font-face {
+    font-family: "BBLSans05-Regular";
+    font-style: normal;
+    font-weight: normal;
+    src: url("./login/BBLSans05-Regular.otf") format("truetype"),
+        url("./login/BBLSans05-Regular.otf") format("otf"),
+        /* url("../fonts/permata-icon.svg#permata-icon") format("svg"), */
+            url("./login/BBLSans05-Regular.otf") format("woff"),
+        url("./login/BBLSans05-Regular.otf") format("woff2");
+}

@@ -1,0 +1,1656 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptLpaInspeksi" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="04093134-60bb-4bc7-b5cf-da5a51c49452">
+	<property name="ireport.zoom" value="1.6500000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="dataset1" uuid="34701ab3-b2c6-4c67-b8ff-98f46ab7240b">
+		<parameter name="pId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select a.value
+from parameter a
+where a.id::text = $P{pId}]]>
+		</queryString>
+		<field name="value" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="PIdLpaUmum" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select distinct a.nama_debitur,
+        a.nama_perumahan,
+        a.nama_cluster,
+        a.posisi_lokasi_agunan,
+regexp_replace(a.lokasi_fisik, '\r\n', ' ', 'g') alamat,
+a.jenis_object_fisik,
+a.sla,
+        a.block,
+        a.nomor,
+        a.rt,
+        a.rw,
+        a.propinsi,
+        a.kota,
+        a.kecamatan,
+        a.kelurahan,
+        a.kode_pos,
+        (select cb.nama from cabang cb where cb.id=e.cabang_id) as id_app_cabang,
+        a.nomor_order,
+        a.no_lpa,
+        a.jenis_object,
+        e.submit_date tanggal_order,
+        a.tanggal_survey,
+        a.dituju_ke,
+        a.ditinjau,
+        a.nama_contact,
+        (select x.nama from status_jaminan x where x.id = a.id_status_jaminan) status_jaminan,
+        a.kategori_sla,
+a.faktor_marketability,
+a.catatan_point,
+a.pembanding_1,
+a.pembanding_2,
+a.pembanding_3,
+(select nama from person where user_id = e.closed_by ) approve_by,
+e.closed_date approve_date,
+(select nama from person where user_id = e.value_by ) value_by,
+e.value_date,
+a.deviasi_doc,
+a.deviasi_fisik,
+a.opini_internal,
+a.catatan_point,
+jumlah_hari(e.submit_date, e.closed_date) hari_kerja,
+a.FAKTOR_MARKET_CATATAN,
+a.catatan_kesesuaian,
+a.catatan_kewajaran_nilai,
+e.jenis_laporan, b.*,
+(select count(*) from lpa_inspeksi_item item where item.id_lpa_inspeksi = b.id and item.tipe = 'Goods' ) count_barang_jadi,
+(select item.nama from lpa_inspeksi_item item where item.id_lpa_inspeksi = b.id and item.tipe = 'Goods' LIMIT 1 ) uraian_barang_jadi,
+(select item.total_doc from lpa_inspeksi_item item where item.id_lpa_inspeksi = b.id and item.tipe = 'Goods' LIMIT 1 ) doc_barang_jadi,
+(select item.total_fisik from lpa_inspeksi_item item where item.id_lpa_inspeksi = b.id and item.tipe = 'Goods' LIMIT 1 ) fisik_barang_jadi,
+(select count(*) from lpa_inspeksi_item item where item.id_lpa_inspeksi = b.id and item.tipe = 'Half_Goods' ) count_barang_setengah_jadi,
+(select item.nama from lpa_inspeksi_item item where item.id_lpa_inspeksi = b.id and item.tipe = 'Half_Goods' LIMIT 1 ) uraian_barang_setengah_jadi,
+(select item.total_doc from lpa_inspeksi_item item where item.id_lpa_inspeksi = b.id and item.tipe = 'Half_Goods' LIMIT 1 ) doc_barang_setengah_jadi,
+(select item.total_fisik from lpa_inspeksi_item item where item.id_lpa_inspeksi = b.id and item.tipe = 'Half_Goods' LIMIT 1 ) fisik_barang_setengah_jadi,
+(select count(*) from lpa_inspeksi_item item where item.id_lpa_inspeksi = b.id and item.tipe = 'Raw_Materials' ) count_bahan_baku,
+(select item.nama from lpa_inspeksi_item item where item.id_lpa_inspeksi = b.id and item.tipe = 'Raw_Materials' LIMIT 1 ) uraian_bahan_baku,
+(select item.total_doc from lpa_inspeksi_item item where item.id_lpa_inspeksi = b.id and item.tipe = 'Raw_Materials' LIMIT 1 ) doc_bahan_baku,
+(select item.total_fisik from lpa_inspeksi_item item where item.id_lpa_inspeksi = b.id and item.tipe = 'Raw_Materials' LIMIT 1 ) fisik_bahan_baku
+from lpa_umum a
+left join lpa_inspeksi b on b.id_lpa_umum = a.id
+left join lpa_inspeksi_item c on c.id_lpa_inspeksi = b.id
+left join data_umum e on a.id_data_umum = e.id
+where a.id = $P{PIdLpaUmum}
+LIMIT 1]]>
+	</queryString>
+	<field name="nama_debitur" class="java.lang.String"/>
+	<field name="nama_perumahan" class="java.lang.String"/>
+	<field name="nama_cluster" class="java.lang.String"/>
+	<field name="posisi_lokasi_agunan" class="java.lang.String"/>
+	<field name="alamat" class="java.lang.String"/>
+	<field name="jenis_object_fisik" class="java.lang.String"/>
+	<field name="sla" class="java.lang.Integer"/>
+	<field name="block" class="java.lang.String"/>
+	<field name="nomor" class="java.lang.String"/>
+	<field name="rt" class="java.lang.String"/>
+	<field name="rw" class="java.lang.String"/>
+	<field name="propinsi" class="java.lang.String"/>
+	<field name="kota" class="java.lang.String"/>
+	<field name="kecamatan" class="java.lang.String"/>
+	<field name="kelurahan" class="java.lang.String"/>
+	<field name="kode_pos" class="java.lang.String"/>
+	<field name="id_app_cabang" class="java.lang.String"/>
+	<field name="nomor_order" class="java.lang.String"/>
+	<field name="no_lpa" class="java.lang.String"/>
+	<field name="jenis_object" class="java.lang.String"/>
+	<field name="tanggal_order" class="java.sql.Timestamp"/>
+	<field name="tanggal_survey" class="java.sql.Timestamp"/>
+	<field name="dituju_ke" class="java.lang.String"/>
+	<field name="ditinjau" class="java.lang.String"/>
+	<field name="nama_contact" class="java.lang.String"/>
+	<field name="status_jaminan" class="java.lang.String"/>
+	<field name="kategori_sla" class="java.lang.String"/>
+	<field name="faktor_marketability" class="java.lang.String"/>
+	<field name="catatan_point" class="java.lang.String"/>
+	<field name="pembanding_1" class="java.lang.String"/>
+	<field name="pembanding_2" class="java.lang.String"/>
+	<field name="pembanding_3" class="java.lang.String"/>
+	<field name="approve_by" class="java.lang.String"/>
+	<field name="approve_date" class="java.sql.Timestamp"/>
+	<field name="value_by" class="java.lang.String"/>
+	<field name="value_date" class="java.sql.Timestamp"/>
+	<field name="deviasi_doc" class="java.lang.Double"/>
+	<field name="deviasi_fisik" class="java.lang.Double"/>
+	<field name="opini_internal" class="java.lang.String"/>
+	<field name="hari_kerja" class="java.lang.Long"/>
+	<field name="faktor_market_catatan" class="java.lang.String"/>
+	<field name="catatan_kesesuaian" class="java.lang.String"/>
+	<field name="catatan_kewajaran_nilai" class="java.lang.String"/>
+	<field name="jenis_laporan" class="java.lang.String"/>
+	<field name="id" class="java.lang.Long"/>
+	<field name="aktifitas_kerja" class="java.lang.String"/>
+	<field name="alamat_lain" class="java.lang.String"/>
+	<field name="alat_pemadam" class="java.lang.String"/>
+	<field name="info_alamat_tempat" class="java.lang.String"/>
+	<field name="jenis_barang" class="java.lang.String"/>
+	<field name="jenis_tempat" class="java.lang.String"/>
+	<field name="keamanan" class="java.lang.String"/>
+	<field name="kondisi_jalan" class="java.lang.String"/>
+	<field name="kondisi_tempat" class="java.lang.String"/>
+	<field name="lingkungan_sekitar" class="java.lang.String"/>
+	<field name="metode_periksa" class="java.lang.String"/>
+	<field name="nomor_daftar" class="java.lang.String"/>
+	<field name="packing" class="java.lang.String"/>
+	<field name="peralatan_gudang" class="java.lang.String"/>
+	<field name="status_tempat" class="java.lang.String"/>
+	<field name="total_goods" class="java.lang.String"/>
+	<field name="total_halfgoods" class="java.lang.String"/>
+	<field name="total_rawmaterial" class="java.lang.String"/>
+	<field name="susunan_tempat" class="java.lang.String"/>
+	<field name="tanggal_daftar" class="java.sql.Timestamp"/>
+	<field name="tempat_persediaan" class="java.lang.String"/>
+	<field name="id_lpa_umum" class="java.lang.Long"/>
+	<field name="total_goods_fisik" class="java.lang.String"/>
+	<field name="total_halfgoods_fisik" class="java.lang.String"/>
+	<field name="total_rawmaterial_fisik" class="java.lang.String"/>
+	<field name="count_barang_jadi" class="java.lang.Long"/>
+	<field name="uraian_barang_jadi" class="java.lang.String"/>
+	<field name="doc_barang_jadi" class="java.lang.String"/>
+	<field name="fisik_barang_jadi" class="java.lang.String"/>
+	<field name="count_barang_setengah_jadi" class="java.lang.Long"/>
+	<field name="uraian_barang_setengah_jadi" class="java.lang.String"/>
+	<field name="doc_barang_setengah_jadi" class="java.lang.String"/>
+	<field name="fisik_barang_setengah_jadi" class="java.lang.String"/>
+	<field name="count_bahan_baku" class="java.lang.Long"/>
+	<field name="uraian_bahan_baku" class="java.lang.String"/>
+	<field name="doc_bahan_baku" class="java.lang.String"/>
+	<field name="fisik_bahan_baku" class="java.lang.String"/>
+	<background>
+		<band height="802">
+			<rectangle>
+				<reportElement uuid="e505e74b-abc3-48ef-b265-7e40064f2c4a" x="0" y="0" width="555" height="802"/>
+			</rectangle>
+		</band>
+	</background>
+	<title>
+		<band/>
+	</title>
+	<pageHeader>
+		<band height="38" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement uuid="609eb95e-44c2-4574-9798-527c6b9faf1b" x="0" y="-13" width="142" height="51"/>
+				<imageExpression><![CDATA[($P{SUBREPORT_DIR}!=null?$P{SUBREPORT_DIR}:"") + "logo_rpt_format_lpa.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="240dc051-4458-46b2-892a-9656d5bfbdfa" mode="Opaque" x="142" y="0" width="413" height="37" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN INSPEKSI ATAS PERSEDIAAN BARANG
+(Per-Lokasi Tempat Penyimpanan)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2d5f11b9-76eb-4331-a721-3efda24b38e3" x="0" y="0" width="142" height="37"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="100">
+			<frame>
+				<reportElement uuid="a73b2262-3b5c-4f99-a9c2-0c6c491e047c" positionType="Float" x="0" y="0" width="279" height="11"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="461659d5-7b01-4c4d-a32e-51e6da281c34" stretchType="RelativeToTallestObject" x="132" y="0" width="145" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nama_debitur}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="920c11c9-40ec-473d-a3db-d10f831e223d" x="10" y="0" width="115" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Nama Debitur]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="36cbf2c9-fa01-49da-a5cb-fe5ece762861" x="127" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="c80baf7b-2275-460e-85ff-062fc952362c" x="1" y="0" width="10" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[1.]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement uuid="e7f37cd1-ab06-43b4-9ca2-19ef972bb44b" positionType="Float" x="2" y="11" width="277" height="33"/>
+				<staticText>
+					<reportElement uuid="2aa8bd17-4fb3-4dfb-a7b8-c1262ab63a60" x="125" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="678d0bc9-1982-4cfb-8a67-74109c725f49" x="8" y="0" width="117" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Alamat Tempat Penyimpanan ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="ecbe1825-f87e-4e65-9fc0-9ee314c44bb2" x="130" y="0" width="147" height="33"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{alamat}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="330f054e-b25d-4dc2-b7fd-f8435a8420a8" positionType="Float" x="2" y="44" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="9a6d4bff-3c6a-4990-b804-fd186399ab46" x="125" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="84ec0fd6-0cf1-4e7e-97ba-7a3adee4e501" x="8" y="0" width="117" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Propinsi]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="1b23722f-6079-4010-b2b1-49084e865430" x="130" y="0" width="147" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{propinsi}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="feb43ea9-ae44-426c-88ee-a1be784b9684" positionType="Float" x="2" y="55" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="c8dfaa22-1326-4c4c-8d7a-f8bbc807aebc" x="8" y="0" width="117" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kabupaten/Kotamadya]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ec613bb-6796-41b3-8d3a-ca788d519450" x="125" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="c1723664-66fd-454b-bd0f-1ac4b852c9e0" x="130" y="0" width="147" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{kota}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="ff67da56-404a-47aa-9528-c1f0855c9ff6" positionType="Float" x="2" y="66" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="8aa03ede-4691-46aa-92ad-85c56e15d8fc" x="8" y="0" width="117" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kecamatan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="a943e6d2-0994-48d2-a6fd-560d603eceb1" x="125" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="752a44a3-4b55-4b52-82d6-f98f3e2313c4" x="130" y="0" width="147" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{kecamatan}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="8aa04aaa-27c7-43f5-a94b-1fad4b057375" positionType="Float" x="2" y="77" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="e6509f6f-5d49-4cdc-81f4-406343584b48" x="125" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="68bb0cd9-a0ff-4d03-93fc-254ca83973fd" x="8" y="0" width="117" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kelurahan/Desa]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="ed886c02-9cd7-472e-8601-34f02533448f" x="130" y="0" width="147" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{kelurahan}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="29d6c2f7-58ad-4f8a-8bae-72b7f225d9d9" positionType="Float" x="2" y="88" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="f477f4cd-a9a8-4715-9987-7f5da6dcf6b9" x="125" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="8d2cd5d5-922e-438b-a064-e524ddf4e5cd" x="8" y="0" width="117" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kode Pos]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="5b787196-12a0-4d77-8dba-6d84264be6cd" x="130" y="0" width="147" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{kode_pos}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="80b10bf6-68fa-4964-bf69-d3b1b176bd93" positionType="Float" x="279" y="0" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="3d5b459e-3162-4dc8-a8e1-fa9ca6509100" x="0" y="0" width="125" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[No. Laporan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="43c76cb0-5ee5-45f6-bb9d-e2d47b82900d" x="125" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="ab9002e0-e60f-4ba8-92ec-dcb06411fc96" x="130" y="0" width="147" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{no_lpa}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="7a507432-0e48-4c7a-aef3-94e3e5d26364" positionType="Float" x="279" y="11" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="47f10243-026f-4519-b0d1-b89d722829c4" x="0" y="0" width="125" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Tanggal Order]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="b9d58470-41e5-471f-9316-00454e1ce20b" x="125" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement uuid="54afe054-d5c4-40c6-9799-918c97449c0e" x="130" y="0" width="147" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tanggal_order}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="15744cc7-8407-40eb-b745-83589e106b23" positionType="Float" x="279" y="22" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="b78607f0-a05c-4cfc-a3e2-8a8d814268a5" x="0" y="0" width="125" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Tanggal Inspeksi]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="11246d75-d4d5-4908-ae90-e9aa09dbbb04" x="125" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement uuid="ea59516c-ba26-4a39-a7ae-2789177a6fc0" x="130" y="0" width="147" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tanggal_survey}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="9e0051b9-421c-4b73-8a00-598054226146" positionType="Float" x="279" y="33" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="ac6affd7-b297-4770-9940-cdfe2e1e00f9" x="0" y="0" width="125" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Inspektor oleh Bisnis]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="76fa53fc-0cf7-4ac4-a9da-efddee89345f" x="125" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="1fc99b1d-bfe0-4da0-8f7e-1f0563418a35" x="130" y="0" width="147" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{dituju_ke}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="7205f9ce-8c1a-46da-b3fe-9c4103bec0eb" positionType="Float" x="279" y="44" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="9c8657d7-d425-4280-8b6c-465748270845" x="125" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="69791bde-e253-4801-9508-7b4d69201ea9" x="0" y="0" width="125" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Inspektor oleh Colval]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="da57d240-56e9-40f6-b458-139ddb7af007" x="130" y="0" width="147" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ditinjau}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="fdfeb873-bfd0-4db2-80dc-d712e4f71c82" positionType="Float" x="279" y="55" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="49ef3f83-d303-4350-95af-65014ac0a4df" x="0" y="0" width="125" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Diantar/Ditemui Oleh]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="eeb48de3-2f6d-44e4-b2fe-908916d53009" x="125" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="aeabbc46-f8ba-4daf-b41a-799e96754c5d" x="130" y="0" width="147" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nama_contact}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<line>
+				<reportElement uuid="65707c85-97aa-484f-aaa2-b848caa0abb5" positionType="Float" x="0" y="99" width="555" height="1"/>
+			</line>
+		</band>
+		<band height="337">
+			<staticText>
+				<reportElement uuid="a5f27e1a-39e3-499e-8396-341314cc5b0b" x="1" y="0" width="199" height="11"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[2. Data Persediaan Barang]]></text>
+			</staticText>
+			<frame>
+				<reportElement uuid="67887740-9178-4466-95ac-af9d6f9edba7" positionType="Float" x="1" y="11" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="2ea0de3f-666d-4f7d-9c9f-0f4f4946e0e2" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="acbad5ea-cbde-46b9-92c4-38e8b6a7c4ab" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Jenis Barang]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="false">
+					<reportElement uuid="86d4c27e-b8c7-4dda-ae06-a704391ea453" x="131" y="0" width="146" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{jenis_barang}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="699e4b95-5b53-4a11-bedd-533a7d876938" positionType="Float" x="1" y="22" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="6a778508-b170-41fc-9e08-a98c193d6e84" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="f154c5d6-7468-43ca-851f-ee77690c23ca" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[No. Daftar Persediaan Barang]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement uuid="c8b82f16-7a38-462d-a3de-dbf09c105292" x="131" y="0" width="146" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nomor_daftar}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="0b231ae1-5dc5-428c-9ca5-ad4c51f2b37d" positionType="Float" x="1" y="33" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="b901f213-3259-4118-8914-bb7ea4e53903" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="591c9f0f-cbdb-4602-8318-dcd2e1224345" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Tgl Daftar Persediaan Barang]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement uuid="e85113ee-7c5e-40a5-97de-acfebb6e5f4e" x="131" y="0" width="146" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{tanggal_daftar})]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="ad754cbd-d9ee-41c3-9ab4-b1ab3433913d" positionType="Float" x="1" y="66" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="f653a03b-e199-4f18-97e2-e428d30a23bc" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="736b9fc7-b37b-425a-bf11-c07f22d0c805" x="0" y="0" width="126" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Metode Pemeriksaan]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement uuid="ad67661f-8cd0-4ee2-812f-4c9d36888d31" x="131" y="0" width="144" height="11"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset1" uuid="d471658f-5cbf-4bcf-8542-09895c9c88e4">
+							<datasetParameter name="pId">
+								<datasetParameterExpression><![CDATA[$F{metode_periksa}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="11" width="144">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement uuid="785912dd-84bf-45d4-9078-b8b5c828ae3f" positionType="Float" x="0" y="0" width="144" height="11"/>
+								<textElement>
+									<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+			</frame>
+			<frame>
+				<reportElement uuid="65406775-f0d9-496b-82e3-a8e6fd16d45b" positionType="Float" x="1" y="77" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="2af14f40-908a-47bf-9dcf-dfde623e7051" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="175f2870-06cf-4b7c-a416-a75812ff4285" x="0" y="0" width="126" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Penempatan Persediaan Barang]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement uuid="addee827-7529-4bc2-8838-4cc1132048e8" x="131" y="0" width="144" height="11"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset1" uuid="0a1d5fd2-5b5b-49bd-8b19-907e357f3566">
+							<datasetParameter name="pId">
+								<datasetParameterExpression><![CDATA[$F{tempat_persediaan}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="11" width="144">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement uuid="94d04295-3c04-42d2-a1e9-971f5b59212e" positionType="Float" x="0" y="0" width="144" height="11"/>
+								<textElement>
+									<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+			</frame>
+			<frame>
+				<reportElement uuid="f7a26cc0-5eb6-4a1c-b293-f2a09212b42a" positionType="Float" x="1" y="88" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="1a9c0924-9ba8-4034-8376-b49422a99e1c" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="d4c65571-82ba-4096-b091-5f63ede25a1b" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Susunan Penempatan Barang]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement uuid="8eaf0c08-f5d4-46a6-b785-80af527adec6" x="131" y="0" width="144" height="11"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset1" uuid="d8c2fb0e-7696-46c3-8c39-e2fd1a185366">
+							<datasetParameter name="pId">
+								<datasetParameterExpression><![CDATA[$F{susunan_tempat}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="11" width="144">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement uuid="a8abaa71-878b-46c4-b938-3f4d55293b7e" positionType="Float" x="0" y="0" width="144" height="11"/>
+								<textElement>
+									<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+			</frame>
+			<frame>
+				<reportElement uuid="d05d7f32-5953-4c10-9979-3ca926722e83" positionType="Float" x="1" y="99" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="5b5aa49b-10ba-44de-a133-e4db2f07c6be" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="3e3f8026-6d34-4a5f-9ec5-e19f97fce9a6" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Packing barang]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement uuid="e080c6cd-3e42-44d6-95ab-180eb9d91f85" x="131" y="0" width="144" height="11"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset1" uuid="e75b205d-be06-40dd-a89b-67679cf031d7">
+							<datasetParameter name="pId">
+								<datasetParameterExpression><![CDATA[$F{packing}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="11" width="144">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement uuid="24fbf796-bee1-4c8b-b4c8-6dc28d9daed1" positionType="Float" x="0" y="0" width="144" height="11"/>
+								<textElement>
+									<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+			</frame>
+			<frame>
+				<reportElement uuid="4b1004af-58fd-4c8f-b8fd-4d5678a845a1" positionType="Float" x="1" y="143" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="6230b97f-3c04-4d2f-9041-05c264db3ccc" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="cefde59a-5b11-4a86-8897-7ee646bc61c2" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Uraian Persediaan Barang jadi]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement uuid="acfbe8e2-e34c-4d00-9e91-f4113d68fa33" x="131" y="0" width="146" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{count_barang_jadi}>1?"Terlampir":$F{uraian_barang_jadi}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="da94d955-1fe8-4754-b89e-cc19ca2b8f90" positionType="Float" x="1" y="154" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="3f2b203c-9339-4da7-abd7-2ade7b186298" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="52a9070e-4554-4e35-9dd3-b2178270540d" x="0" y="0" width="141" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Jumlah Persediaan Sesuai Dokumen]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="3a566003-130e-4c01-8961-5da7efd13581" x="131" y="0" width="146" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{count_barang_jadi}>1?"Terlampir":$F{doc_barang_jadi}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="c6cb92a0-08df-4f2f-8107-52448ac64557" positionType="Float" x="1" y="165" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="bbd8d46f-7aee-49ae-aa78-477efed89183" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="fb5b3cc3-15b3-4db2-bd85-e511f91edc8a" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Jumlah Persediaan Sesuai Fisik]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement uuid="1615e546-dbd0-4bf2-8ca5-58838b01c16a" x="131" y="0" width="146" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{count_barang_jadi}>1?"Terlampir":$F{fisik_barang_jadi}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="5074a0a9-113e-4b8f-b09c-0910417858ce" positionType="Float" x="1" y="176" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="0b61fe70-5f03-45af-bb2b-cb585b729ba1" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="d8c2e64a-090e-434a-b1aa-af11f8b84395" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Sub Total]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="719cc51a-7032-4593-8e26-9bcef0ef16ec" x="131" y="0" width="146" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{total_goods}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="e6c0e7a1-cc38-4efc-be64-ab1df7d6a40e" positionType="Float" x="1" y="220" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="c2dee123-158e-443c-ab7b-294ca4889054" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="c6df76e4-2c00-4276-8cde-f2e3caaef8f9" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Uraian Persediaan Bahan Baku]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="3f399fa6-5fb7-4a99-9443-c33ee89fbfed" x="131" y="0" width="146" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{count_bahan_baku}>1?"Terlampir":$F{uraian_bahan_baku}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="5f98ea5b-1283-4cf2-9613-fd289309cb8a" positionType="Float" x="1" y="231" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="4a5641fb-5d4d-40d0-918d-029d26eded44" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="96c67964-464a-4b67-b295-91c306c72998" x="0" y="0" width="141" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Jumlah Persediaan Sesuai Dokumen]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="edb0b5f6-37f2-434f-bb16-0b6372058cb6" x="131" y="0" width="146" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{count_bahan_baku}>1?"Terlampir":$F{doc_bahan_baku}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="09ff2c44-b2a8-4a0d-af23-0643ffc9ff28" positionType="Float" x="2" y="242" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="ac168fcd-fd77-47ca-9e73-2a72fd520a9e" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="b9cdaa0c-7a54-4a52-9ba5-3078d0e3f051" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Jumlah Persediaan Sesuai Fisik]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="43dcfe4d-4025-45e0-878f-e1b9843e7054" x="131" y="0" width="146" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{count_bahan_baku}>1?"Terlampir":$F{fisik_bahan_baku}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="08c3c143-7a72-48eb-be1d-258a8898a576" positionType="Float" x="2" y="253" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="b18153fa-4cd8-4e8a-97e3-1aa9cdea316b" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="56b604ff-fcf0-4fe2-b834-009369ff2b41" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Sub Total]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="87aabfad-9c9e-4653-8437-2e47a7583b05" x="131" y="0" width="146" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{total_rawmaterial}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="3d81c27b-b6cd-4c10-9557-3c6189e1ca3d" positionType="Float" x="278" y="132" width="277" height="22"/>
+				<staticText>
+					<reportElement uuid="46545127-bff6-4d74-8dfb-89164e8b1fee" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="815b0db7-1a68-4e8c-92a9-99ffbfdf4bea" x="0" y="0" width="126" height="22" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kondisi Jalan Tempat
+Penyimpanan]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement uuid="75c885a8-4f52-4eb2-8a06-f006887d66f3" x="132" y="0" width="144" height="11"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset1" uuid="4c80e905-3a86-4d39-ae4f-e47bfb0addc4">
+							<datasetParameter name="pId">
+								<datasetParameterExpression><![CDATA[$F{kondisi_jalan}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="11" width="144">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement uuid="89c77579-e161-4791-bb47-86fe874d0999" positionType="Float" x="0" y="0" width="144" height="11"/>
+								<textElement>
+									<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+			</frame>
+			<frame>
+				<reportElement uuid="b50b257a-5f82-4ce5-a49e-2c80f2c1f024" positionType="Float" x="278" y="55" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="82be04ea-be8d-431d-85ac-6f3c669b07dd" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="3947e13d-c0a9-44c9-a78e-21bfd19c68ed" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Status Tempat Penyimpanan]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement uuid="6b0bb97b-2fef-4687-9337-cb00684b35a4" x="132" y="0" width="144" height="11"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset1" uuid="c290f729-9673-4bbf-aefa-0f6dadfc7572">
+							<datasetParameter name="pId">
+								<datasetParameterExpression><![CDATA[$F{status_tempat}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="11" width="144">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement uuid="7c917489-cc69-4a86-86b3-bb9c9ccf555c" positionType="Float" x="0" y="0" width="144" height="11"/>
+								<textElement>
+									<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+			</frame>
+			<frame>
+				<reportElement uuid="b3f95548-e178-45d8-933f-1c9bca2126f0" positionType="Float" x="278" y="77" width="277" height="22"/>
+				<staticText>
+					<reportElement uuid="2bd3ce80-ea93-4f3f-9724-13cf4514c40a" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="6cb3caf0-560e-42f5-bf2e-f4d1f9d46ed4" x="0" y="0" width="126" height="22" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Aktifitas Kerja Tempat
+Penyimpanan]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement uuid="ffe9aba5-03f5-49ce-96fa-0f0bb798057f" x="132" y="0" width="144" height="11"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset1" uuid="da1eac32-a52a-4c25-83d2-e715bbd5b17e">
+							<datasetParameter name="pId">
+								<datasetParameterExpression><![CDATA[$F{aktifitas_kerja}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="11" width="144">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement uuid="84b55532-a792-4b38-b7f3-602bdd899c70" positionType="Float" x="0" y="0" width="144" height="11"/>
+								<textElement>
+									<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+			</frame>
+			<frame>
+				<reportElement uuid="27eed036-1081-4f7b-bac5-2c6b0805fe7b" positionType="Float" x="278" y="121" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="d9a7fe79-d9f6-487d-91c4-be38570688dc" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="6efa965f-c08d-4ec6-b02e-a6993e373eb6" x="0" y="0" width="126" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Keamanan]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement uuid="bf011b31-a8ce-4d06-a0c4-17289c7bd8b2" x="132" y="0" width="144" height="11"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset1" uuid="89747302-ef61-41b4-9820-24947af2ec7e">
+							<datasetParameter name="pId">
+								<datasetParameterExpression><![CDATA[$F{keamanan}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="11" width="144">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement uuid="30960c33-b52a-43bf-9c91-988be17573cb" positionType="Float" x="0" y="0" width="144" height="11"/>
+								<textElement>
+									<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+			</frame>
+			<frame>
+				<reportElement uuid="220b4225-e8ef-409a-9161-036619ab1a2f" positionType="Float" x="278" y="110" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="1795413e-3e6d-46ef-8321-fce3c40b6b41" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="65cf4f1a-5991-4002-9417-2bdc8f6afc7e" x="0" y="0" width="126" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Alat Pemadam Kebakaran]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement uuid="8d67d8d7-9ca0-4c9c-9bc9-f39819c5f4ef" x="132" y="0" width="144" height="11"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset1" uuid="39a90152-2e18-4760-9e03-87bf08f661ac">
+							<datasetParameter name="pId">
+								<datasetParameterExpression><![CDATA[$F{alat_pemadam}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="11" width="144">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement uuid="53b251e9-d4a1-43e2-9f02-8df83fc6b8f3" positionType="Float" x="0" y="0" width="144" height="11"/>
+								<textElement>
+									<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+			</frame>
+			<frame>
+				<reportElement uuid="611e8886-795f-4cfd-bc0b-547e96c82fae" positionType="Float" x="278" y="154" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="3f97dd32-1575-414c-8300-e03f957893fa" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="80d67a89-954f-464e-b118-f83f9bd18636" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kawasan Lingkungan Sekitar]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement uuid="6671a4b7-3f17-4cbc-8cbf-9cee0cf25ca1" x="131" y="0" width="144" height="11"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset1" uuid="4acc1466-f071-45a0-a23b-d8e37b81402c">
+							<datasetParameter name="pId">
+								<datasetParameterExpression><![CDATA[$F{lingkungan_sekitar}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="11" width="144">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement uuid="dfe9efed-2a93-40b7-8dd4-3d66d390baf9" positionType="Float" x="0" y="0" width="144" height="11"/>
+								<textElement>
+									<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+			</frame>
+			<frame>
+				<reportElement uuid="84e91485-cac0-41f9-9eb3-3ad40a08f7a4" positionType="Float" x="278" y="11" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="a12634fe-b911-4f22-8a03-0cebe0ef705d" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="baf4e707-ed5b-43aa-9571-4b1c21cfc18f" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Jenis Tempat Penyimpanan]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement uuid="f5c84a7f-c0b4-44f4-839c-619be84b9eae" x="131" y="0" width="144" height="11"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset1" uuid="5e1e31db-44e2-4596-ab95-de4cadb04510">
+							<datasetParameter name="pId">
+								<datasetParameterExpression><![CDATA[$F{jenis_tempat}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="11" width="144">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement uuid="a2a00192-6df0-4929-90e5-36f614638632" positionType="Float" x="0" y="0" width="144" height="11"/>
+								<textElement>
+									<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+			</frame>
+			<frame>
+				<reportElement uuid="8354c818-e3b0-42de-a474-a03796720336" positionType="Float" x="278" y="22" width="277" height="22"/>
+				<staticText>
+					<reportElement uuid="ce8ada20-8ff4-40f2-ab21-38a384312069" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2d187638-0e75-4168-9b96-c3c90daf99df" x="0" y="0" width="126" height="22" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Informasi Alamat Tempat
+Penyimpanan]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement uuid="83d6e022-7974-4063-8772-019914ab6581" x="131" y="0" width="144" height="11"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset1" uuid="815fe90f-723b-4962-851e-971d59b51866">
+							<datasetParameter name="pId">
+								<datasetParameterExpression><![CDATA[$F{info_alamat_tempat}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="11" width="144">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement uuid="49daec87-1768-4a46-b4ec-1a02ca704b88" positionType="Float" x="0" y="0" width="144" height="11"/>
+								<textElement>
+									<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+			</frame>
+			<frame>
+				<reportElement uuid="10ad8762-01e9-4cf4-874c-78af2465f874" positionType="Float" x="278" y="44" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="03147c7a-5b67-48a0-ad0b-7c90f7575110" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="c172fc7a-5911-408a-a70f-e7ea40436b20" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Alamat Lain Yaitu Terletak di]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="dca91d09-fb72-4f22-ab56-d6d1d2c18708" x="132" y="0" width="145" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{alamat_lain}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="5824fa03-cdbd-44da-bcd1-c3308663c2cd" positionType="Float" x="278" y="66" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="831b9b08-751d-435b-9f74-73cb32e47b08" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="75401a31-d59c-4f09-bdf4-8597d41b59c3" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kondisi Tempat Penyimpanan]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement uuid="dd81da70-d33e-4c2f-95b7-ff893861f5ad" x="132" y="0" width="144" height="11"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset1" uuid="54f498a8-97fb-46f6-8f64-a21b3bec7127">
+							<datasetParameter name="pId">
+								<datasetParameterExpression><![CDATA[$F{kondisi_tempat}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="11" width="144">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement uuid="6af7d53e-1f69-4507-9126-2684765ad70d" positionType="Float" x="0" y="0" width="144" height="11"/>
+								<textElement>
+									<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+			</frame>
+			<frame>
+				<reportElement uuid="f97e6c58-597d-4a0e-a7cb-5df165a9a29c" positionType="Float" x="278" y="99" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="2b243697-142b-414b-99ed-553c97204bf5" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="41db7bff-1f2a-4c76-870a-65df645dc842" x="0" y="0" width="126" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Peralatan Gudang]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement uuid="58627766-e05b-4a2f-8f93-3ff17de8c041" x="132" y="0" width="144" height="11"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset1" uuid="edec8ebd-216c-4b2d-9b1b-17cd124be0e4">
+							<datasetParameter name="pId">
+								<datasetParameterExpression><![CDATA[$F{peralatan_gudang}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="11" width="144">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement uuid="ecff5343-79fc-4f86-b560-f11a9cc68627" positionType="Float" x="0" y="0" width="144" height="11"/>
+								<textElement>
+									<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+			</frame>
+			<frame>
+				<reportElement uuid="56bb4b68-13ba-447d-a405-1112cfdba8ba" positionType="Float" x="278" y="209" width="277" height="22"/>
+				<staticText>
+					<reportElement uuid="196cf9a3-a8da-4e7e-bcc1-39584424e85e" x="127" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="6baa54e2-42bd-4ea8-a891-5e2cb7d29c9a" x="0" y="0" width="149" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Jumlah Persediaan Sesuai Dokumen]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="ed2b2f88-0afc-41ca-97c8-d742e71a4c58" x="132" y="0" width="145" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{count_barang_setengah_jadi}>1?"Terlampir":$F{doc_barang_setengah_jadi}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="6ede9baa-69f5-41e4-aee9-455528df1287" positionType="Float" x="278" y="220" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="81d7542e-6a97-433a-b8bc-36bb299ec0c6" x="127" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="743e8a0a-8506-4809-a42d-51a0c705668c" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Jumlah Persediaan Sesuai Fisik]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="e352e3cd-c648-4a9c-8205-7f711c6815d7" x="132" y="0" width="145" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{count_barang_setengah_jadi}>1?"Terlampir":$F{fisik_barang_setengah_jadi}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="eb747c4a-32e2-45b3-928c-04481dc45594" positionType="Float" x="278" y="231" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="9ce960b3-ed7a-4c50-82f7-04c8ef90c3f6" x="127" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="b16556f0-130b-41ee-993f-da0bd3a6d819" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Sub Total]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="7bb17254-2826-4260-b5a2-8dd4aaa3853f" x="132" y="0" width="145" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{total_halfgoods}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement uuid="3adb847d-ff4c-4d37-af86-db3775d07b3b" positionType="Float" x="278" y="0" width="149" height="11"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[3. Data Tempat Penyimpanan]]></text>
+			</staticText>
+			<frame>
+				<reportElement uuid="5482c4f6-cd41-4944-9fbb-b5cb6d11709c" positionType="Float" x="278" y="187" width="277" height="22"/>
+				<staticText>
+					<reportElement uuid="89595eb7-c5e1-40b8-993a-37f199c556f1" x="127" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="9b28280b-c653-4333-81dd-ec3493c128ff" x="0" y="0" width="126" height="22" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Uraian Persediaan Barang Setengah Jadi]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="705e530d-49a7-481e-89f9-c27ac417ba8a" x="132" y="0" width="145" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{count_barang_setengah_jadi}>1?"Terlampir":$F{uraian_barang_setengah_jadi}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="652ccf25-c999-434c-b7f2-ecdf825168b4" positionType="Float" x="1" y="326" width="552" height="11"/>
+				<staticText>
+					<reportElement uuid="45c39c8b-1dac-4606-99c0-bf322332c55b" x="2" y="0" width="38" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Inspektor :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="54aaffa9-70a7-48f7-8689-3c4d45444232" x="40" y="0" width="115" height="11" isPrintWhenDetailOverflows="true"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{value_by}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="39911610-3376-44f4-8809-85a88a9bb336" x="154" y="0" width="45" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Tgl Valuer :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement uuid="db4bd936-45fe-4148-8091-956eab508f61" x="199" y="0" width="70" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{value_date}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="3382b9f1-0fe3-469e-9eaf-7aa9f3e71901" x="269" y="0" width="38" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Approver :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="4c0939e4-62c0-4185-a815-e43b7b421da2" x="306" y="0" width="120" height="11" isPrintWhenDetailOverflows="true"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{approve_by}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="0384a89a-30ae-4c17-b29d-9ca21d427d7a" x="426" y="0" width="53" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Tgl Approver :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement uuid="9eb690d6-6568-4a43-a679-a13006c5fc23" positionType="FixRelativeToBottom" x="481" y="0" width="70" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{approve_date}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement uuid="4659aefb-9dfb-43ea-870a-d7c5bebda1f1" x="1" y="55" width="199" height="11"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[4. Hasil Pemeriksaan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="98787575-9e64-4f7a-94bc-0a8464b8ed71" positionType="Float" x="1" y="132" width="199" height="11"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[5. Barang Jadi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="984c5c38-4d6a-4e8d-bafb-41f1666565bc" positionType="Float" x="1" y="209" width="199" height="11"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[7. Bahan Baku]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="927c8488-8ebd-4e19-8d2e-44d23ec19cc5" positionType="Float" x="279" y="176" width="220" height="11"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[6. Barang Setengah Jadi (Good in Process)]]></text>
+			</staticText>
+			<frame>
+				<reportElement uuid="62384c20-f354-40b0-b748-663f77d4f7da" positionType="Float" x="1" y="284" width="555" height="30"/>
+				<staticText>
+					<reportElement uuid="bfd0f915-95dd-4a67-9236-6f01a4fd5c95" positionType="Float" x="1" y="0" width="141" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[8. Catatan dari hasil kunjungan :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="abef8bb9-4f61-427b-bbe0-eb71f1b0c5ba" x="22" y="11" width="527" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{catatan_point}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="87240377-65f4-4e30-9351-504091ae4d4c" positionType="Float" x="1" y="187" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="c7dd2240-f957-4567-b3d3-da521299625c" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="856b0025-15b3-438b-8aa1-68dea2998804" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Sub Total Fisik]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="0e9c2558-cd98-4a53-a0e1-02578cc3fa8b" x="131" y="0" width="146" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{total_goods_fisik}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="d19b17e9-1787-4f83-ba19-267ab33dd0b8" positionType="Float" x="2" y="264" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="19f59d88-6a51-4a33-b53d-0555a6ced433" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="9a5868fd-8d53-404e-942c-bc269447df82" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Sub Total Fisik]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="e13d3ec0-70bc-4833-9a43-bb412f97f409" x="131" y="0" width="146" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{total_rawmaterial_fisik}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="58bc84d8-24e2-46c6-9aa9-c13821168649" positionType="Float" x="278" y="242" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="b9548375-e5e7-4616-884c-d100699ec0a0" x="127" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="07568c39-21a5-440d-801e-62036ec6646b" x="0" y="0" width="126" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Sub Total Fisik]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="69e0c723-df0f-47c6-bb87-7dc09226e1c0" x="132" y="0" width="145" height="11"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{total_halfgoods_fisik}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="8" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="73e03eea-ae0e-41c8-8cf7-576ecc99392e" x="1" y="0" width="555" height="8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Keterangan- Keterangan diatas dilakukan berdasarkan kesaksian selama Inspeksi yang dilakukan oleh Staf ColVal secara Independen]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band/>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

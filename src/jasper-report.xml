@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+             xsi:schemaLocation="http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <beans:bean id="pdfLaporanLpa"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptFormatLpaInt.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaProgress"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptFormatLpaIntProgress.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaLelang"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptFormatLpaLelang.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="subRptFormatLpaIntDt1"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/subRptFormatLpaIntDt1.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaIntTanah"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLampiranDocTanah.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaIntBangunan"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLampiranDocBangunan.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanNilai"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptDetilNilaiSertifikat.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaImgSurvey"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLampiranImageSurvey.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaImgSurveyInspeksi"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLampiranImageSurveyInspeksi.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLpaInspeksi"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLpaInspeksi.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanDetailBarang"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLampiranBarang.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaImgPeta"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLampiranImagePeta.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaImgOther"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLampiranImageOther.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaExt"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptFormatLpaExt.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaDesktop"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptFormatLpaDesktop.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaMesin"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLpaMesin.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaMesinExt"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLpaMesinExt.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaMesinLampiran"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLampiranMesin.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaKendaraan"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLpaKendaraan.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaKendaraanExt"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLpaKendaraanExt.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaKendaraanLampiran"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLampiranKendaraan.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaRab"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptFormatLpaRab.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaStock"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLpaStock.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaStockExt"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLpaStockExt.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaBv"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLaporanBVBox.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaRv"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLaporanRVBox.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="subRptImageBv"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/subImageBV.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanSurvey"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptSurvey.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanSurveyMesin"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptSurveyMesin.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanSurveyKendaraan"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptSurveyKendaraan.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanSurveyInspeksi"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptSurveyInspeksi.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanSurveyStock"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptSurveyStock.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanOrderDetail"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptOrderDetail.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaKapal"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLpaKapal.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="pdfLaporanLpaKapalExt"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
+                p:url="/WEB-INF/report/rptLpaKapalExt.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="xlsReportOrder"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+                p:url="/WEB-INF/report/rptOrder.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="xlsReportRekap"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+                p:url="/WEB-INF/report/rptRekap.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="xlsReportSla"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+                p:url="/WEB-INF/report/rptSla.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="htmlReportSla"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsHtmlView"
+                p:url="/WEB-INF/report/rptSla.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="xlsReportProductivity"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+                p:url="/WEB-INF/report/rptProductivity.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="xlsReportProductivityAdmin"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+                p:url="/WEB-INF/report/rptProductivityAdmin.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="xlsReportPending"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+                p:url="/WEB-INF/report/rptPendingJob.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="xlsReportRwa"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+                p:url="/WEB-INF/report/rptRwa.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="xlsReportLogs"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+                p:url="/WEB-INF/report/rptLogs.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="xlsReportPdaValuer"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+                p:url="/WEB-INF/report/rptPdaMonitoringValuer.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="xlsReportPdaSurveyor"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+                p:url="/WEB-INF/report/rptPdaMonitoringSurveyor.jasper"
+                p:reportDataKey="datasource" />
+
+    <beans:bean id="xlsReportUser"
+                class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+                p:url="/WEB-INF/report/rptUser.jasper"
+                p:reportDataKey="datasource" />
+</beans:beans>

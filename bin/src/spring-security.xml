@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd">
+
+
+    <http use-expressions="true" auto-config="true">
+
+        <intercept-url pattern="/login*" access="permitAll" />
+        <intercept-url pattern="/index" access="permitAll" />
+        <intercept-url pattern="/assets/**/*" access="permitAll" />
+        <!-- hapus jika sudah pindah ke template semua -->
+        <intercept-url pattern="/images/**/*" access="permitAll" />
+        <intercept-url pattern="/css/**/*" access="permitAll" />
+        <intercept-url pattern="/js/**/*" access="permitAll" />
+        <!-- +++++++++++++++++++++++++++++++++++++++++ -->
+
+        <intercept-url pattern="/master/zip-code/lookup" access="hasAnyRole('APPRAISAL_ADMIN', 'MARKETING')" />
+        <intercept-url pattern="/master/zip-code/find" access="hasAnyRole('APPRAISAL_ADMIN', 'MARKETING', 'ADMIN')" />
+        <intercept-url pattern="/master/zip-code/find-pic" access="hasAnyRole('APPRAISAL_ADMIN', 'MARKETING')" />
+
+        <!-- URL manual role security -->
+        <!-- kata ipul jangan pakai annotation, karena kalo edit harus compile dulu -->
+        <intercept-url pattern="/data-umum/form" access="hasRole('MARKETING')" />
+        <intercept-url pattern="/app-admin/**/*" access="hasRole('APPRAISAL_ADMIN')" />
+        <intercept-url pattern="/app-valuer/**/*" access="hasRole('APPRAISAL_VALUER')" />
+        <intercept-url pattern="/app-surveyor/**/*" access="hasRole('APPRAISAL_SURVEYOR')" />
+        <intercept-url pattern="/app-approval/**/*" access="hasRole('APPRAISAL_APPROVAL')" />
+        <intercept-url pattern="/admin/**/*" access="hasRole('KING')" />
+        <intercept-url pattern="/master/**/*" access="hasAnyRole('ADMIN', 'ROLE_911')" />
+        <!--<intercept-url pattern="/**" access="hasRole('ROLE_911')" />-->
+
+
+
+
+        <!-- other url -->
+        <intercept-url pattern="/**/*" access="isAuthenticated()" />
+
+        <!-- url tidak boleh di akses dengan role login -->
+        <!--<access-denied-handler ref="" error-page="/access-denied" />-->
+
+        <access-denied-handler ref="accesD" />
+
+        <form-login login-page="/login"
+                    authentication-success-handler-ref="simpleUrlAuthenticationSuccessHandler"
+                    authentication-failure-url="/login?error"
+                    username-parameter="username"
+                    password-parameter="password" />
+
+
+        <logout invalidate-session="true" logout-url="/logout" logout-success-url="/login?logout" delete-cookies="JSESSIONID" />
+
+
+
+        <session-management>
+            <concurrency-control max-sessions="1" expired-url="/login?invalidate=true" />
+        </session-management>
+         <!--enable csrf protection-->
+        <csrf />
+        
+        <custom-filter ref="customFilterBean" after="EXCEPTION_TRANSLATION_FILTER"/>
+        <http-basic />
+    </http>
+
+
+    <beans:bean id="accesD" class="com.permata.appraisal2.sys.AccessDeniedExceptionHandler">
+
+    </beans:bean>
+
+    <beans:bean id="customFilterBean" class="com.permata.appraisal2.sys.CustomFilterBean"/>
+
+    <beans:bean id="simpleUrlAuthenticationSuccessHandler"
+                class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
+        <!-- <beans:property name="useReferer" value="true"/> -->
+        <beans:property name="defaultTargetUrl" value="/login-success" />
+        <beans:property name="targetUrlParameter" value="spring-security-redirect" />
+        <beans:property name="alwaysUseDefaultTargetUrl" value="false" />
+    </beans:bean>
+
+    <authentication-manager>
+        <authentication-provider ref="customAuthenticationProvider">
+            <!-- <password-encoder hash="bcrypt" /> -->
+        </authentication-provider>
+    </authentication-manager>
+
+</beans:beans>

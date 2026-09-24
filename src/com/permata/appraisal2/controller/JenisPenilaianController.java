@@ -1,0 +1,82 @@
+package com.permata.appraisal2.controller;
+
+import com.permata.appraisal2.common.BaseController;
+import com.permata.appraisal2.common.DataTables;
+import com.permata.appraisal2.dto.JenisPenilaianDto;
+import com.permata.appraisal2.facade.AssetTypeFacade;
+import com.permata.appraisal2.facade.JenisPenilaianFacade;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+@Controller
+@RequestMapping("master/jenis-penilaian")
+public class JenisPenilaianController extends BaseController {
+
+    @Autowired
+    private JenisPenilaianFacade facade;
+    @Autowired
+    private AssetTypeFacade facadeAktiva;
+    private final String DIR_VIEW = "master/jenis-penilaian/";
+
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    public String list(Model model, @ModelAttribute("formBean") JenisPenilaianDto dto) {
+        model.addAllAttributes(facadeAktiva.getReference());
+        return DIR_VIEW + "list";
+    }
+
+    @RequestMapping(value = "find", method = RequestMethod.GET)
+    @ResponseBody
+    public DataTables<JenisPenilaianDto> find(@ModelAttribute("formBean") JenisPenilaianDto dto) {
+
+        logger.debug("pagingInfo : " + getPagingInfo());
+        return facade.find(dto, getPagingInfo()).cloneToDataTable();
+    }
+
+    @RequestMapping(value = {"add", "edit"}, method = RequestMethod.GET)
+    public String form(Model model, @RequestParam(value = "id", required = false) Long id) {
+        logger.debug("id " + id);
+
+        model.addAllAttributes(facadeAktiva.getReference());
+        if (id == null) {
+            model.addAttribute("formBean", new JenisPenilaianDto());
+        } else {
+            model.addAttribute("formBean", facade.get(id));
+        }
+        return DIR_VIEW + "form";
+    }
+
+    @RequestMapping(value = "save", method = RequestMethod.POST)
+    public String save(@ModelAttribute("formBean") JenisPenilaianDto dto, BindingResult result, Model model,
+                       final RedirectAttributes redirectAttributes) {
+
+        // validator
+        if (result.hasErrors()) {
+            return DIR_VIEW + "form";
+        }
+
+        boolean edit = dto.getId() != null;
+
+        // save to db
+
+//        dto.setExternal(false);
+        dto = facade.save(dto);
+        logger.debug("formBean : " + dto);
+
+        redirectAttributes.addFlashAttribute("css", "success");
+        if (edit) {
+            redirectAttributes.addFlashAttribute("msg", "Data updated successfully!"); // when using redirect
+            model.addAttribute("msg", "Data updated successfully!");
+            model.addAttribute("formBean", dto);
+        } else {
+            redirectAttributes.addFlashAttribute("msg", "Data added successfully!"); // when using redirect
+            model.addAttribute("msg", "Data added successfully!");
+            // reset form bean to new
+            model.addAttribute("formBean", new JenisPenilaianDto());
+        }
+        return DIR_VIEW + "form";
+    }
+}

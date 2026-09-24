@@ -1,0 +1,51 @@
+@charset "utf-8";
+/* CSS Document */
+
+* body {
+	font-size:12px;
+}
+.navbar-inner {
+    background-image: linear-gradient(to top, #9f0, #0c0);
+    min-height: 90px;
+}
+.nav-header {
+    font-size: 12px;
+	border-bottom:thin solid red;
+}
+box-content {
+	font-size:10px;
+}
+
+.table thead th {
+    background: #eee none repeat scroll 0 0;
+}
+.form-horizontal .control-group {
+    margin-bottom: 2px;
+}
+.form-horizontal .control-label {
+	font-size:12px;
+}
+.add-on, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], input[type="file"], .uneditable-input {
+    font-size: 12px;
+}
+select {
+   font-size: 12px;
+ }
+.login-box input[type="text"], .login-box input[type="password"] {
+	 -moz-border-bottom-colors: none !important;
+    -moz-border-left-colors: none !important;
+    -moz-border-right-colors: none !important;
+    -moz-border-top-colors: none !important;
+    border-color: #ccc #ccc #ccc #ccc -moz-use-text-color !important;
+}
+
+@font-face {
+    font-family: "BBLSans05-Regular";
+    font-style: normal;
+    font-weight: normal;
+    src: url("BBLSans05-Regular.otf") format("truetype"),
+        url("BBLSans05-Regular.otf") format("otf"),
+        /* url("../fonts/permata-icon.svg#permata-icon") format("svg"), */
+            url("BBLSans05-Regular.otf") format("woff"),
+        url("BBLSans05-Regular.otf") format("woff2");
+}

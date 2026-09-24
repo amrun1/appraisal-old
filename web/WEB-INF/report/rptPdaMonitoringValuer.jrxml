@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptPdaMonitoringValuer" pageWidth="950" pageHeight="556" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="950" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7eaf20b6-09b8-475c-a43e-0391581f065e">
+	<property name="ireport.zoom" value="1.2100000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.columns" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.size.fix.enabled" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.ignore.cell.border" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.ignore.graphics" value="false"/>
+	<property name="net.sf.jasperreports.export.xls.collapse.row.span" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.ignore.cell.background" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+	<subDataset name="dataset3" uuid="bbe2c4c0-7733-4906-86f2-7d1ef1754e5b">
+		<parameter name="pUser" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select nama
+from person
+where user_id = $P{pUser}]]>
+		</queryString>
+		<field name="nama" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="pSubmitDate" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pClosedDate" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pUser" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pUser2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select c.*, (select nama from person where user_id = c.svy_code) svy_name,
+(select nama from person where user_id = c.created_by) val_name, to_char(d.tanggal, 'dd-MM-yyyy hh:mm:ss') tgl
+from data_umum a,
+data_detail b,
+survey_umum d,
+mob_tbl_order c
+where a.id=b.id_data_umum
+and b.id_data_umum = a.id
+and d.id_data_detail = b.id
+and c.order_no = a.no_order
+and d.tanggal between $P{pSubmitDate} and $P{pClosedDate}
+ $P!{pUser2}]]>
+	</queryString>
+	<field name="order_no" class="java.lang.String"/>
+	<field name="blok_lantai" class="java.lang.String"/>
+	<field name="cluster_tower" class="java.lang.String"/>
+	<field name="collateral_code" class="java.lang.String"/>
+	<field name="contact_name" class="java.lang.String"/>
+	<field name="contact_phone" class="java.lang.String"/>
+	<field name="debt_name" class="java.lang.String"/>
+	<field name="jenis_appraisal" class="java.lang.String"/>
+	<field name="nomor" class="java.lang.String"/>
+	<field name="notes" class="java.lang.String"/>
+	<field name="obj_type" class="java.lang.String"/>
+	<field name="perumahan_apartment" class="java.lang.String"/>
+	<field name="rt" class="java.lang.String"/>
+	<field name="rw" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="svy_addr" class="java.lang.String"/>
+	<field name="svy_code" class="java.lang.String"/>
+	<field name="created_by" class="java.lang.String"/>
+	<field name="created_date" class="java.sql.Timestamp"/>
+	<field name="updated_by" class="java.lang.String"/>
+	<field name="updated_date" class="java.sql.Timestamp"/>
+	<field name="survey_date" class="java.sql.Timestamp"/>
+	<field name="svy_name" class="java.lang.String"/>
+	<field name="val_name" class="java.lang.String"/>
+	<field name="tgl" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="87" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="7095a779-91dc-4a5a-9e6e-a797c97129e7" mode="Opaque" x="122" y="30" width="108" height="15">
+					<printWhenExpression><![CDATA[$P{pUser}.equals( "" )]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[All]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1bc9221e-3ae3-4a24-b0d0-a2dd1ec54f0c" mode="Opaque" x="0" y="0" width="949" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monitoring PDA Valuer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="084419db-7825-4f43-8fee-f196a7e99bdd" mode="Opaque" x="0" y="15" width="122" height="15"/>
+				<textElement/>
+				<text><![CDATA[Tim User]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="abb5c6d0-9bc0-4527-8b04-87cec2ec07bb" mode="Opaque" x="0" y="30" width="122" height="15"/>
+				<textElement/>
+				<text><![CDATA[User]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9179c3cd-1929-42ce-ac9a-bd9136c77edc" mode="Opaque" x="0" y="45" width="122" height="15"/>
+				<textElement/>
+				<text><![CDATA[Periode Tgl Submit]]></text>
+			</staticText>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement uuid="609b6d02-2d9a-48d7-a515-4645df20b12d" mode="Opaque" x="230" y="45" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{pClosedDate}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement uuid="e570ba0f-beb7-4a8c-b7d0-0fd75a0888f9" mode="Transparent" x="122" y="45" width="108" height="15"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{pSubmitDate}) + "         s/d"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="3b0e59e0-27be-4e73-b922-b725dea118a6" mode="Opaque" x="122" y="60" width="108" height="27" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No. Survey]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="eba7d694-396f-4387-a7e1-d2b767f6a855" mode="Opaque" x="230" y="60" width="100" height="27" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valuer Id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cf99b84f-ad60-4b4a-b18b-e915d8bbdd9d" mode="Opaque" x="330" y="60" width="115" height="27" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Debt Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="27d19564-1839-4ed4-8052-e9b61471e65a" mode="Opaque" x="445" y="60" width="126" height="27" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b4a4ebb7-9b8a-4978-b4ba-3b6251f4a5e0" mode="Opaque" x="0" y="60" width="122" height="27" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No. Order]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="837ff849-07ef-4ddf-a525-410219d89edc" mode="Opaque" x="122" y="15" width="108" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement/>
+				<text><![CDATA[Valuer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4a10b038-73a7-4c11-891c-27e99f913166" mode="Opaque" x="571" y="60" width="126" height="27" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Survey Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b7a45254-5c18-4963-9054-23d2d13a48b9" mode="Opaque" x="697" y="60" width="126" height="27" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Client Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="31f87c62-c359-445c-a24e-ab6bc40cf12b" mode="Opaque" x="823" y="60" width="126" height="27" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Complite Date]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement uuid="2cfe3abd-273a-4c85-ad67-0be5fe9de308" x="122" y="30" width="208" height="15"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset3" uuid="c6293016-93cd-479e-bff2-ec153c2877e5">
+						<datasetParameter name="pUser">
+							<datasetParameterExpression><![CDATA[$P{pUser}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="15" width="208">
+						<textField isStretchWithOverflow="true">
+							<reportElement uuid="ff8d5236-dcdc-47c4-b175-bb50071eba4d" mode="Opaque" x="0" y="0" width="208" height="15"/>
+							<textElement/>
+							<textFieldExpression><![CDATA[$P{pUser}.equals( "" )||$P{pUser} == null?"All":$F{nama}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="8ebfb4e2-f670-4b4d-a741-b62a38b70762" mode="Opaque" x="122" y="0" width="108" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nomor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5f3eb311-d084-4fa4-9b5e-7b46d84a1faa" mode="Opaque" x="230" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{val_name}!=null?$F{val_name}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="65aa8799-1aa1-4d4d-97a6-5bf1de0621aa" mode="Opaque" x="330" y="0" width="115" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{debt_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="264980a2-9fdd-41a7-8c99-d57645d10d25" mode="Opaque" x="445" y="0" width="126" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a3b8f13c-ba20-4b8d-a205-f861ac1141f5" mode="Opaque" x="0" y="0" width="122" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{order_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="01f70f46-9e48-4a49-b0fe-530b0d22d6ea" mode="Opaque" x="571" y="0" width="126" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{tgl}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="27dcd24a-112c-4b10-9115-d1d6410d25bf" mode="Opaque" x="697" y="0" width="126" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c53aec3f-3587-45c7-9c0f-48d955d1be31" mode="Opaque" x="823" y="0" width="126" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+	<noData>
+		<band height="15">
+			<staticText>
+				<reportElement uuid="65c21cc8-4b3a-4903-814c-34f6949431b0" mode="Opaque" x="0" y="0" width="100" height="15"/>
+				<textElement/>
+				<text><![CDATA[Data Tidak Ada]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

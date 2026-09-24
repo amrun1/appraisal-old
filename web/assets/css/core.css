@@ -1,0 +1,96 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size:.75em;
+}
+
+.navbar-inverse .navbar-inner {
+    background: #94fd01;
+    background-image: linear-gradient(to bottom, #06ce01, #94fd01);
+    background-repeat: repeat-x;
+    border-color: #06ce01;
+}
+.sidebar-nav {
+    padding: 0;
+}
+.accordion {
+    margin-bottom: 0;
+}
+.nav-header {
+    font-size: 0.9em;
+    padding: 7px 3px 0px 10px;
+}
+.box-header {
+	background:#F4F4F4;
+	border-top:1px solid #ddd;
+	border-bottom:1px solid #ddd;
+	border-radius:5px;
+	padding:0 10px;
+	margin-bottom:10px;
+}
+.box-content {
+  	margin-top: -1px;
+	padding: 10px;
+  	border: 1px solid #ddd;
+  	background: #fcfcfc;
+  	-webkit-border-radius: 0px 0px 2px 2px;
+	   -moz-border-radius: 0px 0px 2px 2px;
+          	border-radius: 0px 0px 2px 2px;
+}
+.well {
+	margin-bottom: 10px;
+	margin-top: 0px;	
+    padding: 0;
+}
+
+.table {
+    margin-bottom: 0px;
+ }
+.table thead th {
+    background: #eee none repeat scroll 0 0;
+	text-align:center;
+	vertical-align:middle;
+}
+.table th, .table td {
+    line-height: 18px;
+    padding: 5px;
+}
+.table-responsive {
+	width:100%;
+	margin-bottom:15px;
+	overflow-x:auto;
+	overflow-y:hidden;
+}
+ h1, h2, h3, h4 {
+    line-height: 20px;
+	color:#666;
+}
+a {
+    color: #666;
+    text-decoration: none;
+}
+.accordion-group {
+    border: none;
+    border-radius: 4px;
+    margin-bottom: 0;
+}
+.accordion-heading {
+	font-weight:bold;
+    background: #efefef none repeat scroll 0 0;
+}
+.icon-th-list {
+     vertical-align: baseline;
+}
+.form-horizontal .control-group {
+    margin-bottom: 7px;
+}
+label {
+     margin-bottom: 0;
+}
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+   font-family: trebuchet ms;
+    padding: 3px 8px;
+    vertical-align: middle;
+}

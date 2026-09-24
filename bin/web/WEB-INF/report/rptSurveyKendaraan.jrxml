@@ -1,0 +1,1095 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptSurvey" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.3310000000000035"/>
+	<property name="ireport.x" value="42"/>
+	<property name="ireport.y" value="149"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<subDataset name="negatif_point">
+		<parameter name="PIdDataDetail" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select c.value
+from survey_point a
+inner join survey_negatif_point b on b.id_parameter = a.id
+inner join parameter c on c.id = b.id_survey_point
+where a.id_data_detail =$P{PIdDataDetail}]]>
+		</queryString>
+		<field name="value" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="pertimbangan_khusus">
+		<parameter name="PIdDataDetail" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select c.value
+from survey_point a
+inner join survey_pertimbangan_khusus b on b.id_parameter = a.id
+inner join parameter c on c.id = b.id_survey_point
+where a.id_data_detail = $P{PIdDataDetail}]]>
+		</queryString>
+		<field name="value" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset1">
+		<parameter name="PIdDataDetail" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select a.kontak_nama,
+a.jenis_object,
+a.kontak_telp,
+a.alamat,
+a.kondisi_lingkungan,
+a.kondisi_bangunan,
+a.keterangan
+from survey_pembanding a
+where a.id_data_detail = $P{PIdDataDetail}]]>
+		</queryString>
+		<field name="kontak_nama" class="java.lang.String"/>
+		<field name="jenis_object" class="java.lang.String"/>
+		<field name="kontak_telp" class="java.lang.String"/>
+		<field name="alamat" class="java.lang.String"/>
+		<field name="kondisi_lingkungan" class="java.lang.String"/>
+		<field name="kondisi_bangunan" class="java.lang.String"/>
+		<field name="keterangan" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset2">
+		<parameter name="PIdDataDetail" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select a.kontak_nama,
+a.jenis_object,
+a.kontak_telp,
+a.alamat,
+a.kondisi_lingkungan,
+a.kondisi_bangunan,
+a.keterangan
+from survey_pembanding a
+where a.id_data_detail = $P{PIdDataDetail}]]>
+		</queryString>
+		<field name="kontak_nama" class="java.lang.String"/>
+		<field name="jenis_object" class="java.lang.String"/>
+		<field name="kontak_telp" class="java.lang.String"/>
+		<field name="alamat" class="java.lang.String"/>
+		<field name="kondisi_lingkungan" class="java.lang.String"/>
+		<field name="kondisi_bangunan" class="java.lang.String"/>
+		<field name="keterangan" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="PIdDataDetail" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[select b.nama,
+b.nama_contact_person,
+b.telp_contact_person,
+a.waktu,
+a.alamat,
+a.keterangan_drop,
+c.nama jenis_object_penilaian,
+a.status_survey,
+--data umum
+d.hasil_survey,
+d.id  no_survey,
+d.lokasi,
+d.dihuni,
+d.ditinjau,
+d.catatan_survey,
+d.jenis_objek,
+d.digunakan,
+d.ditemui,
+d.tanggal,
+--data point
+h.catatan,
+--data kendaraan
+e.jenis,
+e.merk,
+e.model,
+e.silinder,
+e.tahun_pembuatan,
+e.warna,
+e.no_polisi,
+e.no_rangka,
+e.no_mesin,
+e.bahan_bakar,
+e.penggunaan,
+e.kilometer,
+e.catatan catatan_kendaraan
+from data_detail a
+left join data_umum b on a.id_data_umum = b.id
+left join jenis_aktiva c on c.id = a.id_jenis_aktiva
+left join survey_umum d on a.id = d.id_data_detail
+left join survey_kendaraan e on e.id_data_detail = a.id
+left join survey_point h on h.id_data_detail = a.id
+where a.id = $P{PIdDataDetail}
+LIMIT 1]]>
+	</queryString>
+	<field name="nama" class="java.lang.String"/>
+	<field name="nama_contact_person" class="java.lang.String"/>
+	<field name="telp_contact_person" class="java.lang.String"/>
+	<field name="waktu" class="java.lang.String"/>
+	<field name="alamat" class="java.lang.String"/>
+	<field name="keterangan_drop" class="java.lang.String"/>
+	<field name="jenis_object_penilaian" class="java.lang.String"/>
+	<field name="status_survey" class="java.lang.String"/>
+	<field name="hasil_survey" class="java.lang.String"/>
+	<field name="no_survey" class="java.lang.Long"/>
+	<field name="lokasi" class="java.lang.String"/>
+	<field name="dihuni" class="java.lang.String"/>
+	<field name="ditinjau" class="java.lang.String"/>
+	<field name="catatan_survey" class="java.lang.String"/>
+	<field name="jenis_objek" class="java.lang.String"/>
+	<field name="digunakan" class="java.lang.String"/>
+	<field name="ditemui" class="java.lang.String"/>
+	<field name="tanggal" class="java.sql.Timestamp"/>
+	<field name="catatan" class="java.lang.String"/>
+	<field name="jenis" class="java.lang.String"/>
+	<field name="merk" class="java.lang.String"/>
+	<field name="model" class="java.lang.String"/>
+	<field name="silinder" class="java.lang.Integer"/>
+	<field name="tahun_pembuatan" class="java.lang.Integer"/>
+	<field name="warna" class="java.lang.String"/>
+	<field name="no_polisi" class="java.lang.String"/>
+	<field name="no_rangka" class="java.lang.String"/>
+	<field name="no_mesin" class="java.lang.String"/>
+	<field name="bahan_bakar" class="java.lang.String"/>
+	<field name="penggunaan" class="java.lang.String"/>
+	<field name="kilometer" class="java.lang.Double"/>
+	<field name="catatan_kendaraan" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="37" splitType="Stretch">
+			<staticText>
+				<reportElement key="staticText" mode="Opaque" x="0" y="0" width="555" height="37" backcolor="#CCCCCC"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN HASIL SURVEY ATAS KENDARAAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" mode="Opaque" x="3" y="3" width="135" height="31" backcolor="#CCFFFF"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement key="image" x="0" y="-14" width="142" height="51"/>
+				<imageExpression class="java.lang.String"><![CDATA[($P{SUBREPORT_DIR}!=null?$P{SUBREPORT_DIR}:"") + "logo_rpt_format_lpa.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="352" splitType="Stretch">
+			<frame>
+				<reportElement positionType="Float" x="0" y="78" width="556" height="68"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<staticText>
+					<reportElement mode="Opaque" x="1" y="0" width="555" height="15" backcolor="#CCCCCC"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[HASIL SURVEY DATA UMUM]]></text>
+				</staticText>
+				<frame>
+					<reportElement positionType="Float" x="1" y="15" width="277" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Hasil Survey]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{hasil_survey}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="1" y="26" width="277" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Jenis Object]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{jenis_objek}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="1" y="37" width="277" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Lokasi]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{lokasi}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="1" y="48" width="277" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Dipergunakan Sebagai]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{digunakan}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="278" y="15" width="277" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Ditemui Oleh]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{ditemui}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="278" y="26" width="275" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Ditinjau Oleh]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{ditinjau}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="278" y="37" width="275" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Tanggal Survey]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.util.Date"><![CDATA[$F{tanggal}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="244" width="556" height="108"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<staticText>
+					<reportElement mode="Opaque" x="1" y="0" width="555" height="15" backcolor="#CCCCCC"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[HASIL SURVEY DATA KENDARAAN]]></text>
+				</staticText>
+				<frame>
+					<reportElement positionType="Float" x="1" y="15" width="277" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Jenis Kendaraan]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{jenis}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="1" y="26" width="277" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Merk]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{merk}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="278" y="15" width="277" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[No Mesin]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{no_mesin}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="278" y="26" width="277" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Bahan Bakar]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{bahan_bakar}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="278" y="48" width="277" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Kilometer]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="35" height="11"/>
+						<textElement textAlignment="Right">
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.Double"><![CDATA[$F{kilometer}]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement positionType="Float" x="170" y="0" width="23" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[KM]]></text>
+					</staticText>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="278" y="37" width="275" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Penggunaan]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{penggunaan}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="1" y="37" width="277" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Type]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{model}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="1" y="48" width="277" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Isi Slinder]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.Integer"><![CDATA[$F{silinder}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="1" y="59" width="277" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Tahun Pembuatan]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.Integer"><![CDATA[$F{tahun_pembuatan}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="1" y="70" width="277" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Warna Kendaraan]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{warna}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="1" y="81" width="277" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[No Polisi]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{no_polisi}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="1" y="92" width="277" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[No Rangka]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{no_rangka}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="278" y="59" width="275" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Catatan]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{catatan_kendaraan}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="161" width="556" height="68"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<staticText>
+					<reportElement mode="Opaque" x="1" y="0" width="555" height="15" backcolor="#CCCCCC"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[HASIL SURVEY DATA POINT]]></text>
+				</staticText>
+				<frame>
+					<reportElement positionType="Float" x="1" y="15" width="551" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Catatan]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="132" y="0" width="349" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{catatan}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="1" y="26" width="551" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[List Penilaian Negatif
+]]></text>
+					</staticText>
+					<componentElement>
+						<reportElement positionType="Float" x="131" y="0" width="404" height="11"/>
+						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+							<datasetRun subDataset="negatif_point">
+								<datasetParameter name="PIdDataDetail">
+									<datasetParameterExpression><![CDATA[$P{PIdDataDetail}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+							<jr:listContents height="11" width="404">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement positionType="Float" x="1" y="0" width="401" height="11"/>
+									<textElement>
+										<font size="8"/>
+									</textElement>
+									<textFieldExpression class="java.lang.String"><![CDATA[$F{value}]]></textFieldExpression>
+								</textField>
+							</jr:listContents>
+						</jr:list>
+					</componentElement>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="1" y="37" width="551" height="11"/>
+					<staticText>
+						<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[List Pertimbangan Khusus
+]]></text>
+					</staticText>
+					<componentElement>
+						<reportElement positionType="Float" x="131" y="0" width="404" height="11"/>
+						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+							<datasetRun subDataset="pertimbangan_khusus">
+								<datasetParameter name="PIdDataDetail">
+									<datasetParameterExpression><![CDATA[$P{PIdDataDetail}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+							<jr:listContents height="11" width="404">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement positionType="Float" x="1" y="0" width="401" height="11"/>
+									<textElement>
+										<font size="8"/>
+									</textElement>
+									<textFieldExpression class="java.lang.String"><![CDATA[$F{value}]]></textFieldExpression>
+								</textField>
+							</jr:listContents>
+						</jr:list>
+					</componentElement>
+				</frame>
+			</frame>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="146" width="555" height="15"/>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="1" y="229" width="555" height="15"/>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<frame>
+				<reportElement positionType="Float" x="0" y="8" width="277" height="11"/>
+				<staticText>
+					<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Nomor Survey]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{no_survey}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="19" width="277" height="11"/>
+				<staticText>
+					<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Nama Debitur]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{nama}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="30" width="277" height="11"/>
+				<staticText>
+					<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Nama Contact Person]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{nama_contact_person}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="41" width="277" height="11"/>
+				<staticText>
+					<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Telp Contact Person]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{telp_contact_person}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="52" width="277" height="11"/>
+				<staticText>
+					<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Waktu Perjanjian]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{waktu}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="277" y="8" width="277" height="11"/>
+				<staticText>
+					<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Jenis Object Penilaian]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{jenis_object_penilaian}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="277" y="19" width="277" height="11"/>
+				<staticText>
+					<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Lokasi]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{alamat}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="277" y="41" width="277" height="11"/>
+				<staticText>
+					<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Keterangan]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{keterangan_drop}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="277" y="52" width="277" height="11"/>
+				<staticText>
+					<reportElement positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Status]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{status_survey}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement positionType="Float" x="1" y="63" width="555" height="15"/>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="52" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="0" width="555" height="31"/>
+				<textElement/>
+				<text><![CDATA[Keterangan-keterangan di atas dilakukan berdasarkan kesaksian selama pemeriksaan agunan dan tidak ada kepentingan-
+kepentingan apapun baik secara pribadi maupun orang lain, terhadap NILAI AGUNAN pada saat sekarang]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="31" width="554" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="33" width="353" height="15"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Laporan ini merupakan hasil cetakan komputer, tidak memerlukan tanda tangan]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

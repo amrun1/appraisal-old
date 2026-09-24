@@ -1,0 +1,1165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptSurvey" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d9294fb3-2551-4286-8e39-29eca8fe64b4">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="178"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<subDataset name="negatif_point" uuid="98b920ee-6707-4d72-be3f-52f056782d41">
+		<parameter name="PIdDataDetail" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select c.value
+from survey_point a
+inner join survey_negatif_point b on b.id_parameter = a.id
+inner join parameter c on c.id = b.id_survey_point
+where a.id_data_detail =$P{PIdDataDetail}]]>
+		</queryString>
+		<field name="value" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="pertimbangan_khusus" uuid="459a8d47-039b-4ae0-b92b-2df5a4017cf3">
+		<parameter name="PIdDataDetail" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select c.value
+from survey_point a
+inner join survey_pertimbangan_khusus b on b.id_parameter = a.id
+inner join parameter c on c.id = b.id_survey_point
+where a.id_data_detail = $P{PIdDataDetail}]]>
+		</queryString>
+		<field name="value" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset1" uuid="075cf831-3256-4764-beb2-6d79cdf7baa1">
+		<parameter name="PIdDataDetail" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select a.kontak_nama,
+a.jenis_object,
+a.kontak_telp,
+a.alamat,
+a.kondisi_lingkungan,
+a.kondisi_bangunan,
+a.keterangan
+from survey_pembanding a
+where a.id_data_detail = $P{PIdDataDetail}]]>
+		</queryString>
+		<field name="kontak_nama" class="java.lang.String"/>
+		<field name="jenis_object" class="java.lang.String"/>
+		<field name="kontak_telp" class="java.lang.String"/>
+		<field name="alamat" class="java.lang.String"/>
+		<field name="kondisi_lingkungan" class="java.lang.String"/>
+		<field name="kondisi_bangunan" class="java.lang.String"/>
+		<field name="keterangan" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset2" uuid="e5838848-2afb-4a0b-bbcc-e0a2d4a84047">
+		<parameter name="PIdDataDetail" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select a.kontak_nama,
+a.jenis_object,
+a.kontak_telp,
+a.alamat,
+a.kondisi_lingkungan,
+a.kondisi_bangunan,
+a.keterangan
+from survey_pembanding a
+where a.id_data_detail = $P{PIdDataDetail}]]>
+		</queryString>
+		<field name="kontak_nama" class="java.lang.String"/>
+		<field name="jenis_object" class="java.lang.String"/>
+		<field name="kontak_telp" class="java.lang.String"/>
+		<field name="alamat" class="java.lang.String"/>
+		<field name="kondisi_lingkungan" class="java.lang.String"/>
+		<field name="kondisi_bangunan" class="java.lang.String"/>
+		<field name="keterangan" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset1_1" uuid="cccb8262-809c-42d9-8ee4-8fccb6f688fd">
+		<parameter name="pId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select a.value
+from parameter a
+where a.id::text = $P{pId}]]>
+		</queryString>
+		<field name="value" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="PIdDataDetail" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[select b.nama,
+b.nama_contact_person,
+b.telp_contact_person,
+a.waktu,
+a.alamat,
+a.keterangan_drop,
+c.nama jenis_object_penilaian,
+a.status_survey,
+--data umum
+d.hasil_survey,
+d.id  no_survey,
+d.lokasi,
+d.dihuni,
+d.ditinjau,
+d.catatan_survey,
+d.jenis_objek,
+d.digunakan,
+d.ditemui,
+d.tanggal,
+--data point
+h.catatan,
+e.jenis_persediaan,
+e.asal_pembuatan,
+e.penempatan_barang,
+e.kemasan_barang,
+e.kondisi_barang,
+e.metode_pemeriksaan,
+e.jumlah_persediaan,
+e.kondisi_penyimpanan,
+e.lingkungan_sekitar,
+e.peralatan_gudang,
+e.catatan catatan_stock
+from data_detail a
+left join data_umum b on a.id_data_umum = b.id
+left join jenis_aktiva c on c.id = a.id_jenis_aktiva
+left join survey_umum d on a.id = d.id_data_detail
+left join survey_stock e on e.id_data_detail = a.id
+left join survey_point h on h.id_data_detail = a.id
+where a.id = $P{PIdDataDetail}
+LIMIT 1]]>
+	</queryString>
+	<field name="nama" class="java.lang.String"/>
+	<field name="nama_contact_person" class="java.lang.String"/>
+	<field name="telp_contact_person" class="java.lang.String"/>
+	<field name="waktu" class="java.lang.String"/>
+	<field name="alamat" class="java.lang.String"/>
+	<field name="keterangan_drop" class="java.lang.String"/>
+	<field name="jenis_object_penilaian" class="java.lang.String"/>
+	<field name="status_survey" class="java.lang.String"/>
+	<field name="hasil_survey" class="java.lang.String"/>
+	<field name="no_survey" class="java.lang.Long"/>
+	<field name="lokasi" class="java.lang.String"/>
+	<field name="dihuni" class="java.lang.String"/>
+	<field name="ditinjau" class="java.lang.String"/>
+	<field name="catatan_survey" class="java.lang.String"/>
+	<field name="jenis_objek" class="java.lang.String"/>
+	<field name="digunakan" class="java.lang.String"/>
+	<field name="ditemui" class="java.lang.String"/>
+	<field name="tanggal" class="java.sql.Timestamp"/>
+	<field name="catatan" class="java.lang.String"/>
+	<field name="jenis_persediaan" class="java.lang.String"/>
+	<field name="asal_pembuatan" class="java.lang.String"/>
+	<field name="penempatan_barang" class="java.lang.String"/>
+	<field name="kemasan_barang" class="java.lang.String"/>
+	<field name="kondisi_barang" class="java.lang.String"/>
+	<field name="metode_pemeriksaan" class="java.lang.String"/>
+	<field name="jumlah_persediaan" class="java.lang.String"/>
+	<field name="kondisi_penyimpanan" class="java.lang.String"/>
+	<field name="lingkungan_sekitar" class="java.lang.String"/>
+	<field name="peralatan_gudang" class="java.lang.String"/>
+	<field name="catatan_stock" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="37" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="4e087dd7-2d97-485c-b597-e46e37b9db40" key="staticText" mode="Opaque" x="142" y="0" width="414" height="37" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN HASIL SURVEY ATAS STOCK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a99f4a73-d529-4ad9-b0c5-435afe22a367" key="staticText" mode="Opaque" x="0" y="0" width="142" height="37" backcolor="#FFFFFF"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="6c90769f-18a2-47c8-a3df-a7d9b11d45f2" key="image" x="0" y="-14" width="142" height="51"/>
+				<imageExpression><![CDATA[($P{SUBREPORT_DIR}!=null?$P{SUBREPORT_DIR}:"") + "logo_rpt_format_lpa.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="338" splitType="Stretch">
+			<frame>
+				<reportElement uuid="3eb3a66f-dc66-4836-9edb-54d095199d33" positionType="Float" x="0" y="74" width="556" height="68"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<staticText>
+					<reportElement uuid="8221068e-abaa-476e-9960-3ee2fd631dca" mode="Opaque" x="1" y="0" width="555" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+					<box>
+						<topPen lineWidth="1.0" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[HASIL SURVEY DATA UMUM]]></text>
+				</staticText>
+				<frame>
+					<reportElement uuid="a41c9092-38d9-4a75-b2d0-85824d28b4fe" positionType="Float" x="1" y="15" width="277" height="11"/>
+					<staticText>
+						<reportElement uuid="43426200-23cd-42f9-b778-e10e044c83bf" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="23cb8b42-e1a5-4da9-a82b-56a5b9416eb4" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Hasil Survey]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement uuid="94ffa8c8-79b8-4232-970b-04371bfd8038" x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{hasil_survey}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement uuid="ec18a466-a115-4cce-bf29-4dfd62988dd6" positionType="Float" x="1" y="26" width="277" height="11"/>
+					<staticText>
+						<reportElement uuid="251fbf78-cd10-40fb-8d78-a3f6a224c359" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="19d50cd3-7ba0-4ccd-866e-aca65971c3dc" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Jenis Object]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement uuid="24c60d78-9713-4599-a2aa-3e78793a3b64" x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{jenis_objek}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement uuid="6d1185de-c732-4480-849b-0b17292447b5" positionType="Float" x="1" y="37" width="277" height="11"/>
+					<staticText>
+						<reportElement uuid="8abdeab7-b947-4d7b-9922-a21142e05fc0" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="f95fb16b-7d48-420b-99c7-ca6c9e7690be" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Lokasi]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement uuid="f4259a0a-c711-4dc9-a295-e7b2fa5cf538" x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{lokasi}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement uuid="e5e82f78-c2c4-4d10-a9f3-0326a9cf11a9" positionType="Float" x="1" y="48" width="277" height="11"/>
+					<staticText>
+						<reportElement uuid="ab43f65f-574d-4202-85d6-d29976427a89" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="72495df5-e680-4a74-a2b9-85fa0ddbaee9" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Dipergunakan Sebagai]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement uuid="4460ef10-0587-4128-9864-59e89cd178b7" x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{digunakan}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement uuid="fe7ee5d0-9a38-45b4-bed8-68f208c5ad7e" positionType="Float" x="278" y="15" width="277" height="11"/>
+					<staticText>
+						<reportElement uuid="f3833c4f-59b0-4d17-ab5a-fb824221b458" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="3b530b0d-cf79-4b51-b172-49b8a34c226c" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Ditemui Oleh]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement uuid="b4ca54c8-893e-4996-93ac-81c615da1529" x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{ditemui}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement uuid="d983033d-30e7-4f64-976b-10ee0d73d6b7" positionType="Float" x="278" y="26" width="275" height="11"/>
+					<staticText>
+						<reportElement uuid="f19c3bc0-0cfa-4e76-bb41-2d743eef0aa0" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="21b9588f-4b46-4e95-9f9c-dbf5daa71851" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Ditinjau Oleh]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement uuid="0e7d0e2d-f9cf-44aa-8887-6c6117f78027" x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{ditinjau}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement uuid="1dcd85ef-7588-42a6-b1e7-400c18902f3d" positionType="Float" x="278" y="37" width="275" height="11"/>
+					<staticText>
+						<reportElement uuid="8e069e43-ab65-47d0-99ee-5b32a6f99092" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="82aed60a-79f6-4d7a-8434-848fcd02bc27" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Tanggal Survey]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+						<reportElement uuid="e550a9e4-ccd0-43f7-8303-7c684db3ceed" x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{tanggal}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</frame>
+			<frame>
+				<reportElement uuid="02ac57b7-52f1-407f-89f0-c1504c6e6859" positionType="Float" x="0" y="240" width="556" height="98"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<staticText>
+					<reportElement uuid="fbdd4ab9-ac3f-4ba2-a869-416489e0e3a3" mode="Opaque" x="1" y="0" width="555" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+					<box>
+						<topPen lineWidth="1.0" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[HASIL SURVEY DATA STOCK]]></text>
+				</staticText>
+				<frame>
+					<reportElement uuid="8f7731d0-b794-4570-bc71-57f3972cc689" positionType="Float" x="1" y="15" width="277" height="11"/>
+					<staticText>
+						<reportElement uuid="eb8f1f2d-278b-45b9-86a3-d063fe475c63" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="6f36886f-3c6a-4698-aa97-cb4ad149d472" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Jenis Barang]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement uuid="b3f93d69-41e1-4dbd-ba88-41fae9602ea5" x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{jenis_persediaan}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement uuid="237e9714-ed41-4c09-9422-a776114afb07" positionType="Float" x="1" y="26" width="277" height="11"/>
+					<staticText>
+						<reportElement uuid="8ec3e49c-9b3c-43a8-b97a-dcc3ad90f0ab" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="29900961-fbeb-4b31-969d-edb9e8b72049" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Asal Pembuatan]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement uuid="954261a5-e62d-41d0-b918-e0d30517e2de" x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{asal_pembuatan}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement uuid="f56a485c-ab85-4620-b2bd-eb7ed7dfdef1" positionType="Float" x="278" y="15" width="277" height="11"/>
+					<staticText>
+						<reportElement uuid="7fb4ea56-b828-48bd-bc16-7c7313133c24" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="6eba4bdd-895d-48da-8888-426dc9b2e29f" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Jumlah Persediaan]]></text>
+					</staticText>
+					<componentElement>
+						<reportElement uuid="95e7432e-1e85-49a6-95eb-7bbe06184909" x="132" y="0" width="131" height="11"/>
+						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+							<datasetRun subDataset="dataset1_1" uuid="e6f11ad5-dfee-43c9-ac6b-d2c952cbf25d">
+								<datasetParameter name="pId">
+									<datasetParameterExpression><![CDATA[$F{jumlah_persediaan}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+							<jr:listContents height="11" width="131">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement uuid="93aa2c5e-7528-4d47-9c29-3fe8808b4f47" positionType="Float" x="0" y="0" width="131" height="11"/>
+									<textElement>
+										<font size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+								</textField>
+							</jr:listContents>
+						</jr:list>
+					</componentElement>
+				</frame>
+				<frame>
+					<reportElement uuid="26892408-fef1-4b89-803f-512c04fe5cce" positionType="Float" x="278" y="37" width="277" height="11"/>
+					<staticText>
+						<reportElement uuid="f4732c07-40db-441c-a169-0ae1fb9ee56b" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="5d9863d5-b229-4ea6-b7a3-7ef5319c4279" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Lingkungan Sekitar]]></text>
+					</staticText>
+					<componentElement>
+						<reportElement uuid="692be6f8-d618-4062-afae-dae3288ca6f0" x="132" y="0" width="131" height="11"/>
+						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+							<datasetRun subDataset="dataset1_1" uuid="043108d6-cf9b-494f-9518-f22c8c16b0c5">
+								<datasetParameter name="pId">
+									<datasetParameterExpression><![CDATA[$F{lingkungan_sekitar}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+							<jr:listContents height="11" width="131">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement uuid="d8ae13b1-5953-4af4-b490-3314597d819d" positionType="Float" x="0" y="0" width="131" height="11"/>
+									<textElement>
+										<font size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+								</textField>
+							</jr:listContents>
+						</jr:list>
+					</componentElement>
+				</frame>
+				<frame>
+					<reportElement uuid="6156f3b2-8dfb-40b6-bccc-4de94772a19a" positionType="Float" x="278" y="26" width="275" height="11"/>
+					<staticText>
+						<reportElement uuid="6b06afa8-80d0-4678-8b94-18c20f697008" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="022a20a8-5e99-480a-9e74-7e7bf99df654" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Kondisi Tempat Operasional]]></text>
+					</staticText>
+					<componentElement>
+						<reportElement uuid="b36d4aa8-e67d-46d3-8e2a-398039d04cfb" x="132" y="0" width="131" height="11"/>
+						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+							<datasetRun subDataset="dataset1_1" uuid="eff743e5-368d-4a6a-8297-ad8b4269cc8c">
+								<datasetParameter name="pId">
+									<datasetParameterExpression><![CDATA[$F{kondisi_penyimpanan}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+							<jr:listContents height="11" width="131">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement uuid="1cd2ff46-89c0-43ac-ac55-750c9eda75bc" positionType="Float" x="0" y="0" width="131" height="11"/>
+									<textElement>
+										<font size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+								</textField>
+							</jr:listContents>
+						</jr:list>
+					</componentElement>
+				</frame>
+				<frame>
+					<reportElement uuid="1410c961-716c-4f8e-a8c3-aa1a234852ce" positionType="Float" x="278" y="48" width="275" height="11"/>
+					<staticText>
+						<reportElement uuid="f3ff1be0-7782-474c-ab50-e3bde4bffdd8" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="99bbf64e-f00e-4cbe-a5a7-8b82b8470ebb" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Peralatan Gudang]]></text>
+					</staticText>
+					<componentElement>
+						<reportElement uuid="bdb713e0-0453-420b-9ba2-cf7adf9aaffd" x="132" y="0" width="131" height="11"/>
+						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+							<datasetRun subDataset="dataset1_1" uuid="8053f08a-19bd-4b9e-aa64-3b75db4adf2a">
+								<datasetParameter name="pId">
+									<datasetParameterExpression><![CDATA[$F{peralatan_gudang}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+							<jr:listContents height="11" width="131">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement uuid="8e30e9e5-5564-417f-b1ab-47a46226ba92" positionType="Float" x="0" y="0" width="131" height="11"/>
+									<textElement>
+										<font size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+								</textField>
+							</jr:listContents>
+						</jr:list>
+					</componentElement>
+				</frame>
+				<frame>
+					<reportElement uuid="13f3bffb-bb24-4b32-be8e-d4a7df473d8d" positionType="Float" x="1" y="37" width="277" height="11"/>
+					<staticText>
+						<reportElement uuid="ac565812-47e8-4057-8bc7-aeaf4691885f" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="8c5aaa41-8aec-4c12-b995-1835ccde5e90" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Susunan Penempatan]]></text>
+					</staticText>
+					<componentElement>
+						<reportElement uuid="878e7ae8-e4f3-4ba8-8b54-30755f7ab569" x="132" y="0" width="131" height="11"/>
+						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+							<datasetRun subDataset="dataset1_1" uuid="e8b714da-43ac-466b-a50d-e31f47587dc8">
+								<datasetParameter name="pId">
+									<datasetParameterExpression><![CDATA[$F{penempatan_barang}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+							<jr:listContents height="11" width="131">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement uuid="b146c798-6581-49cc-8288-4e8482893656" positionType="Float" x="0" y="0" width="131" height="11"/>
+									<textElement>
+										<font size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+								</textField>
+							</jr:listContents>
+						</jr:list>
+					</componentElement>
+				</frame>
+				<frame>
+					<reportElement uuid="9f252a38-ddba-4eb8-8906-b9b57c1db4db" positionType="Float" x="1" y="48" width="277" height="11"/>
+					<staticText>
+						<reportElement uuid="3dcb7e0e-7d95-42b3-8342-0028616e5a8e" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="7440afe8-2cd3-4781-b746-5d804da1ef19" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Kemasan Barang]]></text>
+					</staticText>
+					<componentElement>
+						<reportElement uuid="d5a924ce-4207-46f0-a228-afeacb4efd35" x="132" y="0" width="131" height="11"/>
+						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+							<datasetRun subDataset="dataset1_1" uuid="96af0495-130c-4615-9918-bca60ff9d465">
+								<datasetParameter name="pId">
+									<datasetParameterExpression><![CDATA[$F{kemasan_barang}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+							<jr:listContents height="11" width="131">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement uuid="62add7a1-2340-4087-9672-c47c67059683" positionType="Float" x="0" y="0" width="131" height="11"/>
+									<textElement>
+										<font size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+								</textField>
+							</jr:listContents>
+						</jr:list>
+					</componentElement>
+				</frame>
+				<frame>
+					<reportElement uuid="d5e88140-2bc8-4967-b6de-1b7cdc4e4d2f" positionType="Float" x="1" y="59" width="277" height="11"/>
+					<staticText>
+						<reportElement uuid="b91b00de-ab3b-4681-8276-3bab0989e3c9" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="6d4fc4b0-d3c6-4015-acb7-65517372e054" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Kondisi Barang]]></text>
+					</staticText>
+					<componentElement>
+						<reportElement uuid="4186617f-9667-4ff6-a880-6666fa2890b6" x="132" y="0" width="131" height="11"/>
+						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+							<datasetRun subDataset="dataset1_1" uuid="1887f6d2-937d-4343-ab00-9cd6df9f3afb">
+								<datasetParameter name="pId">
+									<datasetParameterExpression><![CDATA[$F{kondisi_barang}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+							<jr:listContents height="11" width="131">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement uuid="f906fc47-8ea2-440c-92d2-897d36d86328" positionType="Float" x="0" y="0" width="131" height="11"/>
+									<textElement>
+										<font size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+								</textField>
+							</jr:listContents>
+						</jr:list>
+					</componentElement>
+				</frame>
+				<frame>
+					<reportElement uuid="c4276880-970e-4e71-9e27-446ea1e85ce1" positionType="Float" x="1" y="70" width="277" height="11"/>
+					<staticText>
+						<reportElement uuid="04f6d47d-be3c-49c1-870b-cc3a5ea3601e" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="d8a4cda2-981c-46f2-844b-bc5680dbf9fd" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Metode Pemeriksaan]]></text>
+					</staticText>
+					<componentElement>
+						<reportElement uuid="4fe6246c-1aa1-4b28-9a2d-b6b08d26e750" x="132" y="0" width="131" height="11"/>
+						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+							<datasetRun subDataset="dataset1_1" uuid="bfe63406-ed64-42e2-8ab7-310ac51baeea">
+								<datasetParameter name="pId">
+									<datasetParameterExpression><![CDATA[$F{metode_pemeriksaan}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+							<jr:listContents height="11" width="131">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement uuid="f2c3f4c6-b924-4558-b1b1-c08cff4a9c24" positionType="Float" x="0" y="0" width="131" height="11"/>
+									<textElement>
+										<font size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+								</textField>
+							</jr:listContents>
+						</jr:list>
+					</componentElement>
+				</frame>
+				<frame>
+					<reportElement uuid="eb5fde62-096e-4120-9513-5da1d55ccf45" positionType="Float" x="277" y="59" width="275" height="11"/>
+					<staticText>
+						<reportElement uuid="074b2fe7-b475-4c97-9588-9aed75450842" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="9615da0e-840a-49ac-a2c5-7380ab2df415" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Catatan]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement uuid="5a76771a-d44f-4dac-ae06-212b28555a7d" x="132" y="0" width="125" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{catatan_stock}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</frame>
+			<frame>
+				<reportElement uuid="02b57594-ca13-4d0d-95ae-65f4e527f552" positionType="Float" x="-1" y="157" width="556" height="68"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<staticText>
+					<reportElement uuid="2b8c7dd8-2ace-42b7-8851-9f7fa0638c68" mode="Opaque" x="1" y="0" width="555" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+					<box>
+						<topPen lineWidth="1.0" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[HASIL SURVEY DATA POINT]]></text>
+				</staticText>
+				<frame>
+					<reportElement uuid="8472bd05-9368-45ed-8266-9380b67d7265" positionType="Float" x="1" y="15" width="551" height="11"/>
+					<staticText>
+						<reportElement uuid="fe7ba644-4500-4516-9bc0-8b9616cf2d51" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="74a6b2a0-807a-4149-90ef-4d1fb7f63e2e" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[Catatan]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement uuid="defd5d0a-3777-46a5-b3a7-7e49df9784e6" x="132" y="0" width="349" height="11"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{catatan}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement uuid="40403af9-9e61-49f3-9670-720715b4c83a" positionType="Float" x="1" y="26" width="551" height="11"/>
+					<staticText>
+						<reportElement uuid="1a0267a8-2fb9-48b0-985c-23d00ac31e70" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="f86c7074-54db-461d-af28-82cf36104763" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[List Penilaian Negatif
+]]></text>
+					</staticText>
+					<componentElement>
+						<reportElement uuid="d82542ff-9838-41e7-8c42-2cf8647c3e77" positionType="Float" x="131" y="0" width="404" height="11"/>
+						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+							<datasetRun subDataset="negatif_point" uuid="e87972b7-1771-437a-a782-f3a4bd4ca87f">
+								<datasetParameter name="PIdDataDetail">
+									<datasetParameterExpression><![CDATA[$P{PIdDataDetail}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+							<jr:listContents height="11" width="404">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement uuid="2d6a408b-4f6e-4f88-8b6b-09a9f0949579" positionType="Float" x="1" y="0" width="401" height="11"/>
+									<textElement>
+										<font size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+								</textField>
+							</jr:listContents>
+						</jr:list>
+					</componentElement>
+				</frame>
+				<frame>
+					<reportElement uuid="deed8e46-1215-4cd7-a7e9-898c1686a2ae" positionType="Float" x="1" y="37" width="551" height="11"/>
+					<staticText>
+						<reportElement uuid="1d5a1f1f-6978-4e87-b0b0-48f98b6671f3" positionType="Float" x="126" y="0" width="5" height="11"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="8ec4645b-ad19-4b74-bb45-46102cf74f67" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+						<textElement verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[List Pertimbangan Khusus
+]]></text>
+					</staticText>
+					<componentElement>
+						<reportElement uuid="21ed04ec-0af8-40f7-8e7b-6318f9ce3f0e" positionType="Float" x="131" y="0" width="404" height="11"/>
+						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+							<datasetRun subDataset="pertimbangan_khusus" uuid="85d4d71b-1aee-4b06-9264-cbd49f7d3985">
+								<datasetParameter name="PIdDataDetail">
+									<datasetParameterExpression><![CDATA[$P{PIdDataDetail}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+							<jr:listContents height="11" width="404">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement uuid="250955fd-e77b-4c9d-ba8c-1b085d0e662c" positionType="Float" x="1" y="0" width="401" height="11"/>
+									<textElement>
+										<font size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+								</textField>
+							</jr:listContents>
+						</jr:list>
+					</componentElement>
+				</frame>
+			</frame>
+			<staticText>
+				<reportElement uuid="83f3e1b1-07fd-4e77-aa0f-82c053813829" positionType="Float" x="0" y="142" width="555" height="15"/>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<frame>
+				<reportElement uuid="119bb2b4-320c-4ad5-a49b-e5046711534b" positionType="Float" x="0" y="5" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="9648602e-119a-40d0-95b7-33acd95111e5" positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="9f5eed2d-1353-4a43-9aeb-3983a353ac3c" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Nomor Survey]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="88917145-84f6-4a83-b666-f97544ec557b" x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{no_survey}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="6ab90428-c571-44ab-870a-5d7ed05d39bd" positionType="Float" x="0" y="16" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="38e9ec8f-7956-4b5c-b5c9-721694b954df" positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="be17d3aa-3455-4944-bb65-1e9ea65228ab" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Nama Debitur]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="aae5fe6b-25c7-4ef6-9e6e-e1530d3def42" x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="9a2f9911-8472-455b-bc27-ae7222779c58" positionType="Float" x="0" y="27" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="20027173-35a1-49b4-a6f6-6bf16ce028e7" positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="af939d82-f38e-4564-9975-0e7885f2a302" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Nama Contact Person]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="cc80e21a-5d9e-45b4-afa7-7338921ab132" x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nama_contact_person}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="1b778299-6f46-447c-a97a-e59a28599dcf" positionType="Float" x="0" y="38" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="f8e9367f-460f-4d45-aaa5-6c5ad877e9a4" positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2b60b0de-083a-45a3-b396-1dbf7240719f" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Telp Contact Person]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="8c88c8e2-d640-4d6f-b974-660e30287477" x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{telp_contact_person}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="de034908-ac68-4117-801b-edacee9797ef" positionType="Float" x="0" y="49" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="990f52b2-7b61-49f7-b6dc-8df2e51f9205" positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="fa1092d0-a59b-4eca-9a80-fe97eeffd03e" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Waktu Perjanjian]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="c3d3fb74-b9ff-47be-ad2e-05a5fe9ec110" x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{waktu}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="44e16321-090a-4643-94de-032433428bf0" positionType="Float" x="277" y="5" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="b82a5e5e-276d-4c63-ae86-30e7f5c2691a" positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="344600a2-ec47-40f5-8765-a33023ae4198" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Jenis Object Penilaian]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="3981f900-f2fa-438c-aae6-2b93eb7fc8a0" x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{jenis_object_penilaian}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="8dbc7d66-d844-4f38-a5c6-992a863b4292" positionType="Float" x="277" y="16" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="54f7381a-036a-469c-9bfd-a5a88a2b23c6" positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="1bfc1a83-fd84-4d88-9641-bb7247cdf896" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Lokasi]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="c6b84d00-871c-4312-98a6-0fe38023d736" x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{alamat}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="00785998-cfc2-4d29-aaaf-90c82db768d9" positionType="Float" x="277" y="38" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="e252f27c-15e7-4ee9-b384-c2d8126a9664" positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="0945abd9-5e03-4e00-b736-047f9f81d7d8" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Keterangan]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="8024d302-d4a9-4637-b76a-e23bf96a0309" x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{keterangan_drop}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="8d12ea1e-7283-48f3-afa2-bff5f14d0b6e" positionType="Float" x="277" y="49" width="277" height="11"/>
+				<staticText>
+					<reportElement uuid="f831682d-c76b-4794-90a7-7f9707038f79" positionType="Float" x="126" y="0" width="5" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="49447e8d-4380-4551-8b84-357935d14980" positionType="Float" x="0" y="0" width="125" height="11" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Status]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="26d953db-9627-49b2-b5a8-a3581896ec22" x="132" y="0" width="125" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{status_survey}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement uuid="52998f37-b3ff-4868-b60b-6707e36bd8bb" positionType="Float" x="1" y="60" width="555" height="15"/>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="52" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="693333b3-6ceb-41dc-af3e-19dc940dcca6" x="1" y="0" width="555" height="31"/>
+				<textElement/>
+				<text><![CDATA[Keterangan-keterangan di atas dilakukan berdasarkan kesaksian selama pemeriksaan agunan dan tidak ada kepentingan-
+kepentingan apapun baik secara pribadi maupun orang lain, terhadap NILAI AGUNAN pada saat sekarang]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="240df1fb-417f-4d98-b8fa-5279d5ab2300" x="1" y="31" width="554" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="5c64e841-05ed-48f2-971d-aeb54539c971" x="1" y="33" width="353" height="15"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Laporan ini merupakan hasil cetakan komputer, tidak memerlukan tanda tangan]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

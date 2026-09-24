@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptOrder" pageWidth="556" pageHeight="841" whenNoDataType="NoDataSection" columnWidth="556" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="88f3a9be-0909-47c2-beb7-70798b2507e2">
+	<property name="ireport.zoom" value="1.2100000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<subDataset name="dataset1" uuid="d09e234f-b9ea-495f-af97-2aa5ab618267">
+		<parameter name="pId" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select nama
+from cabang
+where id = $P{pId}]]>
+		</queryString>
+		<field name="nama" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset2" uuid="008ef85d-13ee-4afc-a700-81f25e39a546">
+		<parameter name="pId" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select nama
+from jenis_aktiva
+where id =$P{pId}]]>
+		</queryString>
+		<field name="nama" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset3" uuid="d003bb26-6d9e-4ef2-8f42-5ec8ead3f79d">
+		<parameter name="pId" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select nama
+from appraisal_cabang
+where id = $P{pId}]]>
+		</queryString>
+		<field name="nama" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset4" uuid="3a84c6d1-89c6-4a36-8587-c8d00d360aaf">
+		<parameter name="pUserId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select distinct(a.nama) as nama
+from person a,
+person_roles b
+where a.user_id = b.user_id
+and b.person_level = 'MARKETING'
+and a.user_id = $P{pUserId}]]>
+		</queryString>
+		<field name="nama" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="pSubmitDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pCloseDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pCabangId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pAppraisalCabangId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select count(c.nama), c.nama, date(b.submit_date), c.id
+from data_detail a
+left join data_umum b on a.id_data_umum = b.id
+left join (select case x.id when 2 then y.kategori_appraisal else x.nama end nama, x.id id, y.id id_umum from jenis_appraisal x, data_umum y where x.id = y.jenis_appraisal_id and y.kategori_appraisal is not null) c on c.id_umum = b.id
+where b.cabang_id = $P{pCabangId}
+and b.appraisal_cabang_id = $P{pAppraisalCabangId}
+and b.kategori_appraisal is not null
+and date(b.submit_date) between $P{pSubmitDate} and $P{pCloseDate}
+and b.posisi <> 'User_TL'
+group by c.nama,
+ date(b.submit_date), c.id
+order by date(b.submit_date) asc]]>
+	</queryString>
+	<field name="count" class="java.lang.Long"/>
+	<field name="nama" class="java.lang.String"/>
+	<field name="date" class="java.sql.Date"/>
+	<field name="id" class="java.lang.Long"/>
+	<variable name="vOther" class="java.lang.Long" resetType="Group" resetGroup="date" calculation="Sum">
+		<variableExpression><![CDATA[$F{id}!= 2 && $F{id}!= 50 ? $F{count} :0]]></variableExpression>
+	</variable>
+	<variable name="vEksternal" class="java.lang.Long" resetType="Group" resetGroup="date" calculation="Sum">
+		<variableExpression><![CDATA[!$F{nama}.equals( "Internal" ) && $F{id}!= 50 && $F{id}!= 1050 && $F{id}!= 1051 && $F{id}!= 1052 && $F{id}!= 4 ? $F{count} :0]]></variableExpression>
+	</variable>
+	<variable name="vInternal" class="java.lang.Long" resetType="Group" resetGroup="date" calculation="Sum">
+		<variableExpression><![CDATA[!$F{nama}.equals( "Eksternal" ) && $F{id}!= 50 && $F{id}!= 1050 && $F{id}!= 1051 && $F{id}!= 1052 && $F{id}!= 4  ? $F{count} :0]]></variableExpression>
+	</variable>
+	<variable name="vIndikasi" class="java.lang.Long" resetType="Group" resetGroup="date" calculation="Sum">
+		<variableExpression><![CDATA[$F{id}!= 2 && $F{id}!= 1050 && $F{id}!= 1051 && $F{id}!= 1052 && $F{id}!= 4 ? $F{count} :0]]></variableExpression>
+	</variable>
+	<variable name="vOtherTotal" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{id}!= 2 && $F{id}!= 50 ? $F{count} :0]]></variableExpression>
+	</variable>
+	<variable name="vEksternalTotal" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[!$F{nama}.equals( "Internal" ) && $F{id}!= 50 && $F{id}!= 1050 && $F{id}!= 1051 && $F{id}!= 1052 && $F{id}!= 4  ? $F{count} :0]]></variableExpression>
+	</variable>
+	<variable name="vInternalTotal" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[!$F{nama}.equals( "Eksternal" ) && $F{id}!= 50 && $F{id}!= 1050 && $F{id}!= 1051 && $F{id}!= 1052 && $F{id}!= 4  ? $F{count} :0]]></variableExpression>
+	</variable>
+	<variable name="vIndikasiTotal" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{id}!= 2 && $F{id}!= 1050 && $F{id}!= 1051 && $F{id}!= 1052 && $F{id}!= 4 ? $F{count} :0]]></variableExpression>
+	</variable>
+	<group name="date">
+		<groupExpression><![CDATA[$F{date}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField pattern="yyyy-MM-dd">
+					<reportElement uuid="1460effd-87d0-4ea5-8744-853c722ee6b8" mode="Opaque" x="0" y="0" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="date">
+					<reportElement uuid="bb97ce1e-aa49-4f1e-97e0-eb4c7dc1b834" mode="Opaque" x="230" y="0" width="100" height="20"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$V{vEksternal}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="date">
+					<reportElement uuid="eee87d06-1414-4fc2-b994-a2d3a28756a7" mode="Opaque" x="430" y="0" width="126" height="20"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$V{vInternal}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="date">
+					<reportElement uuid="c4a427d0-f8e8-4fb8-95f4-3157d6cf1a56" mode="Opaque" x="100" y="0" width="130" height="20"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$V{vOther}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="date">
+					<reportElement uuid="1fae7786-93df-4fc8-b35f-74ce8878e93a" mode="Opaque" x="330" y="0" width="100" height="20"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$V{vIndikasi}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="87" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="86e63c71-4873-43e3-af4d-345de708ce39" mode="Opaque" x="0" y="0" width="556" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laporan Order Masuk]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ac0cc7b0-44db-4665-b31e-dd18669285c3" mode="Opaque" x="0" y="15" width="100" height="15"/>
+				<textElement/>
+				<text><![CDATA[Cabang Bisnis]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2a8504f8-1655-4449-a966-eeffdb68a413" mode="Opaque" x="0" y="30" width="100" height="15"/>
+				<textElement/>
+				<text><![CDATA[Cabang Coll]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ac5f7237-c9be-4f6e-aca5-718c3a9295a1" mode="Opaque" x="0" y="45" width="100" height="15"/>
+				<textElement/>
+				<text><![CDATA[Periode Tgl Submit]]></text>
+			</staticText>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement uuid="0546dc81-d0e8-4788-93f9-d891166288fc" mode="Opaque" x="230" y="45" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{pCloseDate}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement uuid="87c7d185-2452-4821-97f1-49591e51d716" x="100" y="15" width="130" height="15"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset1" uuid="3456678f-8c7c-474e-96c9-f3684f451b2c">
+						<datasetParameter name="pId">
+							<datasetParameterExpression><![CDATA[$P{pCabangId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="15" width="130">
+						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<reportElement uuid="013f97c1-8e52-4f9f-8af2-d2a5753bd077" positionType="Float" mode="Opaque" x="0" y="0" width="130" height="15"/>
+							<textElement/>
+							<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<componentElement>
+				<reportElement uuid="4035c752-6322-45d0-b95c-ed6e5b574de4" x="100" y="30" width="130" height="15"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset3" uuid="04c91cec-47e2-4ef1-8923-d31522c0ae19">
+						<datasetParameter name="pId">
+							<datasetParameterExpression><![CDATA[$P{pAppraisalCabangId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="15" width="130">
+						<textField>
+							<reportElement uuid="4cc7634f-d1c3-4644-ad35-5c3008bca01a" mode="Opaque" x="0" y="0" width="130" height="15"/>
+							<textElement/>
+							<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement uuid="3ddeeaf4-6f49-41dc-87cf-fd4f4445052c" mode="Transparent" x="100" y="45" width="130" height="15"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{pSubmitDate}) + "         s/d"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="a884ff09-0548-4a6d-9841-15251f420b0b" mode="Opaque" x="100" y="60" width="130" height="27" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lainnya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0209e91d-3821-48bc-936c-81cf8ea5deab" mode="Opaque" x="230" y="60" width="100" height="27" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Eksternal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="584bc444-4782-4ae2-95b2-498ba39b087b" mode="Opaque" x="330" y="60" width="100" height="27" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Indikasi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e69f2876-baad-4ba3-8d50-04a6011a4c21" mode="Opaque" x="430" y="60" width="126" height="27" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Internal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bafd1d51-91a9-4f28-81d8-69a0cda6c313" mode="Opaque" x="0" y="60" width="100" height="27" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tanggal]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5caef3e1-16ab-4420-b639-707fb90e1202" mode="Opaque" x="0" y="0" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="14512e33-966a-46dd-ae00-ffc1d6997ec6" mode="Opaque" x="100" y="0" width="130" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{vOtherTotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="42e5b595-6a7a-4b82-ad04-4c38d589050a" mode="Opaque" x="230" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{vEksternalTotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5fa79010-490a-47b1-ad6d-fdd02e96e63f" mode="Opaque" x="330" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{vIndikasiTotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8d0cb8f4-7217-4e05-920f-ad0428455f9a" mode="Opaque" x="430" y="0" width="126" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{vInternalTotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+	<noData>
+		<band height="15">
+			<staticText>
+				<reportElement uuid="c0492281-a798-4083-9cbe-ff85e7fa5b49" mode="Opaque" x="0" y="0" width="100" height="15"/>
+				<textElement/>
+				<text><![CDATA[Data Tidak Ada]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

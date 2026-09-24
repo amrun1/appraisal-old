@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptFormatLpaInt" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.2100000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="127"/>
+	<property name="net.sf.jasperreports.engine.util.JRImageLoader" value="true"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="PIdLpaUmum" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PImagePath" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select a.no_lpa,
+a.nama_debitur,
+a.lokasi_fisik, b.id_laporan_dokumen,
+lo_get(b.image) img, b.nama ket,
+(select nama from jenis_kategori where kode = a.kategori_aktiva) kategori
+from lpa_umum a
+left outer join (
+select b.id_laporan_dokumen, b.image, c.nama, b.id_survey_umum, b.id_lpa
+from survey_image b
+	left outer join jenis_laporan_dokumen c on b.id_laporan_dokumen = c.id
+where c.jenis_data='Peta/Denah'
+) as b
+	on a.id_survey = b.id_survey_umum or a.id = b.id_lpa
+where a.id =$P{PIdLpaUmum}
+order by B.nama]]>
+	</queryString>
+	<field name="no_lpa" class="java.lang.String"/>
+	<field name="nama_debitur" class="java.lang.String"/>
+	<field name="lokasi_fisik" class="java.lang.String"/>
+	<field name="id_laporan_dokumen" class="java.lang.Long"/>
+	<field name="img" class="java.io.InputStream"/>
+	<field name="ket" class="java.lang.String"/>
+	<field name="kategori" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="113" splitType="Stretch">
+			<staticText>
+				<reportElement key="staticText" x="0" y="48" width="142" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[No. Laporan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="0" y="63" width="142" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Nama Debitur	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="0" y="78" width="142" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Lokasi Angunan(Fisik)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="142" y="48" width="5" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="142" y="63" width="5" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="142" y="78" width="5" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="147" y="48" width="408" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{no_lpa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="147" y="63" width="408" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nama_debitur}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="147" y="78" width="408" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lokasi_fisik}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="435" y="93" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Halaman "+$V{PAGE_NUMBER}+" dari"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="93" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="37" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["LAPORAN PENILAIAN AGUNAN\n"+
+"ATAS "+$F{kategori}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" mode="Opaque" x="3" y="3" width="135" height="31" backcolor="#CCFFFF"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="-14" width="142" height="51"/>
+				<imageExpression class="java.lang.String"><![CDATA[($P{SUBREPORT_DIR}!=null?$P{SUBREPORT_DIR}:"") + "logo_rpt_format_lpa.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="317" splitType="Stretch">
+			<printWhenExpression><![CDATA[$F{img}!=null]]></printWhenExpression>
+			<frame>
+				<reportElement x="0" y="0" width="555" height="306"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<image hAlign="Center" vAlign="Middle" onErrorType="Icon">
+					<reportElement key="image" x="3" y="20" width="552" height="286"/>
+					<imageExpression class="java.io.InputStream"><![CDATA[$F{img}]]></imageExpression>
+				</image>
+				<textField>
+					<reportElement mode="Opaque" x="0" y="0" width="555" height="20" backcolor="#CCCCCC"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{ket}.equals("Gambar Denah") ? "LOKASI AKTIVA":"PETA WILAYAH AKTIVA"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement x="3" y="306" width="522" height="11"/>
+				<textElement/>
+				<text><![CDATA[Static text]]></text>
+			</staticText>
+		</band>
+		<band height="20" splitType="Stretch">
+			<printWhenExpression><![CDATA[$F{img}==null]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Data Tidak Ada]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement key="staticText" x="0" y="24" width="285" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Laporan ini merupakan hasil cetakan komputer, tidak memerlukan tanda tangan.]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line" x="0" y="23" width="555" height="1" forecolor="#FF99CC"/>
+			</line>
+			<staticText>
+				<reportElement key="staticText" x="0" y="0" width="555" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Keterangan-keterangan di atas dilakukan berdasarkan kesaksian selama pemeriksaan agunan dan tidak ada kepentingan-kepentingan
+apapun baik secara pribadi maupun orang lain, terhadap NILAI AGUNAN pada saat sekarang dan kemudian hari.]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement key="staticText" x="0" y="0" width="555" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Keterangan-keterangan di atas dilakukan berdasarkan kesaksian selama pemeriksaan agunan dan tidak ada kepentingan-kepentingan
+apapun baik secara pribadi maupun orang lain, terhadap NILAI AGUNAN pada saat sekarang dan kemudian hari.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="0" y="24" width="285" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Laporan ini merupakan hasil cetakan komputer, tidak memerlukan tanda tangan.]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line" x="0" y="23" width="555" height="1" forecolor="#FF99CC"/>
+			</line>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptFormatLpaInt" columnCount="2" printOrder="Horizontal" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="277" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="991c2dc6-d5be-4327-b960-d5b7c7be7ac7">
+	<property name="ireport.zoom" value="1.2396694214876036"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.engine.util.JRImageLoader" value="true"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="PIdLpaUmum" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PImagePath" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select a.no_lpa,
+a.nama_debitur,
+a.lokasi_fisik, b.id_laporan_dokumen,
+lo_get(b.image) img, b.nama ket, b.catatan,
+(select nama from jenis_kategori where kode = a.kategori_aktiva) kategori
+from lpa_umum a
+left outer join (
+select b.id_laporan_dokumen, b.image, c.nama, b.id_survey_umum, b.id_lpa, b.catatan
+from survey_image b
+	left outer join jenis_laporan_dokumen c on b.id_laporan_dokumen = c.id
+where c.form_survey = TRUE
+) as b
+	on a.id_survey = b.id_survey_umum or a.id = b.id_lpa
+where a.id =$P{PIdLpaUmum}
+order by B.nama]]>
+	</queryString>
+	<field name="no_lpa" class="java.lang.String"/>
+	<field name="nama_debitur" class="java.lang.String"/>
+	<field name="lokasi_fisik" class="java.lang.String"/>
+	<field name="id_laporan_dokumen" class="java.lang.Long"/>
+	<field name="img" class="java.lang.Object"/>
+	<field name="ket" class="java.lang.String"/>
+	<field name="catatan" class="java.lang.String"/>
+	<field name="kategori" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="138" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="f8f6d642-8ae5-4e1c-a7c4-fe0698ceffed" key="staticText" x="0" y="49" width="142" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[No. Laporan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="13a05680-4e20-4846-ab79-281cf9c446bc" key="staticText" x="0" y="64" width="142" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Nama Debitur	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5c3397d3-fd2e-43ac-a140-edb766544598" key="staticText" x="0" y="79" width="142" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Lokasi Angunan(Fisik)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3e279abc-747d-4782-921e-d30410f66bbf" key="staticText" x="142" y="49" width="5" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="51781766-12bc-4ee2-bd9a-9ab067364d8a" key="staticText" x="142" y="64" width="5" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="658055fd-61b9-4aab-963d-09911ac1fff4" key="staticText" x="142" y="79" width="5" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="bd42f6af-88e3-4e46-9185-92d10120c69e" key="textField" x="147" y="49" width="408" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{no_lpa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="dc4bb172-f94e-435e-9554-c8daaa0578f6" key="textField" x="147" y="64" width="408" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nama_debitur}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="a372efb4-d527-4c59-b477-34701e129e29" key="textField" x="147" y="79" width="408" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{lokasi_fisik}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d38bc56c-57f4-4f9c-bb9b-4c7551796072" x="435" y="97" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Halaman "+$V{PAGE_NUMBER}+" dari"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="7632bac4-1c69-40ff-8ac8-b733af4b11b2" x="515" y="97" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6632962c-2123-4a0f-b8dc-7f896e238436" mode="Opaque" x="0" y="118" width="555" height="20" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gambar Hasil Survey]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="cbf559f3-27ff-4c2c-a9ac-eb44e1cd3e2a" mode="Opaque" x="142" y="0" width="413" height="37" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["LAPORAN PENILAIAN AGUNAN\n"+
+"ATAS "+$F{kategori}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1f863fa9-f02b-4138-8f04-60326677b0b1" key="staticText" mode="Opaque" x="0" y="0" width="142" height="37" backcolor="#FFFFFF"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="6ab05dac-2fa2-42da-a2eb-6378e9cb4f4d" x="0" y="-14" width="142" height="51"/>
+				<imageExpression><![CDATA[($P{SUBREPORT_DIR}!=null?$P{SUBREPORT_DIR}:"") + "logo_rpt_format_lpa.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="142" splitType="Stretch">
+			<printWhenExpression><![CDATA[$F{img}!= null]]></printWhenExpression>
+			<frame>
+				<reportElement uuid="743d8074-6d94-411e-86b8-9b5116f057e9" x="0" y="0" width="277" height="138"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<image hAlign="Center">
+					<reportElement uuid="ee0682a3-7fe4-48a4-930d-16fc22451a41" key="image" x="4" y="10" width="273" height="98"/>
+					<imageExpression><![CDATA[$F{img}]]></imageExpression>
+				</image>
+				<textField>
+					<reportElement uuid="50f86770-2773-4c9d-9e09-864f50db9d7a" x="0" y="118" width="277" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{ket} + "-" + $F{catatan}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+		<band height="20">
+			<printWhenExpression><![CDATA[$F{img}==null]]></printWhenExpression>
+			<staticText>
+				<reportElement uuid="487ea840-4be8-44ad-b9f5-00a0d86409d9" x="0" y="0" width="277" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Data Tidak Ada]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="8de0f091-d28c-445d-8a6f-ee463c94bc15" key="staticText" x="0" y="0" width="555" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Keterangan-keterangan di atas dilakukan berdasarkan kesaksian selama pemeriksaan agunan dan tidak ada kepentingan-kepentingan
+apapun baik secara pribadi maupun orang lain, terhadap NILAI AGUNAN pada saat sekarang dan kemudian hari.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="eb961703-32c4-4e55-9adc-f1571db400b8" key="staticText" x="0" y="22" width="285" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Laporan ini merupakan hasil cetakan komputer, tidak memerlukan tanda tangan.]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="0420aaf0-2b66-49ca-a965-847992e77fe5" key="line" x="0" y="21" width="555" height="1" forecolor="#FF99CC"/>
+			</line>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5cbd980e-c49e-4e14-90a9-764ebe02168e" key="staticText" x="0" y="0" width="555" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Keterangan-keterangan di atas dilakukan berdasarkan kesaksian selama pemeriksaan agunan dan tidak ada kepentingan-kepentingan
+apapun baik secara pribadi maupun orang lain, terhadap NILAI AGUNAN pada saat sekarang dan kemudian hari.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2007f1eb-3477-47bc-a382-b8abf28bb961" key="staticText" x="0" y="22" width="285" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Laporan ini merupakan hasil cetakan komputer, tidak memerlukan tanda tangan.]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="6edd381c-0986-4dd5-b5d3-89f1249ded85" key="line" x="0" y="21" width="555" height="1" forecolor="#FF99CC"/>
+			</line>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

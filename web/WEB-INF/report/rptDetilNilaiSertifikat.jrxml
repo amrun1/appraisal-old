@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptDetilNilaiSertifikat" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e522da80-127a-4260-93e1-e50cbe678438">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="PImagePath" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PIdLpaUmum" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[WITH total_luas_tanah AS(
+	select SUM(ldt.luas_tanah) AS total, lu.id from lpa_umum lu
+	left join lpa_tanah_bangunan ltb on lu.id = ltb.id_lpa_umum
+	left join lpa_doc_tanah ldt on ltb.id = ldt.id_lpa_lnb
+	where lu.id = $P{PIdLpaUmum}
+	group by lu.id
+)
+select
+	a.nomor_order,
+	a.nama_debitur,
+	a.lokasi_fisik,
+	d.nama jenis_dokumen,
+	c.nama_dokumen no_dokumen,
+	c.luas_tanah,
+	tl.total total_luas_tanah,
+	b.nilai_doc_1_eks/tl.total*c.luas_tanah 					nilai_pasar_doc_eks ,
+	b.nilai_dokumen_1/tl.total*c.luas_tanah 					nilai_pasar_doc,
+	b.nilai_doc_2_eks 												bangunan_nilai_pasar_doc_eks,
+	b.nilai_dokumen_2 												bangunan_nilai_pasar_doc,
+	b.nilai_fisik_1_eks/tl.total*c.luas_tanah 				nilai_pasar_fisik_eks,
+	b.nilai_fisik_1/tl.total*c.luas_tanah 						nilai_pasar_fisik,
+	b.nilai_fisik_2_eks 												bangunan_nilai_pasar_fisik_eks,
+	b.nilai_fisik_2 													bangunan_nilai_pasar_fisik,
+	b.likuidasi_doc_1/tl.total*c.luas_tanah 					nilai_likuidasi_doc,
+	b.likuidasi_doc_1_eks/tl.total*c.luas_tanah 				nilai_likuidasi_doc_eks,
+	b.likuidasi_doc_2 												bangunan_nilai_likuidasi_doc,
+	b.likuidasi_doc_2_eks 											bangunan_nilai_likuidasi_doc_eks,
+	b.likuidasi_fisik_1/tl.total*c.luas_tanah 				nilai_likuidasi_fisik,
+	b.likuidasi_fisik_1_eks/tl.total*c.luas_tanah 			nilai_likuidasi_fisik_eks,
+	b.likuidasi_fisik_2								 				bangunan_nilai_likuidasi_fisik,
+	b.likuidasi_fisik_2_eks								 			bangunan_nilai_likuidasi_fisik_eks,
+	b.luas_bangunan luas_bangunan_fisik,
+	b.luas_bangunan_imb luas_bangunan_doc,
+	du.kategori_appraisal DataType
+from lpa_umum a
+left join lpa_tanah_bangunan b on a.id = b.id_lpa_umum
+left join lpa_doc_tanah c on b.id = c.id_lpa_lnb
+left join data_umum du on du.no_order = a.nomor_order
+inner join jenis_dokumen d on d.id = c.id_jenis_dokumen
+LEFT JOIN total_luas_tanah tl ON tl.id = a.id
+where  a.id = $P{PIdLpaUmum}
+order by  c.id asc]]>
+	</queryString>
+	<field name="nomor_order" class="java.lang.String"/>
+	<field name="nama_debitur" class="java.lang.String"/>
+	<field name="lokasi_fisik" class="java.lang.String"/>
+	<field name="jenis_dokumen" class="java.lang.String"/>
+	<field name="no_dokumen" class="java.lang.String"/>
+	<field name="luas_tanah" class="java.lang.Double"/>
+	<field name="total_luas_tanah" class="java.lang.Double"/>
+	<field name="nilai_pasar_doc_eks" class="java.math.BigDecimal"/>
+	<field name="nilai_pasar_doc" class="java.math.BigDecimal"/>
+	<field name="bangunan_nilai_pasar_doc_eks" class="java.math.BigDecimal"/>
+	<field name="bangunan_nilai_pasar_doc" class="java.math.BigDecimal"/>
+	<field name="nilai_pasar_fisik_eks" class="java.math.BigDecimal"/>
+	<field name="nilai_pasar_fisik" class="java.math.BigDecimal"/>
+	<field name="bangunan_nilai_pasar_fisik_eks" class="java.math.BigDecimal"/>
+	<field name="bangunan_nilai_pasar_fisik" class="java.math.BigDecimal"/>
+	<field name="nilai_likuidasi_doc" class="java.math.BigDecimal"/>
+	<field name="nilai_likuidasi_doc_eks" class="java.math.BigDecimal"/>
+	<field name="bangunan_nilai_likuidasi_doc" class="java.math.BigDecimal"/>
+	<field name="bangunan_nilai_likuidasi_doc_eks" class="java.math.BigDecimal"/>
+	<field name="nilai_likuidasi_fisik" class="java.math.BigDecimal"/>
+	<field name="nilai_likuidasi_fisik_eks" class="java.math.BigDecimal"/>
+	<field name="bangunan_nilai_likuidasi_fisik" class="java.math.BigDecimal"/>
+	<field name="bangunan_nilai_likuidasi_fisik_eks" class="java.math.BigDecimal"/>
+	<field name="luas_bangunan_fisik" class="java.math.BigDecimal"/>
+	<field name="luas_bangunan_doc" class="java.math.BigDecimal"/>
+	<field name="datatype" class="java.lang.String"/>
+	<variable name="total_nilai_pasar_doc_eks" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{nilai_pasar_doc_eks}]]></variableExpression>
+	</variable>
+	<variable name="total_nilai_pasar_doc" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{nilai_pasar_doc}]]></variableExpression>
+	</variable>
+	<variable name="total_nilai_likuidasi_doc_eks" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{nilai_likuidasi_doc_eks}]]></variableExpression>
+	</variable>
+	<variable name="total_nilai_likuidasi_doc" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{nilai_likuidasi_doc}]]></variableExpression>
+	</variable>
+	<variable name="total_nilai_pasar_fisik_eks" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{nilai_pasar_fisik_eks}]]></variableExpression>
+	</variable>
+	<variable name="total_nilai_pasar_fisik" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{nilai_pasar_fisik}]]></variableExpression>
+	</variable>
+	<variable name="total_nilai_likuidasi_fisik_eks" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{nilai_likuidasi_fisik_eks}]]></variableExpression>
+	</variable>
+	<variable name="total_nilai_likuidasi_fisik" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{nilai_likuidasi_fisik}]]></variableExpression>
+	</variable>
+	<title>
+		<band height="37" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="54340dc9-976c-4b69-abf1-9c954d537f44" mode="Opaque" x="0" y="0" width="802" height="37" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LAMPIRAN BREAKDOWN NILAI TANAH PER SERTIPIKAT]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="b380093f-c253-47bc-b4ab-d34818c36c7b" x="0" y="14" width="142" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Nama Debitur	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="decd3b0f-6f1f-47a0-a082-13671aeaa0c2" x="0" y="29" width="142" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Lokasi Angunan(Fisik)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e9b54423-a9fa-4a5d-9109-824290e648b3" x="0" y="44" width="142" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Nomor Order]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="17f1dbf4-825d-4abc-af2d-dcefc162c1b2" x="143" y="14" width="5" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f2747eea-deaa-4375-80c2-340b2bd70924" x="143" y="29" width="5" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e007c45e-bd2e-4093-8804-c908bdaf4568" x="143" y="44" width="5" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="4e3bcf8b-d246-481f-8131-3fd9db6dc6f4" x="148" y="14" width="655" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nama_debitur}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="805a7119-a8d7-4148-bae5-fe7399d333f5" x="148" y="29" width="655" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lokasi_fisik}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="edb2f52c-e2ba-4736-8e12-cccf56689225" x="148" y="44" width="655" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomor_order}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="40">
+			<staticText>
+				<reportElement uuid="b7869d9d-a2b9-4638-a6a4-2861bd0a9c49" mode="Opaque" x="0" y="0" width="103" height="40" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Jenis]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b5742b20-3f43-40e5-bfa8-22d5a1755d0f" mode="Opaque" x="103" y="0" width="100" height="40" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[No Dokumen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="65437499-b45a-4eaf-9636-423c9d08188c" mode="Opaque" x="203" y="0" width="100" height="40" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Luas (M2)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="078ded22-9cb5-4487-8bad-88639ecee703" mode="Opaque" x="303" y="0" width="250" height="20" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Nilai Sesuai Dokumen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e8e6615f-bf40-492a-97f6-759472bc1d87" mode="Opaque" x="553" y="0" width="250" height="20" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Nilai Sesuai Fisik]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ca807229-9a09-4ed8-b5f1-c2aad585ef8d" mode="Opaque" x="303" y="20" width="125" height="20" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Nilai Pasar (Rp)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="06a8f194-1ebb-4d51-a70e-809d0749157d" mode="Opaque" x="428" y="20" width="125" height="20" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Nilai Likuidasi (Rp)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9cee4f37-8466-4b70-adfd-e0120ef61543" mode="Opaque" x="553" y="20" width="125" height="20" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Nilai Pasar (Rp)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b434f673-1aa3-4b69-a97c-ec88e0cb289d" mode="Opaque" x="678" y="20" width="125" height="20" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Nilai Likuidasi (Rp)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="60">
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="162886ca-6cdd-41b6-8ddb-fc7872f6b97e" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="103" height="20"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jenis_dokumen}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement uuid="ab0b9842-9196-4809-b188-e4170f616448" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="103" y="0" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_dokumen}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement uuid="1a585b89-36d6-4cca-a075-2cbc25dce1aa" positionType="Float" mode="Transparent" x="203" y="0" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{luas_tanah}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="false">
+				<reportElement uuid="39477241-e257-426a-93f3-3b22958379c8" positionType="Float" mode="Transparent" x="303" y="0" width="125" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datatype}.equalsIgnoreCase("Eksternal") ? ($F{nilai_pasar_doc_eks}.toString().equals("0") ? "-" : new java.text.DecimalFormat("Rp #,##0").format($F{nilai_pasar_doc_eks})  ): ( $F{nilai_pasar_doc}.toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,##0").format($F{nilai_pasar_doc}) )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement uuid="b97dcbf8-ee9d-4f4e-b02d-772e958477b2" positionType="Float" mode="Transparent" x="428" y="0" width="125" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datatype}.equalsIgnoreCase("Eksternal") ? ($F{nilai_likuidasi_doc_eks}.toString().equals("0") ? "-" : new java.text.DecimalFormat("Rp #,###").format($F{nilai_likuidasi_doc_eks})) : ($F{nilai_likuidasi_doc}.toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($F{nilai_likuidasi_doc}))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="false">
+				<reportElement uuid="d8b22a73-000d-499e-a399-bcf684775567" positionType="Float" mode="Transparent" x="553" y="0" width="125" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datatype}.equalsIgnoreCase("Eksternal") ? ($F{nilai_pasar_fisik_eks}.toString().equals("0") ? "-" : new java.text.DecimalFormat("Rp #,###").format($F{nilai_pasar_fisik_eks})) : ($F{nilai_pasar_fisik}.toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($F{nilai_pasar_fisik}))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="false">
+				<reportElement uuid="bc3db6f0-912c-4a95-bce0-03d72a236dd1" positionType="Float" mode="Transparent" x="678" y="0" width="125" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datatype}.equalsIgnoreCase("Eksternal") ? ($F{nilai_likuidasi_fisik_eks}.toString().equals("0") ? "-" : new java.text.DecimalFormat("Rp #,###").format($F{nilai_likuidasi_fisik_eks})) : ($F{nilai_likuidasi_fisik}.toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($F{nilai_likuidasi_fisik}))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement uuid="6f2ad3cf-943f-421c-aab7-6a13b1391830" positionType="Float" isPrintRepeatedValues="false" mode="Transparent" x="203" y="20" width="100" height="20" isRemoveLineWhenBlank="true" forecolor="#000000" backcolor="#FFFFFF">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{luas_bangunan_doc}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="false">
+				<reportElement uuid="5500bcbc-a54a-4700-ad42-d43802cfac11" positionType="Float" isPrintRepeatedValues="false" mode="Transparent" x="303" y="20" width="125" height="20" isRemoveLineWhenBlank="true" forecolor="#000000" backcolor="#FFFFFF">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datatype}.equalsIgnoreCase("Eksternal")? ($F{bangunan_nilai_pasar_doc_eks}.toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($F{bangunan_nilai_pasar_doc_eks})) : ($F{bangunan_nilai_pasar_doc}.toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($F{bangunan_nilai_pasar_doc}))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="false">
+				<reportElement uuid="355bac1d-c273-4cc5-9dfd-5ccde7429541" positionType="Float" isPrintRepeatedValues="false" mode="Transparent" x="428" y="20" width="125" height="20" isRemoveLineWhenBlank="true" forecolor="#000000" backcolor="#FFFFFF">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datatype}.equalsIgnoreCase("Eksternal") ? ($F{bangunan_nilai_likuidasi_doc_eks}.toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($F{bangunan_nilai_likuidasi_doc_eks})) : ($F{bangunan_nilai_likuidasi_doc}.toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($F{bangunan_nilai_likuidasi_doc}))]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="0d4a800f-ad10-4b45-90d7-ab28766b5b8e" positionType="Float" isPrintRepeatedValues="false" mode="Transparent" x="0" y="20" width="203" height="20" isRemoveLineWhenBlank="true" forecolor="#000000" backcolor="#FFFFFF">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Bangunan Sesuai Dokumen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="dc2c5c67-23c3-4987-9266-439634bede19" positionType="Float" isPrintRepeatedValues="false" mode="Transparent" x="0" y="40" width="203" height="20" isRemoveLineWhenBlank="true" forecolor="#000000" backcolor="#FFFFFF">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Bangunan Sesuai Fisik]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9c735a13-093e-4317-a85e-afb7bcd8687d" positionType="Float" isPrintRepeatedValues="false" x="303" y="40" width="125" height="20" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fdbe2e6c-4e92-4a54-bdc3-203de9a49834" positionType="Float" isPrintRepeatedValues="false" x="428" y="40" width="125" height="20" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="false">
+				<reportElement uuid="48352d39-6a09-4ab1-a88b-872b4c7b7923" positionType="Float" isPrintRepeatedValues="false" mode="Transparent" x="553" y="40" width="125" height="20" isRemoveLineWhenBlank="true" forecolor="#000000" backcolor="#FFFFFF">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datatype}.equalsIgnoreCase("Eksternal") ? ($F{bangunan_nilai_pasar_fisik_eks}.toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($F{bangunan_nilai_pasar_fisik_eks})) : ($F{bangunan_nilai_pasar_fisik}.toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($F{bangunan_nilai_pasar_fisik}))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="false">
+				<reportElement uuid="5036f52d-d13c-4e8c-b8f0-52f1f51e9d44" positionType="Float" isPrintRepeatedValues="false" mode="Transparent" x="678" y="40" width="125" height="20" isRemoveLineWhenBlank="true" forecolor="#000000" backcolor="#FFFFFF">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datatype}.equalsIgnoreCase("Eksternal") ? ($F{bangunan_nilai_likuidasi_fisik_eks}.toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($F{bangunan_nilai_likuidasi_fisik_eks})) : ($F{bangunan_nilai_likuidasi_fisik}.toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($F{bangunan_nilai_likuidasi_fisik}))]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="ec62d8df-60e3-4c21-981f-011bb6501975" positionType="Float" isPrintRepeatedValues="false" x="553" y="20" width="125" height="20" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ac57aa1f-5a1b-4d96-b080-af2858c64895" positionType="Float" isPrintRepeatedValues="false" x="678" y="20" width="125" height="20" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement uuid="e3c117d1-b6f4-4da5-b000-2998a99fc7f8" positionType="Float" isPrintRepeatedValues="false" mode="Transparent" x="203" y="40" width="100" height="20" isRemoveLineWhenBlank="true" forecolor="#000000" backcolor="#FFFFFF">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{luas_bangunan_fisik}.toString()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="40">
+			<staticText>
+				<reportElement uuid="9c1dde02-1d88-41fa-a9c4-e3177f6901dc" x="0" y="0" width="100" height="20"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Disclaimer :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3f875e58-a552-493d-b3d1-58012184683f" x="0" y="20" width="802" height="20"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Lampiran ini diterbitkan bukan untuk tujuan penilaian melainkan hanya untuk tujuan penginputan Nilai jaminan di ILOAN/T24 terkait pelaporan.]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="228267bd-cac1-4677-8d71-b537abc11ce5" mode="Transparent" x="0" y="0" width="303" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Jumlah Keseluruhan]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement uuid="6368e180-e611-4f47-ad05-a86bc45fc955" x="303" y="0" width="125" height="20"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datatype}.equalsIgnoreCase("Eksternal") ? ($V{total_nilai_pasar_doc_eks}.add($F{bangunan_nilai_pasar_doc_eks}).toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($V{total_nilai_pasar_doc_eks}.add($F{bangunan_nilai_pasar_doc_eks}))) : ($V{total_nilai_pasar_doc}.add($F{bangunan_nilai_pasar_doc}).toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($V{total_nilai_pasar_doc}.add($F{bangunan_nilai_pasar_doc})))]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="false">
+				<reportElement uuid="64c28ae5-b331-41c8-b431-5f2fd4b29f69" mode="Transparent" x="428" y="0" width="125" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datatype}.equalsIgnoreCase("Eksternal")? ($V{total_nilai_likuidasi_doc_eks}.add($F{bangunan_nilai_likuidasi_doc_eks}).toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($V{total_nilai_likuidasi_doc_eks}.add($F{bangunan_nilai_likuidasi_doc_eks}))) : ($V{total_nilai_likuidasi_doc}.add($F{bangunan_nilai_likuidasi_doc}).toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($V{total_nilai_likuidasi_doc}.add($F{bangunan_nilai_likuidasi_doc})))]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement uuid="5ae730bb-d068-4ac9-8b38-e994913368b9" mode="Transparent" x="553" y="0" width="125" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datatype}.equalsIgnoreCase("Eksternal") ? ($V{total_nilai_pasar_fisik_eks}.add($F{bangunan_nilai_pasar_fisik_eks}).toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($V{total_nilai_pasar_fisik_eks}.add($F{bangunan_nilai_pasar_fisik_eks}))) : ($V{total_nilai_pasar_fisik}.add($F{bangunan_nilai_pasar_fisik}).toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($V{total_nilai_pasar_fisik}.add($F{bangunan_nilai_pasar_fisik})))]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement uuid="92c3955d-8116-4028-9a35-9ab92169fe69" mode="Transparent" x="678" y="0" width="125" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datatype}.equalsIgnoreCase("Eksternal")? ($V{total_nilai_likuidasi_fisik_eks}.add($F{bangunan_nilai_likuidasi_fisik}).toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($V{total_nilai_likuidasi_fisik_eks}.add($F{bangunan_nilai_likuidasi_fisik_eks}))) : ($V{total_nilai_likuidasi_fisik}.add($F{bangunan_nilai_likuidasi_fisik}).toString().equals("0.00") ? "-" : new java.text.DecimalFormat("Rp #,###").format($V{total_nilai_likuidasi_fisik}.add($F{bangunan_nilai_likuidasi_fisik})))]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptUser" pageWidth="1185" pageHeight="595" orientation="Landscape" columnWidth="1185" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="1e386963-d46a-48de-b136-44e860e42435">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.columns" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<queryString>
+		<![CDATA[select a.user_id ,
+a.nama,
+a.departement,
+a.status,
+a.role,
+a.limit,
+a.creation_date,
+a.last_login,
+a.access_time,
+a.system_name
+from vw_users2 a]]>
+	</queryString>
+	<field name="user_id" class="java.lang.String"/>
+	<field name="nama" class="java.lang.String"/>
+	<field name="departement" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="role" class="java.lang.String"/>
+	<field name="creation_date" class="java.lang.String"/>
+	<field name="last_login" class="java.lang.String"/>
+	<field name="access_time" class="java.lang.String"/>
+	<field name="system_name" class="java.lang.String"/>
+	<field name="limit" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="0631914d-3740-4a94-afe7-e3348b826eb8" mode="Opaque" x="0" y="0" width="79" height="30" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Nama User ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6a61a04b-db15-4ba2-803e-edaad8fc8d64" mode="Opaque" x="79" y="0" width="133" height="30" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Nama Pemilik User ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="857be67c-147a-4bbf-99ac-2eb07a5a3d59" mode="Opaque" x="212" y="0" width="131" height="30" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Nama Departemen/Unit ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9d6e4aed-da2d-4d44-9caf-1505d6f7b8f2" mode="Opaque" x="343" y="0" width="56" height="30" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Status ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8a879f4c-1209-4777-a2db-fe3402ae2716" mode="Opaque" x="399" y="0" width="186" height="30" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Group Role Menu]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1017021d-a579-454f-9b7a-40af3b818059" mode="Opaque" x="725" y="0" width="115" height="30" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Creation Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="133551b1-2545-4d97-9300-ac38b0be765b" mode="Opaque" x="840" y="0" width="115" height="30" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Last Login]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a103deeb-cd94-4ef9-9536-48dd544fb4f6" mode="Opaque" x="955" y="0" width="115" height="30" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Access Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9aa0920a-1e31-41a0-bb17-1613de0cc950" mode="Opaque" x="1070" y="0" width="115" height="30" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[System Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8e43f226-c902-47cb-91dc-d969a3d9f3cf" mode="Opaque" x="585" y="0" width="140" height="30" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Limit]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="d96e0713-2102-40d0-ae95-b564dd8cb849" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="79" height="20"/>
+				<box bottomPadding="4"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{user_id}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="f9f9b5c8-4767-4f11-9081-541f3af0d706" positionType="Float" stretchType="RelativeToTallestObject" x="79" y="0" width="133" height="20"/>
+				<box bottomPadding="4"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="52773abc-881b-44b8-bf5b-2836f2cfc387" positionType="Float" stretchType="RelativeToTallestObject" x="212" y="0" width="131" height="20"/>
+				<box bottomPadding="4"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{departement}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="855b6e73-2096-4041-9cef-11af2ee558d5" positionType="Float" stretchType="RelativeToTallestObject" x="343" y="0" width="56" height="20"/>
+				<box bottomPadding="4"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="f01a3510-3d1d-48be-938f-fbd3da4c0738" positionType="Float" stretchType="RelativeToTallestObject" x="399" y="0" width="186" height="20"/>
+				<box bottomPadding="4"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{role}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy HH:mm:ss" isBlankWhenNull="true">
+				<reportElement uuid="8abe581e-4072-4c21-9aee-d8c756de4823" positionType="Float" stretchType="RelativeToTallestObject" x="725" y="0" width="115" height="20"/>
+				<box bottomPadding="4"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{creation_date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy HH:mm:ss" isBlankWhenNull="true">
+				<reportElement uuid="86108363-325d-4c04-a14e-b3bf60dd6503" positionType="Float" stretchType="RelativeToTallestObject" x="840" y="0" width="115" height="20"/>
+				<box bottomPadding="4"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{last_login}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy HH:mm:ss" isBlankWhenNull="true">
+				<reportElement uuid="6ea3d098-68ae-47d6-bc76-42d9a178e4be" positionType="Float" stretchType="RelativeToTallestObject" x="955" y="0" width="115" height="20"/>
+				<box bottomPadding="4"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{access_time}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy HH:mm:ss" isBlankWhenNull="true">
+				<reportElement uuid="ac45e6ff-0c1a-48d4-b57d-0b6d7af9a6c9" positionType="Float" stretchType="RelativeToTallestObject" x="1070" y="0" width="115" height="20"/>
+				<box bottomPadding="4"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{system_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="f9585826-6e17-4ef0-b822-e4959e47bf6e" positionType="Float" stretchType="RelativeToTallestObject" x="585" y="0" width="140" height="20"/>
+				<box bottomPadding="4"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{limit}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

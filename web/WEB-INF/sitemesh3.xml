@@ -1,0 +1,19 @@
+<sitemesh>
+
+    <!-- Exclude path from decoration. -->
+    <mapping path="/login*" exclue="true"/>
+    <mapping path="/ajax*" exclue="true"/>
+    <mapping path="/asssets/*" exclue="true"/>
+    <!-- exclude kareana di pakai di I-FRAME -->
+    <mapping path="/master/zip-code/lookup*" exclue="true"/>
+    <mapping path="/data-umum/reappraise" exclue="true"/>
+    <mapping path="/iloan/lookup*" exclue="true"/>
+    <mapping path="/data-detail/add*" exclue="true"/>
+    <mapping path="/data-attactment/list*" exclue="true"/>
+    <mapping path="/data-attactment/add*" exclue="true"/>
+
+    <!-- default decorator -->
+    <mapping path="/*" decorator="/WEB-INF/jsp/template/template.jsp"/>
+    <mapping path="no" decorator=""/>
+
+</sitemesh>

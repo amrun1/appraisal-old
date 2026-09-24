@@ -1,0 +1,801 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptRwa" pageWidth="3260" pageHeight="612" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="3260" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+	<subDataset name="user">
+		<parameter name="pUserId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select a.nama
+from person a
+where a.user_id = $P{pUserId}]]>
+		</queryString>
+		<field name="nama" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="pCloseDate" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pSubmitDate" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+    prog.head_id,
+    prog.id_rwa,
+    prog.DOWN_DATE,
+    prog.ACCOUNT_NO,
+    prog.CIF_JHA AS CUST_NO,
+    prog.NAME,
+    prog.PLAFOND,
+    prog.OUTSTANDING,
+    prog.MATUR_DATE,
+    prog.COLLATERAL_ID,
+    prog.group_val,
+    CASE
+        WHEN prog.APR_EXT_DATE IS NOT NULL
+        THEN 'EXTERNAL'
+        WHEN prog.APR_INT_DATE IS NOT NULL
+        THEN 'INTERNAL'
+    END AS VAL_TYPE,prog.APR_EXT_DATE,prog.APR_INT_DATE,
+    CASE
+        WHEN prog.APR_EXT_DATE IS NOT NULL
+        THEN prog.APR_EXT_DATE
+        ELSE prog.APR_INT_DATE
+    END AS VAL_DATE,
+    CASE
+        WHEN prog.EXT_VAL_CODE IS NOT NULL
+        THEN prog.EXT_VAL_CODE
+        ELSE prog.INT_VAL_CODE
+    END AS VAL_NAME,
+    CASE
+        WHEN prog.EXT_LAND_APR_DOC IS NOT NULL
+        THEN prog.EXT_LAND_APR_DOC
+        ELSE prog.INT_LAND_APR_DOC
+    END AS LAND_DOC,
+    CASE
+        WHEN prog.EXT_BLD_APR_DOC IS NOT NULL
+        THEN prog.EXT_BLD_APR_DOC
+        ELSE prog.INT_BLD_APR_DOC
+    END AS BLD_DOC,
+    CASE
+        WHEN prog.EXT_TOT_DOC IS NOT NULL
+        THEN prog.EXT_TOT_DOC
+        ELSE prog.INT_TOT_DOC
+    END AS TOT_DOC,
+    CASE
+        WHEN prog.EXT_LAND_APR_FISIK IS NOT NULL
+        THEN prog.EXT_LAND_APR_FISIK
+        ELSE prog.INT_LAND_APR_FISIK
+    END AS LAND_FISIK,
+    CASE
+        WHEN prog.EXT_BLD_APR_FISIK IS NOT NULL
+        THEN prog.EXT_BLD_APR_FISIK
+        ELSE prog.INT_BLD_APR_FISIK
+    END AS BLD_FISIK,
+    CASE
+        WHEN prog.EXT_TOT_FISIK IS NOT NULL
+        THEN prog.EXT_TOT_FISIK
+        ELSE prog.INT_TOT_FISIK
+    END AS TOT_FISIK,
+    umum.value_date,
+    umum.value_by,
+    case when tnh.nilai_doc_1_eks is not null then tnh.nilai_doc_1_eks else tnh.nilai_dokumen_1 end NILTNHDOK,
+    case when tnh.nilai_doc_2_eks is not null then tnh.nilai_doc_2_eks else tnh.nilai_dokumen_2 end NILBGNDOK,
+    case when tnh.total_doc_eks is not null then tnh.total_doc_eks else tnh.total_sesuai_doc end TOTNILDOK,
+    case when tnh.nilai_fisik_1_eks is not null then tnh.nilai_fisik_1_eks else tnh.nilai_fisik_1 end NILTNHFISIK,
+    case when tnh.nilai_fisik_2_eks is not null then tnh.nilai_fisik_2_eks else tnh.nilai_fisik_2 end NILBGNFISIK,
+    case when tnh.total_fisik_eks is not null then tnh.total_fisik_eks else tnh.total_sesuai_fisik end TOTNILFISIK,
+    prog.status_data,
+    prog.status_data STATUS,
+    prog.id, prog.id_data_umum, umum.id id_umum, lpa.id, tnh.id
+FROM data_umum umum
+    inner join iloan_progres prog on prog.id_data_umum=umum.id
+    left join lpa_umum lpa on lpa.id_data_umum=umum.id
+    left join public.lpa_tanah_bangunan tnh on tnh.id_lpa_umum = lpa.id
+where umum.closed_date between $P{pSubmitDate} and $P{pCloseDate}
+order by prog.id]]>
+	</queryString>
+	<field name="head_id" class="java.lang.Long"/>
+	<field name="id_rwa" class="java.lang.Long"/>
+	<field name="down_date" class="java.sql.Timestamp"/>
+	<field name="account_no" class="java.lang.String"/>
+	<field name="cust_no" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="plafond" class="java.math.BigDecimal"/>
+	<field name="outstanding" class="java.math.BigDecimal"/>
+	<field name="matur_date" class="java.sql.Timestamp"/>
+	<field name="collateral_id" class="java.lang.String"/>
+	<field name="group_val" class="java.lang.String"/>
+	<field name="val_type" class="java.lang.String"/>
+	<field name="apr_ext_date" class="java.sql.Timestamp"/>
+	<field name="apr_int_date" class="java.sql.Timestamp"/>
+	<field name="val_date" class="java.sql.Timestamp"/>
+	<field name="val_name" class="java.lang.String"/>
+	<field name="land_doc" class="java.math.BigDecimal"/>
+	<field name="bld_doc" class="java.math.BigDecimal"/>
+	<field name="tot_doc" class="java.math.BigDecimal"/>
+	<field name="land_fisik" class="java.math.BigDecimal"/>
+	<field name="bld_fisik" class="java.math.BigDecimal"/>
+	<field name="tot_fisik" class="java.math.BigDecimal"/>
+	<field name="value_date" class="java.sql.Timestamp"/>
+	<field name="value_by" class="java.lang.String"/>
+	<field name="niltnhdok" class="java.math.BigDecimal"/>
+	<field name="nilbgndok" class="java.math.BigDecimal"/>
+	<field name="totnildok" class="java.math.BigDecimal"/>
+	<field name="niltnhfisik" class="java.math.BigDecimal"/>
+	<field name="nilbgnfisik" class="java.math.BigDecimal"/>
+	<field name="totnilfisik" class="java.math.BigDecimal"/>
+	<field name="status_data" class="java.lang.Integer"/>
+	<field name="status" class="java.lang.Integer"/>
+	<field name="id" class="java.lang.Long"/>
+	<field name="id_data_umum" class="java.lang.Long"/>
+	<field name="id_umum" class="java.lang.Long"/>
+	<variable name="vDiff" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{tot_fisik}.equals( new BigDecimal("0.00") ) ? new BigDecimal("0") : ((($F{totnilfisik} !=null ? $F{totnilfisik}:new BigDecimal("0") ).subtract(($F{tot_fisik}!=null ? $F{tot_fisik}:new BigDecimal("0")))).multiply(new BigDecimal("100")).divide(($F{tot_fisik}!=null ? $F{tot_fisik}:new BigDecimal("0")), 0, RoundingMode.HALF_UP))]]></variableExpression>
+	</variable>
+	<title>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="20" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="20" y="0" width="79" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DDATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="99" y="0" width="108" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACT NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="207" y="0" width="69" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUST NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="276" y="0" width="132" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUST NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="408" y="0" width="100" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PLAFON]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="508" y="0" width="100" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OUTS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="608" y="0" width="79" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LNMAT DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="687" y="0" width="130" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[COLL ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="817" y="0" width="130" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[GJOINT VAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="947" y="0" width="79" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[VAL TYPE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1026" y="0" width="102" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OLD VAL DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1128" y="0" width="130" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OLD VALUER NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1258" y="0" width="130" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OLD LAND VAL DOC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1388" y="0" width="130" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OLD BUILD DOC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1518" y="0" width="130" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OLD LAND BUILD DOC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1648" y="0" width="130" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OLD LAND VAL PHYS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1778" y="0" width="130" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OLD BUILD PHYS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1908" y="0" width="130" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OLD LAND BUILD PHYS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="2038" y="0" width="122" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW VAL DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="2550" y="0" width="130" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW LAND BUILD DOC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="2810" y="0" width="130" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW BUILD PHYS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="2420" y="0" width="130" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW BUILD DOC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="2680" y="0" width="130" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW LAND VAL PHYS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="2940" y="0" width="130" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW LAND BUILD PHYS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="2160" y="0" width="130" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW VALUER NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="2290" y="0" width="130" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW LAND VAL DOC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="3070" y="0" width="84" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[% DIFF VALUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="3154" y="0" width="106" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[UPDATE STATUS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="20" y="0" width="79" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{down_date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="99" y="0" width="108" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{account_no}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="207" y="0" width="69" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cust_no}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="276" y="0" width="132" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="408" y="0" width="100" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{plafond}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="508" y="0" width="100" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{outstanding}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="608" y="0" width="79" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{matur_date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="687" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{collateral_id}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="817" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{group_val}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="947" y="0" width="79" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{val_type}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1026" y="0" width="102" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{val_date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1258" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{land_doc} !=null ? $F{land_doc}:new BigDecimal("0.00")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1388" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{bld_doc} !=null ? $F{bld_doc}:new BigDecimal("0.00")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1518" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{tot_doc} !=null ? $F{tot_doc} :new BigDecimal("0.00")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1648" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{land_fisik} !=null ? $F{land_fisik} :new BigDecimal("0.00")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1778" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{bld_fisik} !=null ? $F{bld_fisik}:new BigDecimal("0.00")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1908" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{tot_fisik} !=null ? $F{tot_fisik} :new BigDecimal("0.00")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="2038" y="0" width="122" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{val_date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1128" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{val_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="2290" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{head_id}!=null?new BigDecimal("1"):($F{niltnhdok} !=null ? $F{niltnhdok}:new BigDecimal("0.00") )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="2420" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{head_id}!=null?new BigDecimal("1"):($F{nilbgndok} !=null ? $F{nilbgndok}:new BigDecimal("0.00") )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="2550" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{head_id}!=null?new BigDecimal("1"):($F{totnildok} !=null ? $F{totnildok}:new BigDecimal("0.00") )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="2680" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{head_id}!=null?new BigDecimal("1"):($F{niltnhfisik} !=null ? $F{niltnhfisik} :new BigDecimal("0.00") )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="2810" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{head_id}!=null?new BigDecimal("1"):($F{nilbgnfisik} !=null ? $F{nilbgnfisik}:new BigDecimal("0.00") )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="2940" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{head_id}!=null?new BigDecimal("1"):($F{totnilfisik} !=null ? $F{totnilfisik}:new BigDecimal("0.00") )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="3154" y="0" width="106" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{status_data}.equals( 2 )? "SUCCES":($F{status_data}.equals( 3 )?"FAIL":($F{status_data}.equals( 4 )?"MANUAL":"-"))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="3070" y="0" width="84" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{vDiff} != null  ? (!$V{vDiff}.toString().equals("0")? $V{vDiff}.toString()+"%":"-"):"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="-1" y="0" width="21" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="2160" y="0" width="130" height="15" isPrintWhenDetailOverflows="true"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical" ignoreWidth="true">
+					<datasetRun subDataset="user">
+						<datasetParameter name="pUserId">
+							<datasetParameterExpression><![CDATA[$F{value_by}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="15" width="130">
+						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="0" width="130" height="15"/>
+							<box>
+								<leftPen lineWidth="0.0"/>
+								<bottomPen lineWidth="0.0"/>
+							</box>
+							<textElement verticalAlignment="Top">
+								<font size="10"/>
+							</textElement>
+							<textFieldExpression class="java.lang.String"><![CDATA[$F{nama}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

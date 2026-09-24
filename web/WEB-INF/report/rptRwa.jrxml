@@ -1,0 +1,801 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptRwa" pageWidth="3260" pageHeight="612" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="3260" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="61bfb464-5880-4448-bf39-052a956218bd">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+	<subDataset name="user" uuid="8833413e-4cf3-41f0-89bf-7e525e9c2d28">
+		<parameter name="pUserId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select a.nama
+from person a
+where a.user_id = $P{pUserId}]]>
+		</queryString>
+		<field name="nama" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="pCloseDate" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pSubmitDate" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+    prog.head_id,
+    prog.id_rwa,
+    prog.DOWN_DATE,
+    prog.ACCOUNT_NO,
+    prog.CIF_JHA AS CUST_NO,
+    prog.NAME,
+    prog.PLAFOND,
+    prog.OUTSTANDING,
+    prog.MATUR_DATE,
+    prog.COLLATERAL_ID,
+    prog.group_val,
+    CASE
+        WHEN prog.APR_EXT_DATE IS NOT NULL
+        THEN 'EXTERNAL'
+        WHEN prog.APR_INT_DATE IS NOT NULL
+        THEN 'INTERNAL'
+    END AS VAL_TYPE,prog.APR_EXT_DATE,prog.APR_INT_DATE,
+    CASE
+        WHEN prog.APR_EXT_DATE IS NOT NULL
+        THEN prog.APR_EXT_DATE
+        ELSE prog.APR_INT_DATE
+    END AS VAL_DATE,
+    CASE
+        WHEN prog.EXT_VAL_CODE IS NOT NULL
+        THEN prog.EXT_VAL_CODE
+        ELSE prog.INT_VAL_CODE
+    END AS VAL_NAME,
+    CASE
+        WHEN prog.EXT_LAND_APR_DOC IS NOT NULL
+        THEN prog.EXT_LAND_APR_DOC
+        ELSE prog.INT_LAND_APR_DOC
+    END AS LAND_DOC,
+    CASE
+        WHEN prog.EXT_BLD_APR_DOC IS NOT NULL
+        THEN prog.EXT_BLD_APR_DOC
+        ELSE prog.INT_BLD_APR_DOC
+    END AS BLD_DOC,
+    CASE
+        WHEN prog.EXT_TOT_DOC IS NOT NULL
+        THEN prog.EXT_TOT_DOC
+        ELSE prog.INT_TOT_DOC
+    END AS TOT_DOC,
+    CASE
+        WHEN prog.EXT_LAND_APR_FISIK IS NOT NULL
+        THEN prog.EXT_LAND_APR_FISIK
+        ELSE prog.INT_LAND_APR_FISIK
+    END AS LAND_FISIK,
+    CASE
+        WHEN prog.EXT_BLD_APR_FISIK IS NOT NULL
+        THEN prog.EXT_BLD_APR_FISIK
+        ELSE prog.INT_BLD_APR_FISIK
+    END AS BLD_FISIK,
+    CASE
+        WHEN prog.EXT_TOT_FISIK IS NOT NULL
+        THEN prog.EXT_TOT_FISIK
+        ELSE prog.INT_TOT_FISIK
+    END AS TOT_FISIK,
+    umum.value_date,
+    umum.value_by,
+    case when tnh.nilai_doc_1_eks is not null then tnh.nilai_doc_1_eks else tnh.nilai_dokumen_1 end NILTNHDOK,
+    case when tnh.nilai_doc_2_eks is not null then tnh.nilai_doc_2_eks else tnh.nilai_dokumen_2 end NILBGNDOK,
+    case when tnh.total_doc_eks is not null then tnh.total_doc_eks else tnh.total_sesuai_doc end TOTNILDOK,
+    case when tnh.nilai_fisik_1_eks is not null then tnh.nilai_fisik_1_eks else tnh.nilai_fisik_1 end NILTNHFISIK,
+    case when tnh.nilai_fisik_2_eks is not null then tnh.nilai_fisik_2_eks else tnh.nilai_fisik_2 end NILBGNFISIK,
+    case when tnh.total_fisik_eks is not null then tnh.total_fisik_eks else tnh.total_sesuai_fisik end TOTNILFISIK,
+    prog.status_data,
+    prog.status_data STATUS,
+    prog.id, prog.id_data_umum, umum.id id_umum, lpa.id, tnh.id
+FROM data_umum umum
+    inner join iloan_progres prog on prog.id_data_umum=umum.id
+    left join lpa_umum lpa on lpa.id_data_umum=umum.id
+    left join public.lpa_tanah_bangunan tnh on tnh.id_lpa_umum = lpa.id
+where umum.closed_date between $P{pSubmitDate} and $P{pCloseDate}
+order by prog.id]]>
+	</queryString>
+	<field name="head_id" class="java.lang.Long"/>
+	<field name="id_rwa" class="java.lang.Long"/>
+	<field name="down_date" class="java.sql.Timestamp"/>
+	<field name="account_no" class="java.lang.String"/>
+	<field name="cust_no" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="plafond" class="java.math.BigDecimal"/>
+	<field name="outstanding" class="java.math.BigDecimal"/>
+	<field name="matur_date" class="java.sql.Timestamp"/>
+	<field name="collateral_id" class="java.lang.String"/>
+	<field name="group_val" class="java.lang.String"/>
+	<field name="val_type" class="java.lang.String"/>
+	<field name="apr_ext_date" class="java.sql.Timestamp"/>
+	<field name="apr_int_date" class="java.sql.Timestamp"/>
+	<field name="val_date" class="java.sql.Timestamp"/>
+	<field name="val_name" class="java.lang.String"/>
+	<field name="land_doc" class="java.math.BigDecimal"/>
+	<field name="bld_doc" class="java.math.BigDecimal"/>
+	<field name="tot_doc" class="java.math.BigDecimal"/>
+	<field name="land_fisik" class="java.math.BigDecimal"/>
+	<field name="bld_fisik" class="java.math.BigDecimal"/>
+	<field name="tot_fisik" class="java.math.BigDecimal"/>
+	<field name="value_date" class="java.sql.Timestamp"/>
+	<field name="value_by" class="java.lang.String"/>
+	<field name="niltnhdok" class="java.math.BigDecimal"/>
+	<field name="nilbgndok" class="java.math.BigDecimal"/>
+	<field name="totnildok" class="java.math.BigDecimal"/>
+	<field name="niltnhfisik" class="java.math.BigDecimal"/>
+	<field name="nilbgnfisik" class="java.math.BigDecimal"/>
+	<field name="totnilfisik" class="java.math.BigDecimal"/>
+	<field name="status_data" class="java.lang.Integer"/>
+	<field name="status" class="java.lang.Integer"/>
+	<field name="id" class="java.lang.Long"/>
+	<field name="id_data_umum" class="java.lang.Long"/>
+	<field name="id_umum" class="java.lang.Long"/>
+	<variable name="vDiff" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{tot_fisik}.equals( new BigDecimal("0.00") ) ? new BigDecimal("0") : ((($F{totnilfisik} !=null ? $F{totnilfisik}:new BigDecimal("0") ).subtract(($F{tot_fisik}!=null ? $F{tot_fisik}:new BigDecimal("0")))).multiply(new BigDecimal("100")).divide(($F{tot_fisik}!=null ? $F{tot_fisik}:new BigDecimal("0")), 0, RoundingMode.HALF_UP))]]></variableExpression>
+	</variable>
+	<title>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="1143a5d5-70dd-43bc-9658-056473f2b909" mode="Opaque" x="0" y="0" width="20" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e82c7945-8609-454e-bdfa-fb42284e0f5c" mode="Opaque" x="20" y="0" width="79" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DDATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="72124411-bc3a-47b2-baa1-810f7810ceb9" mode="Opaque" x="99" y="0" width="108" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACT NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="38026ec8-cea6-449a-b018-4e214e172e25" mode="Opaque" x="207" y="0" width="69" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUST NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="62619502-43fd-4d3e-8128-abd21b310f78" mode="Opaque" x="276" y="0" width="132" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUST NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e8860549-f5b6-4aef-8efa-ea1b89893559" mode="Opaque" x="408" y="0" width="100" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PLAFON]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6c86e93e-f52d-45f6-8a50-68228136e6c0" mode="Opaque" x="508" y="0" width="100" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OUTS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f448abfe-0d5c-488d-b3d1-1e87a7c41f0c" mode="Opaque" x="608" y="0" width="79" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LNMAT DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fd396084-bddc-410e-ba77-59c830a8e6bc" mode="Opaque" x="687" y="0" width="130" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[COLL ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e7545be1-54fe-4bf0-8228-5e29dc120de4" mode="Opaque" x="817" y="0" width="130" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[GJOINT VAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="26fd5338-fe95-4b10-ae4a-6214c480eea3" mode="Opaque" x="947" y="0" width="79" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[VAL TYPE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a57aef87-5882-4dd2-bf80-f6ea25cbd0c3" mode="Opaque" x="1026" y="0" width="102" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OLD VAL DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4876b66e-37da-4d6d-8f00-a6cf2075dc3c" mode="Opaque" x="1128" y="0" width="130" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OLD VALUER NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="11b7e683-a417-47ae-8419-18c517184559" mode="Opaque" x="1258" y="0" width="130" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OLD LAND VAL DOC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f7632262-25fb-4bb5-b29a-7aa34c1d4005" mode="Opaque" x="1388" y="0" width="130" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OLD BUILD DOC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7c3d2d84-ca16-4f1e-9f7c-7567d7b60cb7" mode="Opaque" x="1518" y="0" width="130" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OLD LAND BUILD DOC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="73764b07-d56a-46c8-b5e7-1383e63f7518" mode="Opaque" x="1648" y="0" width="130" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OLD LAND VAL PHYS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="17ed7247-00b2-45ef-b0a7-f1b9b11c7cbb" mode="Opaque" x="1778" y="0" width="130" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OLD BUILD PHYS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="db407c30-208a-4914-aeab-1f3afbd0aa4a" mode="Opaque" x="1908" y="0" width="130" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OLD LAND BUILD PHYS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2207461d-6890-4b5a-9b6f-f2bde57dff84" mode="Opaque" x="2038" y="0" width="122" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW VAL DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="92ce157b-4ec2-4315-8a54-3a67c8804244" mode="Opaque" x="2550" y="0" width="130" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW LAND BUILD DOC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="176c6b05-f0c9-4c6d-bfd6-f5d86f6a0137" mode="Opaque" x="2810" y="0" width="130" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW BUILD PHYS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="248d54ac-d925-4b25-9b31-bf84eac1a4b1" mode="Opaque" x="2420" y="0" width="130" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW BUILD DOC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1f361c4f-b63e-4fba-ba8c-d94f964e6df8" mode="Opaque" x="2680" y="0" width="130" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW LAND VAL PHYS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b69be934-a9b5-45de-b5b6-5fac093a0bb1" mode="Opaque" x="2940" y="0" width="130" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW LAND BUILD PHYS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="28c3bd0e-6a7e-42f7-ba87-11292b9b5fd1" mode="Opaque" x="2160" y="0" width="130" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW VALUER NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="868fc7c1-abd3-4702-bc06-5aa114e30a7b" mode="Opaque" x="2290" y="0" width="130" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW LAND VAL DOC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="162115f8-9bbb-4575-9312-c9b715872068" mode="Opaque" x="3070" y="0" width="84" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[% DIFF VALUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fde1df20-c63c-4744-bc50-d9fd535d1e6a" mode="Opaque" x="3154" y="0" width="106" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[UPDATE STATUS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement uuid="3f9d47aa-b736-4f46-9804-6d51255b1683" stretchType="RelativeToTallestObject" x="20" y="0" width="79" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{down_date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="1758f936-7c57-4a41-ac35-914d708f3c2e" stretchType="RelativeToTallestObject" x="99" y="0" width="108" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{account_no}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="3a57653c-2f8f-4057-9f7d-687fc570f1a4" stretchType="RelativeToTallestObject" x="207" y="0" width="69" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{cust_no}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="9f76667f-1c3d-411c-b381-721e2a3ca657" stretchType="RelativeToTallestObject" x="276" y="0" width="132" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="8b466c5e-d9a8-4084-9f8f-667c3449000e" stretchType="RelativeToTallestObject" x="408" y="0" width="100" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{plafond}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="a2226051-ed01-48e4-a75e-ab07e2c0028d" stretchType="RelativeToTallestObject" x="508" y="0" width="100" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{outstanding}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement uuid="c1670a61-abec-4a00-83a2-0659fc102fd3" stretchType="RelativeToTallestObject" x="608" y="0" width="79" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{matur_date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="61585466-9d90-45c6-ad43-865fd2749b2d" stretchType="RelativeToTallestObject" x="687" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{collateral_id}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="af967962-8fb4-4cd2-843c-c739e2213069" stretchType="RelativeToTallestObject" x="817" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{group_val}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="4a4cc5c6-9fa2-4815-a557-483edcc4e2d5" stretchType="RelativeToTallestObject" x="947" y="0" width="79" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{val_type}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement uuid="a3a67769-582d-44f8-aece-af078b838d3b" stretchType="RelativeToTallestObject" x="1026" y="0" width="102" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{val_date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="ebe5deef-bb77-4587-80de-12692ccf4b71" stretchType="RelativeToTallestObject" x="1258" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{land_doc} !=null ? $F{land_doc}:new BigDecimal("0.00")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="a78997f4-309e-4f9a-acd8-60c8a2f38f49" stretchType="RelativeToTallestObject" x="1388" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{bld_doc} !=null ? $F{bld_doc}:new BigDecimal("0.00")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="75c508ba-b2ce-4a47-8ac6-b3debb39e6c3" stretchType="RelativeToTallestObject" x="1518" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{tot_doc} !=null ? $F{tot_doc} :new BigDecimal("0.00")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="5484630a-279f-4833-b778-eeee8511e56d" stretchType="RelativeToTallestObject" x="1648" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{land_fisik} !=null ? $F{land_fisik} :new BigDecimal("0.00")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="ee566b99-563e-42da-90c0-1c3c879c23bb" stretchType="RelativeToTallestObject" x="1778" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{bld_fisik} !=null ? $F{bld_fisik}:new BigDecimal("0.00")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="bb315771-9ce7-4e0d-8cac-6dbef57e3bed" stretchType="RelativeToTallestObject" x="1908" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{tot_fisik} !=null ? $F{tot_fisik} :new BigDecimal("0.00")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement uuid="75ef2b61-9026-45de-b09d-b01526bbb2c8" stretchType="RelativeToTallestObject" x="2038" y="0" width="122" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{val_date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="04fbca73-846f-4928-97c1-76d23a409f7b" stretchType="RelativeToTallestObject" x="1128" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{val_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="a4378c4f-2195-49d5-94dc-8cde224ea0d1" stretchType="RelativeToTallestObject" x="2290" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{head_id}!=null?new BigDecimal("1"):($F{niltnhdok} !=null ? $F{niltnhdok}:new BigDecimal("0.00") )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="1f60f39a-6318-4075-88c1-03991b88e73f" stretchType="RelativeToTallestObject" x="2420" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{head_id}!=null?new BigDecimal("1"):($F{nilbgndok} !=null ? $F{nilbgndok}:new BigDecimal("0.00") )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="3830c6e9-f641-40f2-b3c0-198dbc80fcc8" stretchType="RelativeToTallestObject" x="2550" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{head_id}!=null?new BigDecimal("1"):($F{totnildok} !=null ? $F{totnildok}:new BigDecimal("0.00") )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="34f9abfd-61ae-42f2-8079-7fa27a63b19a" stretchType="RelativeToTallestObject" x="2680" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{head_id}!=null?new BigDecimal("1"):($F{niltnhfisik} !=null ? $F{niltnhfisik} :new BigDecimal("0.00") )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="3f56aadb-1abf-4478-b128-796572eb4d3e" stretchType="RelativeToTallestObject" x="2810" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{head_id}!=null?new BigDecimal("1"):($F{nilbgnfisik} !=null ? $F{nilbgnfisik}:new BigDecimal("0.00") )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="63f1cd78-d47f-4690-8ab8-b002d9ee2aa2" stretchType="RelativeToTallestObject" x="2940" y="0" width="130" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{head_id}!=null?new BigDecimal("1"):($F{totnilfisik} !=null ? $F{totnilfisik}:new BigDecimal("0.00") )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="5a7fbdd0-5673-43d8-97e7-b550bfca883c" stretchType="RelativeToTallestObject" x="3154" y="0" width="106" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{status_data}.equals( 2 )? "SUCCES":($F{status_data}.equals( 3 )?"FAIL":($F{status_data}.equals( 4 )?"MANUAL":"-"))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6eb182de-b94d-4e3c-aa49-91bc33b5e5c6" stretchType="RelativeToTallestObject" x="3070" y="0" width="84" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{vDiff} != null  ? (!$V{vDiff}.toString().equals("0")? $V{vDiff}.toString()+"%":"-"):"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="572a89ba-2fcc-4879-8a85-dd9a2ff6a062" stretchType="RelativeToTallestObject" x="-1" y="0" width="21" height="15"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement uuid="477f8029-cc3a-477e-a9cb-0bda737244ef" stretchType="RelativeToTallestObject" mode="Transparent" x="2160" y="0" width="130" height="15" isPrintWhenDetailOverflows="true"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical" ignoreWidth="true">
+					<datasetRun subDataset="user" uuid="98641596-dbce-42ab-8d50-a6064f35f673">
+						<datasetParameter name="pUserId">
+							<datasetParameterExpression><![CDATA[$F{value_by}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="15" width="130">
+						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<reportElement uuid="f08495b6-c2e5-48a7-a08e-a54676d24d07" stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="0" width="130" height="15"/>
+							<box>
+								<leftPen lineWidth="0.0"/>
+								<bottomPen lineWidth="0.0"/>
+							</box>
+							<textElement verticalAlignment="Top">
+								<font size="10"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

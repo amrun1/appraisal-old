@@ -1,0 +1,1170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptOrderDetail" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true">
+	<property name="ireport.zoom" value="1.3310000000000064"/>
+	<property name="ireport.x" value="18"/>
+	<property name="ireport.y" value="96"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<subDataset name="dataset1">
+		<parameter name="PIdDataDetail" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select b.nama,
+a.nama no_dokumen
+from data_attact a
+left join jenis_dokumen b on a.id_jenis_dokumen = b.id
+where a.id_data_detail = $P{PIdDataDetail}]]>
+		</queryString>
+		<field name="nama" class="java.lang.String"/>
+		<field name="no_dokumen" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="user">
+		<parameter name="pUserId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select distinct a.nama, a.phone, a.hp
+from person a
+where a.user_id = $P{pUserId}]]>
+		</queryString>
+		<field name="nama" class="java.lang.String"/>
+		<field name="phone" class="java.lang.String"/>
+		<field name="hp" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="PIdDataDetail" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[select b.no_order,
+c.nama status_nasabah,
+d.nama status_jaminan,
+b.kategori_appraisal || '-' || f.nama appraisal,
+b.catatan,
+b.nama,
+h.nama dari_cabang,
+b.nama_contact_person,
+b.telp_contact_person,
+e.nama jenis_objek_jaminan,
+regexp_replace(a.alamat, '\r\n', ' ', 'g') alamat,
+a.perumahan_apartment,
+a.cluster_tower,
+a.blok_lantai,
+a.nomor,
+a.rt,
+a.rw,
+a.kode_propinsi,
+a.kode_kota,
+a.kode_kecamatan,
+a.kode_kelurahan,
+a.kode_pos,
+b.created_by nama_marketing,
+b.created_date,
+b.admin_by nama_admin,
+b.admin_date,
+jb.nama nm_dok,
+da.nama no_dok
+from data_detail a
+left join data_umum b on a.id_data_umum = b.id
+left join status_nasabah c on c.id = b.status_nasabah_id
+left join status_jaminan d on d.id = b.status_jaminan_id
+left join jenis_aktiva e on e.id = a.id_jenis_aktiva
+left join jenis_appraisal f on f.id = b.jenis_appraisal_id
+left join appraisal_cabang g on g.id = b.appraisal_cabang_id
+left join cabang h on h.id = b.cabang_id
+inner join data_attact da on da.id_data_detail = a.id
+left join jenis_dokumen jb on da.id_jenis_dokumen = jb.id
+where a.id =$P{PIdDataDetail}]]>
+	</queryString>
+	<field name="no_order" class="java.lang.String"/>
+	<field name="status_nasabah" class="java.lang.String"/>
+	<field name="status_jaminan" class="java.lang.String"/>
+	<field name="appraisal" class="java.lang.String"/>
+	<field name="catatan" class="java.lang.String"/>
+	<field name="nama" class="java.lang.String"/>
+	<field name="dari_cabang" class="java.lang.String"/>
+	<field name="nama_contact_person" class="java.lang.String"/>
+	<field name="telp_contact_person" class="java.lang.String"/>
+	<field name="jenis_objek_jaminan" class="java.lang.String"/>
+	<field name="alamat" class="java.lang.String"/>
+	<field name="perumahan_apartment" class="java.lang.String"/>
+	<field name="cluster_tower" class="java.lang.String"/>
+	<field name="blok_lantai" class="java.lang.String"/>
+	<field name="nomor" class="java.lang.String"/>
+	<field name="rt" class="java.lang.String"/>
+	<field name="rw" class="java.lang.String"/>
+	<field name="kode_propinsi" class="java.lang.String"/>
+	<field name="kode_kota" class="java.lang.String"/>
+	<field name="kode_kecamatan" class="java.lang.String"/>
+	<field name="kode_kelurahan" class="java.lang.String"/>
+	<field name="kode_pos" class="java.lang.String"/>
+	<field name="nama_marketing" class="java.lang.String"/>
+	<field name="created_date" class="java.sql.Timestamp"/>
+	<field name="nama_admin" class="java.lang.String"/>
+	<field name="admin_date" class="java.sql.Timestamp"/>
+	<field name="nm_dok" class="java.lang.String"/>
+	<field name="no_dok" class="java.lang.String"/>
+	<group name="objek">
+		<groupExpression><![CDATA[$F{jenis_objek_jaminan}]]></groupExpression>
+		<groupFooter>
+			<band height="10">
+				<staticText>
+					<reportElement x="1" y="0" width="554" height="10"/>
+					<box>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement/>
+					<text><![CDATA[]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="446" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="-1" y="0" width="555" height="37" backcolor="#CCCCCC"/>
+				<box leftPadding="50"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jenis_objek_jaminan}.equals( "Inspeksi Stock" )?"FORMULIR PERMOHONAN\nINSPEKSI ATAS STOCK/PERSEDIAAN BARANG":"FORMULIR PERMOHONAN\nPENINJAUAN DAN PENILAIAN AGUNAN"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" mode="Opaque" x="3" y="3" width="135" height="31" backcolor="#CCFFFF"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement key="image" x="0" y="-14" width="142" height="51"/>
+				<imageExpression class="java.lang.String"><![CDATA[($P{SUBREPORT_DIR}!=null?$P{SUBREPORT_DIR}:"") + "logo_rpt_format_lpa.png"]]></imageExpression>
+			</image>
+			<frame>
+				<reportElement positionType="Float" x="0" y="55" width="556" height="133"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<staticText>
+					<reportElement positionType="Float" x="5" y="18" width="100" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kepada]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="5" y="33" width="100" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Status Nasabah]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="5" y="48" width="100" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Status Jaminan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="5" y="63" width="100" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Appraisal]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="5" y="78" width="100" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Catatan dari Bisnis]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="105" y="18" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="105" y="33" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="105" y="48" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="105" y="63" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="105" y="78" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="110" y="33" width="149" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{status_nasabah}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="110" y="48" width="149" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{status_jaminan}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="110" y="63" width="149" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{appraisal}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="110" y="78" width="149" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{catatan}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="110" y="18" width="149" height="15"/>
+					<textElement>
+						<font isBold="true" isItalic="true" pdfFontName="Times-BoldItalic" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[BAGIAN APPRAISAL]]></text>
+				</staticText>
+				<frame>
+					<reportElement positionType="Float" x="275" y="18" width="279" height="15"/>
+					<staticText>
+						<reportElement positionType="Float" x="100" y="0" width="5" height="15"/>
+						<textElement>
+							<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="100" height="15"/>
+						<textElement>
+							<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+						</textElement>
+						<text><![CDATA[Nama Debitur]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement positionType="Float" x="105" y="0" width="162" height="15"/>
+						<textElement>
+							<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{nama}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="275" y="33" width="279" height="15"/>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement positionType="Float" x="105" y="0" width="162" height="15"/>
+						<textElement>
+							<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{dari_cabang}]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement positionType="Float" x="100" y="0" width="5" height="15"/>
+						<textElement>
+							<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="100" height="15"/>
+						<textElement>
+							<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+						</textElement>
+						<text><![CDATA[Dari Cabang]]></text>
+					</staticText>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="275" y="48" width="279" height="15"/>
+					<staticText>
+						<reportElement positionType="Float" x="100" y="0" width="5" height="15"/>
+						<textElement>
+							<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement positionType="Float" x="105" y="0" width="162" height="15"/>
+						<textElement>
+							<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{nama_contact_person}]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="100" height="15"/>
+						<textElement>
+							<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+						</textElement>
+						<text><![CDATA[Contact Person]]></text>
+					</staticText>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" x="275" y="63" width="279" height="15"/>
+					<staticText>
+						<reportElement positionType="Float" x="0" y="0" width="100" height="15"/>
+						<textElement>
+							<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+						</textElement>
+						<text><![CDATA[Telp Contact Person]]></text>
+					</staticText>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement positionType="Float" x="105" y="0" width="162" height="15"/>
+						<textElement>
+							<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{telp_contact_person}]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement positionType="Float" x="100" y="0" width="5" height="15"/>
+						<textElement>
+							<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+						</textElement>
+						<text><![CDATA[:]]></text>
+					</staticText>
+				</frame>
+			</frame>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="108" y="37" width="225" height="15"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{no_order}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="1" y="37" width="100" height="15"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[No Order]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="101" y="37" width="5" height="15"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="188" width="277" height="20"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Mohon dilakukan penilaian atas obyek di bawah ini :]]></text>
+			</staticText>
+			<frame>
+				<reportElement positionType="Float" x="1" y="208" width="554" height="238" isPrintWhenDetailOverflows="true"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<staticText>
+					<reportElement positionType="Float" x="4" y="25" width="138" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Jenis Objek Jaminan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="4" y="70" width="138" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Lokasi Jaminan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="4" y="177" width="138" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kabupaten/Kotamadya]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="142" y="25" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="142" y="70" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="142" y="177" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="147" y="70" width="407" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{alamat}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="147" y="177" width="407" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{kode_kota}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="4" y="40" width="138" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Nama Perumahan/Apartemen]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="4" y="55" width="138" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Nama Cluster/Tower]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="142" y="40" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="142" y="55" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="4" y="162" width="138" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Propinsi]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="4" y="192" width="138" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kecamatan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="4" y="207" width="138" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kelurahan/Desa]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="4" y="102" width="138" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Blok/Gang/Lantai]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="4" y="117" width="138" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Nomor]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="4" y="132" width="138" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[RT]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="4" y="147" width="138" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[RW]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="142" y="102" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="142" y="117" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="142" y="132" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="142" y="147" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="142" y="162" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="142" y="192" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="142" y="207" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="4" y="222" width="138" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kode Pos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="142" y="222" width="5" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="147" y="40" width="407" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{perumahan_apartment}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="147" y="55" width="407" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{cluster_tower}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="147" y="102" width="407" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{blok_lantai}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="147" y="117" width="407" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{nomor}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="147" y="132" width="407" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{rt}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="147" y="147" width="407" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{rw}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="147" y="162" width="407" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{kode_propinsi}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="147" y="192" width="407" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{kode_kecamatan}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="147" y="207" width="407" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{kode_kelurahan}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="147" y="222" width="407" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{kode_pos}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement positionType="Float" mode="Opaque" x="1" y="0" width="553" height="15" backcolor="#CCCCCC"/>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{jenis_objek_jaminan}.equals( "Motor" ) || $F{jenis_objek_jaminan}.equals( "Mobil" )?"KENDARAAN":($F{jenis_objek_jaminan}.equals( "Mesin dan atau Peralatan" )?"MESIN & PERALATAN":($F{jenis_objek_jaminan}.equals( "Inspeksi Stock" )?"INSPEKSI STOCK":"TANAH / TANAH BANGUNAN"))]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="147" y="25" width="407" height="15"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{jenis_objek_jaminan}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="37">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER}!=1]]></printWhenExpression>
+			<textField>
+				<reportElement mode="Opaque" x="-1" y="0" width="555" height="37" backcolor="#CCCCCC"/>
+				<box leftPadding="50"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jenis_objek_jaminan}.equals( "Inspeksi Stock" )?"FORMULIR PERMOHONAN\nINSPEKSI ATAS STOCK/PERSEDIAAN BARANG":"FORMULIR PERMOHONAN\nPENINJAUAN DAN PENILAIAN AGUNAN"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" mode="Opaque" x="3" y="3" width="135" height="31" backcolor="#CCFFFF">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}!=1]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement key="image" positionType="Float" x="0" y="-14" width="142" height="51">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}!=1]]></printWhenExpression>
+				</reportElement>
+				<imageExpression class="java.lang.String"><![CDATA[($P{SUBREPORT_DIR}!=null?$P{SUBREPORT_DIR}:"") + "logo_rpt_format_lpa.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="5" y="0" width="138" height="15" isPrintInFirstWholeBand="true">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Dokumen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="143" y="0" width="5" height="15">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Opaque" x="150" y="0" width="109" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Nama Dokumen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Opaque" x="259" y="0" width="185" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[No Dokumen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="462" y="0" width="93" height="15"/>
+				<box leftPadding="5">
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="1" y="0" width="5" height="15"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="150" y="0" width="109" height="15"/>
+				<box leftPadding="3" rightPadding="4">
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nm_dok}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="259" y="0" width="185" height="15"/>
+				<box leftPadding="3" rightPadding="4">
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{no_dok}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="455" y="0" width="100" height="15"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="0" width="100" height="15"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band splitType="Stretch"/>
+	</lastPageFooter>
+	<summary>
+		<band height="130" splitType="Stretch">
+			<frame>
+				<reportElement positionType="Float" x="0" y="16" width="556" height="114"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<frame>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="275" y="15" width="281" height="99"/>
+					<box>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<componentElement>
+						<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="2" y="4" width="270" height="15" isPrintWhenDetailOverflows="true"/>
+						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical" ignoreWidth="true">
+							<datasetRun subDataset="user">
+								<datasetParameter name="pUserId">
+									<datasetParameterExpression><![CDATA[$F{nama_admin}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+							<jr:listContents height="15" width="270">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="57" y="0" width="213" height="15"/>
+									<box>
+										<topPen lineWidth="0.0"/>
+										<leftPen lineWidth="0.0"/>
+										<bottomPen lineWidth="0.0"/>
+										<rightPen lineWidth="0.0"/>
+									</box>
+									<textElement verticalAlignment="Top">
+										<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+									</textElement>
+									<textFieldExpression class="java.lang.String"><![CDATA[$F{nama}]]></textFieldExpression>
+								</textField>
+								<staticText>
+									<reportElement x="0" y="0" width="52" height="15"/>
+									<textElement>
+										<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+									</textElement>
+									<text><![CDATA[Nama]]></text>
+								</staticText>
+								<staticText>
+									<reportElement x="52" y="0" width="5" height="15"/>
+									<textElement>
+										<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+									</textElement>
+									<text><![CDATA[:]]></text>
+								</staticText>
+							</jr:listContents>
+						</jr:list>
+					</componentElement>
+					<frame>
+						<reportElement positionType="Float" x="2" y="19" width="270" height="60"/>
+						<componentElement>
+							<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="57" y="15" width="213" height="30" isPrintWhenDetailOverflows="true"/>
+							<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical" ignoreWidth="true">
+								<datasetRun subDataset="user">
+									<datasetParameter name="pUserId">
+										<datasetParameterExpression><![CDATA[$F{nama_admin}]]></datasetParameterExpression>
+									</datasetParameter>
+									<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+								</datasetRun>
+								<jr:listContents height="30" width="213">
+									<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+										<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="0" width="213" height="15"/>
+										<box>
+											<topPen lineWidth="0.0"/>
+											<leftPen lineWidth="0.0"/>
+											<bottomPen lineWidth="0.0"/>
+											<rightPen lineWidth="0.0"/>
+										</box>
+										<textElement verticalAlignment="Top">
+											<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+										</textElement>
+										<textFieldExpression class="java.lang.String"><![CDATA[$F{phone}]]></textFieldExpression>
+									</textField>
+									<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+										<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="15" width="213" height="15"/>
+										<box>
+											<topPen lineWidth="0.0"/>
+											<leftPen lineWidth="0.0"/>
+											<bottomPen lineWidth="0.0"/>
+											<rightPen lineWidth="0.0"/>
+										</box>
+										<textElement verticalAlignment="Top">
+											<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+										</textElement>
+										<textFieldExpression class="java.lang.String"><![CDATA[$F{hp}]]></textFieldExpression>
+									</textField>
+								</jr:listContents>
+							</jr:list>
+						</componentElement>
+						<textField isStretchWithOverflow="true" pattern="dd MMM yyyy HH:mm:ss" isBlankWhenNull="true">
+							<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="57" y="0" width="213" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<textFieldExpression class="java.util.Date"><![CDATA[$F{admin_date}]]></textFieldExpression>
+						</textField>
+						<staticText>
+							<reportElement x="0" y="45" width="67" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<text><![CDATA[Tanda Tangan]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="0" y="30" width="52" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<text><![CDATA[No HP]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="0" y="15" width="52" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<text><![CDATA[No Telp]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="0" y="0" width="52" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<text><![CDATA[Tanggal]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="67" y="45" width="5" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<text><![CDATA[:]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="52" y="30" width="5" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<text><![CDATA[:]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="52" y="15" width="5" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<text><![CDATA[:]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="52" y="0" width="5" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<text><![CDATA[:]]></text>
+						</staticText>
+					</frame>
+				</frame>
+				<staticText>
+					<reportElement mode="Opaque" x="275" y="0" width="281" height="15" backcolor="#CCCCCC"/>
+					<box>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[ADM. BAG. APPRAISAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="275" height="15" backcolor="#CCCCCC"/>
+					<box>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[MARKETING]]></text>
+				</staticText>
+				<frame>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="15" width="275" height="99"/>
+					<box>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<componentElement>
+						<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="2" y="4" width="265" height="15" isPrintWhenDetailOverflows="true"/>
+						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical" ignoreWidth="true">
+							<datasetRun subDataset="user">
+								<datasetParameter name="pUserId">
+									<datasetParameterExpression><![CDATA[$F{nama_marketing}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+							<jr:listContents height="15" width="265">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="58" y="0" width="207" height="15"/>
+									<box>
+										<topPen lineWidth="0.0"/>
+										<leftPen lineWidth="0.0"/>
+										<bottomPen lineWidth="0.0"/>
+										<rightPen lineWidth="0.0"/>
+									</box>
+									<textElement verticalAlignment="Top">
+										<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+									</textElement>
+									<textFieldExpression class="java.lang.String"><![CDATA[$F{nama}]]></textFieldExpression>
+								</textField>
+								<staticText>
+									<reportElement x="52" y="0" width="5" height="15"/>
+									<textElement>
+										<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+									</textElement>
+									<text><![CDATA[:]]></text>
+								</staticText>
+								<staticText>
+									<reportElement x="0" y="0" width="52" height="15"/>
+									<textElement>
+										<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+									</textElement>
+									<text><![CDATA[Nama]]></text>
+								</staticText>
+							</jr:listContents>
+						</jr:list>
+					</componentElement>
+					<frame>
+						<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="1" y="19" width="266" height="80"/>
+						<staticText>
+							<reportElement x="1" y="15" width="52" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<text><![CDATA[No Telp]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="53" y="30" width="5" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<text><![CDATA[:]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="1" y="0" width="52" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<text><![CDATA[Tanggal]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="68" y="45" width="5" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<text><![CDATA[:]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="1" y="45" width="67" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<text><![CDATA[Tanda Tangan]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="53" y="15" width="5" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<text><![CDATA[:]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="53" y="0" width="5" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<text><![CDATA[:]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="1" y="30" width="52" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<text><![CDATA[No HP]]></text>
+						</staticText>
+						<componentElement>
+							<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="58" y="15" width="208" height="30" isPrintWhenDetailOverflows="true"/>
+							<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical" ignoreWidth="true">
+								<datasetRun subDataset="user">
+									<datasetParameter name="pUserId">
+										<datasetParameterExpression><![CDATA[$F{nama_marketing}]]></datasetParameterExpression>
+									</datasetParameter>
+									<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+								</datasetRun>
+								<jr:listContents height="30" width="208">
+									<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+										<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="0" width="208" height="15"/>
+										<box>
+											<topPen lineWidth="0.0"/>
+											<leftPen lineWidth="0.0"/>
+											<bottomPen lineWidth="0.0"/>
+											<rightPen lineWidth="0.0"/>
+										</box>
+										<textElement verticalAlignment="Top">
+											<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+										</textElement>
+										<textFieldExpression class="java.lang.String"><![CDATA[$F{phone}]]></textFieldExpression>
+									</textField>
+									<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+										<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="15" width="208" height="15"/>
+										<box>
+											<topPen lineWidth="0.0"/>
+											<leftPen lineWidth="0.0"/>
+											<bottomPen lineWidth="0.0"/>
+											<rightPen lineWidth="0.0"/>
+										</box>
+										<textElement verticalAlignment="Top">
+											<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+										</textElement>
+										<textFieldExpression class="java.lang.String"><![CDATA[$F{hp}]]></textFieldExpression>
+									</textField>
+								</jr:listContents>
+							</jr:list>
+						</componentElement>
+						<textField isStretchWithOverflow="true" pattern="dd MMM yyyy HH:mm:ss" isBlankWhenNull="true">
+							<reportElement x="58" y="0" width="208" height="15"/>
+							<textElement>
+								<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+							</textElement>
+							<textFieldExpression class="java.util.Date"><![CDATA[$F{created_date}]]></textFieldExpression>
+						</textField>
+					</frame>
+				</frame>
+			</frame>
+		</band>
+	</summary>
+</jasperReport>

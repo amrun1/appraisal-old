@@ -1,0 +1,5 @@
+package com.permata.appraisal2.model;
+
+public enum PersonStatus {
+    CABANG_TL, APPRAISAL_ADMIN, APPRAISAL_VALUER, APPRAISAL_APPROVAL, APPRAISAL_SURVEYOR, APPRAISAL_PANEL
+}

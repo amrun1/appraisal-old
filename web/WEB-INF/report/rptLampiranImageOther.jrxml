@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptFormatLpaInt" columnCount="2" printOrder="Horizontal" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="277" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="244fabbf-06a1-4ba6-9400-41ac596feea1">
+	<property name="ireport.zoom" value="1.500000000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.engine.util.JRImageLoader" value="true"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="PIdLpaUmum" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PImagePath" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select a.no_lpa,
+a.nama_debitur,
+a.lokasi_fisik, b.id_laporan_dokumen,
+lo_get(b.image) img, b.nama ket, b.catatan,
+(select nama from jenis_kategori where kode = a.kategori_aktiva) kategori
+from lpa_umum a
+left outer join (
+select b.id_laporan_dokumen, b.image, c.nama, b.catatan, b.id_survey_umum, b.id_lpa
+from survey_image b
+	left outer join jenis_laporan_dokumen c on b.id_laporan_dokumen = c.id
+where c.jenis_data='Lain-Lain'
+) as b
+	on a.id_survey = b.id_survey_umum or a.id = b.id_lpa
+where a.id =$P{PIdLpaUmum}
+order by B.nama]]>
+	</queryString>
+	<field name="no_lpa" class="java.lang.String"/>
+	<field name="nama_debitur" class="java.lang.String"/>
+	<field name="lokasi_fisik" class="java.lang.String"/>
+	<field name="id_laporan_dokumen" class="java.lang.Long"/>
+	<field name="img" class="java.io.InputStream"/>
+	<field name="ket" class="java.lang.String"/>
+	<field name="catatan" class="java.lang.String"/>
+	<field name="kategori" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="135" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="555edfb8-117f-4957-868d-d99edbb6fefa" key="staticText" x="0" y="47" width="142" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[No. Laporan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="de0914f9-dba0-4fce-8e77-ee7995b69247" key="staticText" x="0" y="62" width="142" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Nama Debitur	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2632e10e-ad2b-4468-97fa-f9467101bfa3" key="staticText" x="0" y="77" width="142" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Lokasi Angunan(Fisik)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d7a69dbf-7295-4e39-96a2-b54225688501" key="staticText" x="142" y="47" width="5" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bc0328bf-9e95-4ce9-b54c-f700cddd9972" key="staticText" x="142" y="62" width="5" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="208fce67-f378-4819-947a-c42d8c226502" key="staticText" x="142" y="77" width="5" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="55f8dfa9-f1f6-4d72-93ff-462d3ec52d00" key="textField" x="147" y="47" width="408" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{no_lpa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="9f72da2d-53e7-464e-ad99-926315533dbf" key="textField" x="147" y="62" width="408" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nama_debitur}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="42639b49-b1de-4fb4-a25d-14387e361f8d" key="textField" x="147" y="77" width="408" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{lokasi_fisik}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="33f4cff5-d6f4-405a-a7aa-8bb6496163a7" x="435" y="92" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Halaman "+$V{PAGE_NUMBER}+" dari"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="65fb84d7-23b6-4014-95c1-e9ced0618690" x="515" y="92" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="cc3f6792-8ed2-40a4-b499-056ebec6d250" mode="Opaque" x="0" y="115" width="555" height="20" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lain - lain]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b7015410-afbd-42dd-9aa2-079c45690874" key="staticText" mode="Opaque" x="142" y="0" width="413" height="37" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN DOKUMEN TAMBAHAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="dc6a3f9a-ac08-4f01-bfdb-cf1a5ece524c" key="staticText" mode="Opaque" x="0" y="0" width="142" height="37" backcolor="#FFFFFF"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="621de949-d648-4885-b20e-5c660db5a511" x="0" y="-14" width="142" height="51"/>
+				<imageExpression><![CDATA[($P{SUBREPORT_DIR}!=null?$P{SUBREPORT_DIR}:"") + "logo_rpt_format_lpa.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="172" splitType="Stretch">
+			<frame>
+				<reportElement uuid="b3988109-4a61-471d-a7fb-336594d8fe05" x="0" y="0" width="277" height="172"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<image hAlign="Center">
+					<reportElement uuid="63cad405-4007-465f-9ca7-83a74f899dd8" key="image" x="2" y="5" width="274" height="152"/>
+					<imageExpression><![CDATA[$F{img}]]></imageExpression>
+				</image>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="912b1a3f-f8ee-4556-8243-041b6c420dda" x="2" y="157" width="275" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{catatan}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="f17f380b-6d60-4fa5-8597-657ed023050e" key="staticText" positionType="FixRelativeToBottom" x="0" y="0" width="555" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Keterangan-keterangan di atas dilakukan berdasarkan kesaksian selama pemeriksaan agunan dan tidak ada kepentingan-kepentingan
+apapun baik secara pribadi maupun orang lain, terhadap NILAI AGUNAN pada saat sekarang dan kemudian hari.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bbca73c0-7e24-412c-ae42-4d7598db23bd" key="staticText" positionType="FixRelativeToBottom" x="0" y="22" width="285" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Laporan ini merupakan hasil cetakan komputer, tidak memerlukan tanda tangan.]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="baaa09af-6c18-4c1b-b1ff-b301ff114374" key="line" positionType="FixRelativeToBottom" x="0" y="21" width="555" height="1" forecolor="#FF99CC"/>
+			</line>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="4b03622a-885a-437c-aa23-6de1f7487c6d" key="staticText" positionType="FixRelativeToBottom" x="0" y="22" width="285" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Laporan ini merupakan hasil cetakan komputer, tidak memerlukan tanda tangan.]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="7b326b95-4fb0-490d-aa9e-fbee562afa27" key="line" positionType="FixRelativeToBottom" x="0" y="21" width="555" height="1" forecolor="#FF99CC"/>
+			</line>
+			<staticText>
+				<reportElement uuid="81ebb563-1356-4e3c-95f0-d25728257045" key="staticText" positionType="FixRelativeToBottom" x="0" y="0" width="555" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Keterangan-keterangan di atas dilakukan berdasarkan kesaksian selama pemeriksaan agunan dan tidak ada kepentingan-kepentingan
+apapun baik secara pribadi maupun orang lain, terhadap NILAI AGUNAN pada saat sekarang dan kemudian hari.]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

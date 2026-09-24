@@ -1,0 +1,3963 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptFormatLpaInt" pageWidth="759" pageHeight="910" whenNoDataType="AllSectionsNoDetail" columnWidth="719" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.9795441344318094"/>
+	<property name="ireport.x" value="415"/>
+	<property name="ireport.y" value="1042"/>
+	<subDataset name="dataset2">
+		<parameter name="idbv" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="fs" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select * from lpabv_fasilitas where lpabv_id = $P{idbv} and fasilitas=$P{fs}]]>
+		</queryString>
+		<field name="lpabv_id" class="java.lang.Long"/>
+		<field name="fasilitas" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset1">
+		<parameter name="idbv" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="nama" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select * from lpabv_fotopada where lpabv_id = $P{idbv} and fotopada = $P{nama}]]>
+		</queryString>
+		<field name="lpabv_id" class="java.lang.Long"/>
+		<field name="fotopada" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="PIdLpaUmum" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select b.id id_bv, a.no_lpa,
+a.nama_contact,
+a.nama_debitur,
+a.nama_perumahan,
+regexp_replace(a.lokasi_fisik, '\r\n', ' ', 'g') lokasi_fisik,
+a.kota,
+a.kode_pos,
+a.ditinjau nama_surveyor,
+e.submit_date tanggal_order,
+a.tanggal_survey,
+a.tanggal_terima_dari_eks,
+b.lokasi_ditemukan,
+b.sudah_pindah,
+b.ada_papan_nama,
+b.kegiatan_usaha,
+b.s1_ditemukan,
+b.s1_nama,
+b.s1_kelamin,
+b.s1_hubungan,
+b.s1_kooperatif,
+--s2
+b.s2_ditemukan,
+b.s2_nama,
+b.s2_kelamin,
+b.s2_hubungan,
+b.s2_kenal,
+b.s2_kooperatif,
+--s2
+b.s3_ditemukan,
+b.s3_nama,
+b.s3_kelamin,
+b.s3_hubungan,
+b.s3_kenal,
+b.s3_kooperatif,
+--
+b.diterima_di,
+b.jumlah_karyawan,
+b.omzet_penjualan,
+b.kondisi_usaha,
+b.jenis_usaha,
+b.lama_penempatan,
+b.lingkungan_sekitar,
+b.jalan_tempat_usaha,
+b.masuk_mobil,
+b.kondisi_usaha,
+b.luas_bangunan,
+b.luas_tanah,
+b.jenis_bangunan,
+b.status_usaha,
+b.status_lokasi,
+regexp_replace(b.info_s1, '\r\n', ' ', 'g') info_s1,
+regexp_replace(b.info_s2, '\r\n', ' ', 'g') info_s2,
+regexp_replace(b.info_s3, '\r\n', ' ', 'g') info_s3,
+regexp_replace(b.note, '\r\n', ' ', 'g') note,
+b.bertingkat,
+b.jumlah_mobil,
+b.jumlah_motor,
+b.jumlah_truk,b.vendor,
+(select nama from person where user_id = e.closed_by ) approve_by,
+e.closed_date approve_date,
+(select nama from person where user_id = e.value_by ) value_by,
+e.value_date,
+b.detail_omzet,
+b.lokasi_objek_jam,
+b.bidang_usaha
+from lpa_umum a
+inner join lpa_bv b on b.id_lpa_umum = a.id
+left join data_umum e on a.id_data_umum = e.id
+where a.id=$P{PIdLpaUmum}]]>
+	</queryString>
+	<field name="id_bv" class="java.lang.Long"/>
+	<field name="no_lpa" class="java.lang.String"/>
+	<field name="nama_contact" class="java.lang.String"/>
+	<field name="nama_debitur" class="java.lang.String"/>
+	<field name="nama_perumahan" class="java.lang.String"/>
+	<field name="lokasi_fisik" class="java.lang.String"/>
+	<field name="kota" class="java.lang.String"/>
+	<field name="kode_pos" class="java.lang.String"/>
+	<field name="nama_surveyor" class="java.lang.String"/>
+	<field name="tanggal_order" class="java.sql.Timestamp"/>
+	<field name="tanggal_survey" class="java.sql.Timestamp"/>
+	<field name="tanggal_terima_dari_eks" class="java.sql.Timestamp"/>
+	<field name="lokasi_ditemukan" class="java.lang.Boolean"/>
+	<field name="sudah_pindah" class="java.lang.Boolean"/>
+	<field name="ada_papan_nama" class="java.lang.Boolean"/>
+	<field name="kegiatan_usaha" class="java.lang.String"/>
+	<field name="s1_ditemukan" class="java.lang.Boolean"/>
+	<field name="s1_nama" class="java.lang.String"/>
+	<field name="s1_kelamin" class="java.lang.String"/>
+	<field name="s1_hubungan" class="java.lang.String"/>
+	<field name="s1_kooperatif" class="java.lang.Boolean"/>
+	<field name="s2_ditemukan" class="java.lang.Boolean"/>
+	<field name="s2_nama" class="java.lang.String"/>
+	<field name="s2_kelamin" class="java.lang.String"/>
+	<field name="s2_hubungan" class="java.lang.String"/>
+	<field name="s2_kenal" class="java.lang.Boolean"/>
+	<field name="s2_kooperatif" class="java.lang.Boolean"/>
+	<field name="s3_ditemukan" class="java.lang.Boolean"/>
+	<field name="s3_nama" class="java.lang.String"/>
+	<field name="s3_kelamin" class="java.lang.String"/>
+	<field name="s3_hubungan" class="java.lang.String"/>
+	<field name="s3_kenal" class="java.lang.Boolean"/>
+	<field name="s3_kooperatif" class="java.lang.Boolean"/>
+	<field name="diterima_di" class="java.lang.String"/>
+	<field name="jumlah_karyawan" class="java.lang.String"/>
+	<field name="omzet_penjualan" class="java.lang.String"/>
+	<field name="kondisi_usaha" class="java.lang.Boolean"/>
+	<field name="jenis_usaha" class="java.lang.String"/>
+	<field name="lama_penempatan" class="java.lang.String"/>
+	<field name="lingkungan_sekitar" class="java.lang.String"/>
+	<field name="jalan_tempat_usaha" class="java.lang.String"/>
+	<field name="masuk_mobil" class="java.lang.Boolean"/>
+	<field name="luas_bangunan" class="java.lang.String"/>
+	<field name="luas_tanah" class="java.lang.String"/>
+	<field name="jenis_bangunan" class="java.lang.String"/>
+	<field name="status_usaha" class="java.lang.String"/>
+	<field name="status_lokasi" class="java.lang.String"/>
+	<field name="info_s1" class="java.lang.String"/>
+	<field name="info_s2" class="java.lang.String"/>
+	<field name="info_s3" class="java.lang.String"/>
+	<field name="note" class="java.lang.String"/>
+	<field name="bertingkat" class="java.lang.Boolean"/>
+	<field name="jumlah_mobil" class="java.lang.Integer"/>
+	<field name="jumlah_motor" class="java.lang.Integer"/>
+	<field name="jumlah_truk" class="java.lang.Integer"/>
+	<field name="vendor" class="java.lang.String"/>
+	<field name="approve_by" class="java.lang.String"/>
+	<field name="approve_date" class="java.sql.Timestamp"/>
+	<field name="value_by" class="java.lang.String"/>
+	<field name="value_date" class="java.sql.Timestamp"/>
+	<field name="detail_omzet" class="java.math.BigDecimal"/>
+	<field name="lokasi_objek_jam" class="java.lang.String"/>
+	<field name="bidang_usaha" class="java.lang.String"/>
+	<background>
+		<band height="870">
+			<rectangle>
+				<reportElement x="0" y="0" width="719" height="850"/>
+			</rectangle>
+		</band>
+	</background>
+	<title>
+		<band/>
+	</title>
+	<pageHeader>
+		<band height="37" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="719" height="37" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN BUSSINESS VERIFICATION (BV)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" mode="Opaque" x="3" y="3" width="135" height="31" backcolor="#CCFFFF"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="-14" width="142" height="51"/>
+				<imageExpression class="java.lang.String"><![CDATA[($P{SUBREPORT_DIR}!=null?$P{SUBREPORT_DIR}:"") + "logo_rpt_format_lpa.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="122">
+			<staticText>
+				<reportElement x="0" y="6" width="125" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[No. Laporan ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="17" width="125" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nama Aplikan ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="28" width="125" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Alamat Survey (Fisik)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="39" width="125" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Kota]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="50" width="125" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Kode Pos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="61" width="125" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nama Vendor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="94" width="125" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tanggal Survey]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="72" width="125" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nama Surveyor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="105" width="125" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tanggal Terima Hasil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="83" width="125" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tanggal Order]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="125" y="17" width="5" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="125" y="50" width="5" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="125" y="28" width="5" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="125" y="61" width="5" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="125" y="39" width="5" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="125" y="6" width="5" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="125" y="72" width="5" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="125" y="83" width="5" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="125" y="94" width="5" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="125" y="105" width="5" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="39" width="503" height="11"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{kota}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="6" width="503" height="11"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{no_lpa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="17" width="503" height="11"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nama_debitur}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="50" width="503" height="11"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{kode_pos}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="28" width="503" height="11"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lokasi_fisik}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="131" y="105" width="503" height="11"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{tanggal_terima_dari_eks}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="131" y="94" width="503" height="11"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{tanggal_survey}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="61" width="503" height="11"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{vendor}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="72" width="503" height="11"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nama_surveyor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="131" y="83" width="503" height="11"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{tanggal_order}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="784">
+			<line>
+				<reportElement x="0" y="22" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="34" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="46" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="68" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="80" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="92" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="104" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="116" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="128" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="140" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="152" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="164" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="176" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="188" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="200" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="212" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="224" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="236" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="248" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="260" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="272" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="284" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="296" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="320" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="332" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="355" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="367" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="390" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="413" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="425" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="436" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="448" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="460" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="497" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="520" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="0" y="483" width="719" height="1" forecolor="#CCCCCC"/>
+			</line>
+			<line>
+				<reportElement x="127" y="10" width="1" height="593" forecolor="#CCCCCC"/>
+			</line>
+			<staticText>
+				<reportElement x="563" y="461" width="11" height="11"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="131" y="461" width="11" height="11"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="131" y="472" width="11" height="11"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="461" width="11" height="11"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="279" y="460" width="11" height="11"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="131" y="461" width="11" height="11"/>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="0" width="718" height="11" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[A. Verifikasi Usaha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="11" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Waktu Verifikasi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="23" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Lokasi Obyek Survey]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="35" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Papan Nama Usaha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="47" width="119" height="21"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Kegiatan Usaha Pada Saat Survey]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="69" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Sumber Informasi (SI) 1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="81" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nama Sumber Informasi (SI) 1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="93" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Jenis Kelamin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="105" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Hubungan SI 1 Dengan Aplikan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="117" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[SI 1 Kooperatif]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="129" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Sumber Informasi (SI) 2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="177" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Kenal Dengan Aplikan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="153" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Jenis Kelamin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="141" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nama Sumber Informasi (SI) 2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="165" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Hubungan SI 2 Dengan Aplikan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="189" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[SI 2 Kooperatif]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="201" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Sumber Informasi (SI) 3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="213" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nama Sumber Informasi (SI) 3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="261" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[SI 3 Kooperatif]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="237" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Hubungan SI 3 Dengan Aplikan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="249" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Kenal Dengan Aplikan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="225" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Jenis Kelamin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="273" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Surveyor Diterima di]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="285" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Jumlah Karyawan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="297" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Jumlah / Omzet Penjualan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="356" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Lama Menempati Tempat Usaha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="333" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Jenis Usaha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="321" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Kondisi Tempat Usaha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="368" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Lingkungan Sekitar Rumah]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="379" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="391" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Kondisi Jalan Tempat Usaha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="402" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="414" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Kondisi Bangunan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="426" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Luas Bangunan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="437" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Luas Tanah]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="449" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Jenis Bangunan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="461" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Fasilitas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="472" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="484" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Jumlah Kendaraan Operasional]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="498" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Status Kepemilikan Usaha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="509" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="521" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Status Kepemilikan Tempat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="532" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="544" width="719" height="11" forecolor="#FFFFFF" backcolor="#666666"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[B. Foto - Foto Survey]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="557" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Foto Dilakukan Pada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="568" width="119" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="592" width="720" height="11" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C. Keterangan Tambahan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="568" width="167" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tampak depan terlihat papan nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="557" width="167" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tampak depan terlihat nomor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="23" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Ditemukan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="35" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Ada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="47" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Normal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="69" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Ditemukan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="93" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Pria]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="105" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Aplikan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="117" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Ya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="129" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Ditemukan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="153" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Pria]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="165" width="137" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Kerabat Aplikan (Min umur 17 Tahun)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="177" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Ya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="189" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Ya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="201" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Ditemukan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="225" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Pria]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="237" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tetangga Radius Max 100 meter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="249" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Ya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="261" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Ya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="273" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Ruang Tamu]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="285" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[< 3 Orang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="297" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[< Rp. 100 Juta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="321" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Terawat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="333" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Perdagangan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="356" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[< 4 Tahun]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="368" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Pemukiman]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="391" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Masuk Mobil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="414" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Bertingkat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="426" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[< 100 m2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="437" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[< 100 m2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="449" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Permanen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="472" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Kendaraan Operasional]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="498" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Sendiri]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="509" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak Tahu]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="521" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Sendiri]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="23" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak Ditemukan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="47" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Ramai/Sibuk]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="35" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak Ditemukan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="47" width="130" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak Beroperasi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="23" width="130" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Sudah Pindah]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="69" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak Ditemukan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="93" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Wanita]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="105" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Suami Aplikan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="105" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Istri Aplikan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="117" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="129" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak Ditemukan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="153" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Wanita]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="165" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Anak Aplikan (Min umur 17 Tahun)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="165" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Orang Tua Aplikan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="574" y="165" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Karyawan Aplikan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="177" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="189" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="201" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak Ditemukan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="225" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Wanita]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="568" y="237" width="150" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Pengelola/Operator/Resepsionis Gedung]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="261" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="249" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="237" width="125" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Pengurus RT/RW]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="237" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Security Radius Max 100 meter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="273" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Dalam Kantor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="273" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Halaman]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="574" y="273" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Lokasi Aktifitas Usaha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="285" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[3 - 10 Orang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="297" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Rp. 100 Juta - Rp. 1 Milyar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="285" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[11 - 20 Orang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="574" y="285" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[> 20 Orang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="297" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[> Rp. 1 Milyar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="321" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak terawat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="333" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Jasa / Service]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="333" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Produksi / Manufaktur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="356" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[4 - 7 Tahun]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="356" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[> 7 Tahun]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="574" y="356" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak tahu]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="379" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Pasar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="368" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Komp. Perumahan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="368" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Pertokoan/Ruko]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="574" y="368" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Apartemen / Perkantoran]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="379" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Kawasan Industri/Pergudangan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="391" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak Masuk Mobil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="391" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Jalan Utama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="574" y="391" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Jalan Raya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="402" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Jalan Komplek]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="414" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak Bertingkat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="426" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[100 - 500 m2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="426" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[500 - 1000 m2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="574" y="426" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[> 1000 m2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="437" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[100 - 500 m2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="437" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[500 - 1000 m2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="574" y="437" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[> 1000 m2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="449" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Semi Permanen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="449" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Belum Jadi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="461" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Komputer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="461" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Mesin Fotocopy]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="574" y="461" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Internet]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="498" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Orang Tua/Mertua]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="498" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Perusahaan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="574" y="498" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Keluarga]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="521" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Orang Tua/Mertua]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="521" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Perusahaan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="574" y="521" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Keluarga]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="532" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tidak tahu]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="579" width="167" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tampak plang nama jalan (jika ada)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="537" y="557" width="167" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Aktifitas usaha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="557" width="177" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Stok Barang (di dalam kotak / dus)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="568" width="177" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Stok Barang (di luar kotak / dus)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="579" width="177" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tampak lingkungan lokasi usaha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="537" y="568" width="177" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Mesin / peralatan usaha yang digunakan]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="23" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lokasi_ditemukan}==true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="23" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lokasi_ditemukan}!=true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="23" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{sudah_pindah}==true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="47" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{kegiatan_usaha}.equalsIgnoreCase( "Tidak Beroperasi" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="35" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ada_papan_nama}!=true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="47" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{kegiatan_usaha}.equalsIgnoreCase( "Ramai/Sibuk" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="35" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ada_papan_nama}==true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="47" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{kegiatan_usaha}.equalsIgnoreCase( "Normal" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="69" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s1_ditemukan}==true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="93" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s1_kelamin}.equalsIgnoreCase( "L" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="105" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s1_hubungan}.equalsIgnoreCase( "Aplikan" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="117" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s1_kooperatif}==true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="165" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s2_hubungan}.equalsIgnoreCase( "Kerabat Aplikan (Min umur 17 Tahun)" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="237" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s3_hubungan}.equalsIgnoreCase( "Tetangga Radius Max 100 meter" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="273" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{diterima_di}.equalsIgnoreCase( "Ruang Tamu" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="285" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jumlah_karyawan}.equalsIgnoreCase( "< 3 Orang" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="297" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{omzet_penjualan}.equalsIgnoreCase( "< Rp. 100 Juta" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="321" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{kondisi_usaha}==true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="333" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jenis_usaha}.equalsIgnoreCase( "Perdagangan" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="356" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lama_penempatan}.equalsIgnoreCase( "< 4 tahun" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="368" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lingkungan_sekitar}.equalsIgnoreCase( "Pemukiman" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="391" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{masuk_mobil}==true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="414" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{bertingkat}==true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="426" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{luas_bangunan}.equalsIgnoreCase( "< 100 m2" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="449" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jenis_bangunan}.equalsIgnoreCase( "Permanen" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="498" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{status_usaha}.equalsIgnoreCase( "Sendiri" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="69" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s1_ditemukan}!=true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="93" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s1_kelamin}.equalsIgnoreCase( "W" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="105" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s1_hubungan}.equalsIgnoreCase( "Suami Aplikan" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="117" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s1_kooperatif}!=true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="142" y="81" width="576" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s1_nama}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="105" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s1_hubungan}.equalsIgnoreCase( "Istri Aplikan" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="129" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s2_ditemukan}==true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="129" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s2_ditemukan}!=true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="153" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s2_kelamin}.equalsIgnoreCase( "L" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="153" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s2_kelamin}.equalsIgnoreCase( "W" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="201" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s3_ditemukan}==true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="201" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s3_ditemukan}!=true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="225" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s3_kelamin}.equalsIgnoreCase( "W" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="225" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s3_kelamin}.equalsIgnoreCase( "L" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="189" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s2_kooperatif}==true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="189" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s2_kooperatif}!=true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="177" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s2_kenal}==true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="177" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s2_kenal}!=true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="261" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s3_kooperatif}==true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="249" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s3_kenal}!=true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="249" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s3_kenal}==true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="261" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s3_kooperatif}!=true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="142" y="141" width="191" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s2_nama}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="142" y="213" width="191" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s3_nama}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="165" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s2_hubungan}.equalsIgnoreCase( "Anak Aplikan (Min umur 17 Tahun)" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="165" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s2_hubungan}.equalsIgnoreCase( "Orang Tua Aplikan" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="561" y="165" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s2_hubungan}.equalsIgnoreCase( "Karyawan Aplikan" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="237" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s3_hubungan}.equalsIgnoreCase( "Security Radius Max 100 meter" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="557" y="237" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s3_hubungan}.equalsIgnoreCase( "Pengelola/Operator/Resepsionis Gedung" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="237" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{s3_hubungan}.equalsIgnoreCase( "Pengurus RT/RW" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="273" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{diterima_di}.equalsIgnoreCase( "Dalam Kantor" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="273" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{diterima_di}.equalsIgnoreCase( "Halaman" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="563" y="273" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{diterima_di}.equalsIgnoreCase( "Lokasi Aktifitas Usaha" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="285" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jumlah_karyawan}.equalsIgnoreCase( "3 - 10 Orang" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="285" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jumlah_karyawan}.equalsIgnoreCase( "11 - 20 Orang" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="563" y="285" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jumlah_karyawan}.equalsIgnoreCase( "> 20 Orang" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="297" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{omzet_penjualan}.equalsIgnoreCase( "Rp. 101 Juta - Rp. 1 Milyar" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="297" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{omzet_penjualan}.equalsIgnoreCase( "> Rp. 1 Milyar" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="321" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{kondisi_usaha}!=true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="333" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jenis_usaha}.equalsIgnoreCase( "Jasa / Service" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="333" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jenis_usaha}.equalsIgnoreCase( "Produksi / Manufaktur" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="356" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lama_penempatan}.equalsIgnoreCase( "4 - 7 tahun" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="356" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lama_penempatan}.equalsIgnoreCase( "> 7 tahun" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="562" y="356" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lama_penempatan}.equalsIgnoreCase( "Tidak tahu" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="368" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lingkungan_sekitar}.equalsIgnoreCase( "Komp. Perumahan" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="368" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lingkungan_sekitar}.equalsIgnoreCase( "Pertokoan/Ruko" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="562" y="368" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lingkungan_sekitar}.equalsIgnoreCase( "Apartemen / Perkantoran" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="379" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lingkungan_sekitar}.equalsIgnoreCase( "Kawasan Industri/Pergudangan" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="379" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lingkungan_sekitar}.equalsIgnoreCase( "Pasar" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="391" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{masuk_mobil}!=true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="391" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jalan_tempat_usaha}.equalsIgnoreCase( "Jalan Utama" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="563" y="391" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jalan_tempat_usaha}.equalsIgnoreCase( "Jalan Raya" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="402" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jalan_tempat_usaha}.equalsIgnoreCase( "Jalan Komplek" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="414" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{bertingkat}!=true?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="426" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{luas_bangunan}.equalsIgnoreCase( "100 - 500 m2" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="426" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{luas_bangunan}.equalsIgnoreCase( "> 500 - 1000 m2" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="563" y="426" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{luas_bangunan}.equalsIgnoreCase( "> 1000 m2" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="437" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{luas_tanah}.equalsIgnoreCase( "100 - 500 m2" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="563" y="437" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{luas_tanah}.equalsIgnoreCase( "> 1000 m2" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="437" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{luas_tanah}.equalsIgnoreCase( "< 100 m2" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="437" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{luas_tanah}.equalsIgnoreCase( "> 500 - 1000 m2" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="449" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jenis_bangunan}.equalsIgnoreCase( "Semi Permanen" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="449" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jenis_bangunan}.equalsIgnoreCase( "Belum Jadi" )?"X":""]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="131" y="461" width="11" height="11"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset2">
+						<datasetParameter name="idbv">
+							<datasetParameterExpression><![CDATA[$F{id_bv}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="fs">
+							<datasetParameterExpression><![CDATA["Telepon"]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="11" width="11">
+						<textField isBlankWhenNull="true">
+							<reportElement x="0" y="0" width="11" height="11" forecolor="#FF0033"/>
+							<box>
+								<pen lineColor="#000000"/>
+								<topPen lineWidth="0.25" lineColor="#000000"/>
+								<leftPen lineWidth="0.25" lineColor="#000000"/>
+								<bottomPen lineWidth="0.25" lineColor="#000000"/>
+								<rightPen lineWidth="0.25" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center">
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.String"><![CDATA[$F{fasilitas}.equalsIgnoreCase( "Telepon" )?"X":""]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<staticText>
+				<reportElement x="142" y="461" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Telepon]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="279" y="460" width="11" height="11"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset2">
+						<datasetParameter name="idbv">
+							<datasetParameterExpression><![CDATA[$F{id_bv}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="fs">
+							<datasetParameterExpression><![CDATA["Komputer"]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="11" width="11">
+						<textField isBlankWhenNull="true">
+							<reportElement x="0" y="0" width="11" height="11" forecolor="#FF0033"/>
+							<box>
+								<pen lineColor="#000000"/>
+								<topPen lineWidth="0.25" lineColor="#000000"/>
+								<leftPen lineWidth="0.25" lineColor="#000000"/>
+								<bottomPen lineWidth="0.25" lineColor="#000000"/>
+								<rightPen lineWidth="0.25" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center">
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.String"><![CDATA[$F{fasilitas}.equalsIgnoreCase( "Komputer" )?"X":""]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<componentElement>
+				<reportElement x="420" y="461" width="11" height="11"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset2">
+						<datasetParameter name="idbv">
+							<datasetParameterExpression><![CDATA[$F{id_bv}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="fs">
+							<datasetParameterExpression><![CDATA["Photocopy"]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="11" width="11">
+						<textField isBlankWhenNull="true">
+							<reportElement x="0" y="0" width="11" height="11" forecolor="#FF0033"/>
+							<box>
+								<pen lineColor="#000000"/>
+								<topPen lineWidth="0.25" lineColor="#000000"/>
+								<leftPen lineWidth="0.25" lineColor="#000000"/>
+								<bottomPen lineWidth="0.25" lineColor="#000000"/>
+								<rightPen lineWidth="0.25" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center">
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.String"><![CDATA[$F{fasilitas}.equalsIgnoreCase( "Photocopy" )?"X":""]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<componentElement>
+				<reportElement x="563" y="461" width="11" height="11"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset2">
+						<datasetParameter name="idbv">
+							<datasetParameterExpression><![CDATA[$F{id_bv}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="fs">
+							<datasetParameterExpression><![CDATA["Internet"]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="11" width="11">
+						<textField isBlankWhenNull="true">
+							<reportElement x="0" y="0" width="11" height="11" forecolor="#FF0033"/>
+							<box>
+								<topPen lineWidth="0.25" lineColor="#000000"/>
+								<leftPen lineWidth="0.25" lineColor="#000000"/>
+								<bottomPen lineWidth="0.25" lineColor="#000000"/>
+								<rightPen lineWidth="0.25" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center">
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.String"><![CDATA[$F{fasilitas}.equalsIgnoreCase( "Internet" )?"X":""]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<componentElement>
+				<reportElement x="131" y="472" width="11" height="11"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset2">
+						<datasetParameter name="idbv">
+							<datasetParameterExpression><![CDATA[$F{id_bv}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="fs">
+							<datasetParameterExpression><![CDATA["Kendaraan Operasional"]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="11" width="11">
+						<textField isBlankWhenNull="true">
+							<reportElement x="0" y="0" width="11" height="11" forecolor="#FF0033"/>
+							<box>
+								<pen lineColor="#000000"/>
+								<topPen lineWidth="0.25" lineColor="#000000"/>
+								<leftPen lineWidth="0.25" lineColor="#000000"/>
+								<bottomPen lineWidth="0.25" lineColor="#000000"/>
+								<rightPen lineWidth="0.25" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center">
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.String"><![CDATA[$F{fasilitas}.equalsIgnoreCase( "Kendaraan Operasional" )?"X":""]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<staticText>
+				<reportElement x="188" y="484" width="26" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Unit]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="157" y="484" width="31" height="11"/>
+				<box rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{jumlah_mobil}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="131" y="484" width="26" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Mobil :]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="252" y="484" width="31" height="11"/>
+				<box rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{jumlah_motor}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="283" y="484" width="26" height="11"/>
+				<box leftPadding="0"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Unit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="226" y="484" width="26" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Motor :]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="363" y="484" width="31" height="11"/>
+				<box leftPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{jumlah_truk}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="394" y="484" width="26" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Unit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="337" y="484" width="26" height="11"/>
+				<box leftPadding="0"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Truk :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="498" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{status_usaha}.equalsIgnoreCase( "Orang Tua/Mertua" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="498" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{status_usaha}.equalsIgnoreCase( "Perusahaan" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="562" y="498" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{status_usaha}.equalsIgnoreCase( "Keluarga" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="509" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{status_usaha}.equalsIgnoreCase( "Tidak Tahu" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="532" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{status_lokasi}.equalsIgnoreCase( "Tidak tahu" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="521" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{status_lokasi}.equalsIgnoreCase( "Orang Tua/Mertua" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="521" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{status_lokasi}.equalsIgnoreCase( "Perusahaan" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="521" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{status_lokasi}.equalsIgnoreCase( "Sendiri" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="563" y="521" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{status_lokasi}.equalsIgnoreCase( "Keluarga" )?"X":""]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm" isBlankWhenNull="true">
+				<reportElement x="131" y="11" width="250" height="11"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lokasi_objek_jam}]]></textFieldExpression>
+			</textField>
+			<break type="Column">
+				<reportElement positionType="Float" x="0" y="669" width="718" height="1"/>
+			</break>
+			<subreport>
+				<reportElement x="1" y="684" width="719" height="100"/>
+				<subreportParameter name="SUBREPORT_DIR"/>
+				<subreportParameter name="PIdLpaUmum">
+					<subreportParameterExpression><![CDATA[$P{PIdLpaUmum}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[($P{SUBREPORT_DIR}!=null?$P{SUBREPORT_DIR}:"") + "subImageBV.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="670" width="719" height="14" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FOTO TEMPAT USAHA APLIKAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="131" y="556" width="11" height="11"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="131" y="567" width="11" height="11"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="131" y="579" width="11" height="11"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="526" y="557" width="11" height="11"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="322" y="557" width="11" height="11"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="322" y="568" width="11" height="11"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="322" y="579" width="11" height="11"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="526" y="568" width="11" height="11"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="131" y="556" width="11" height="11"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset1">
+						<datasetParameter name="idbv">
+							<datasetParameterExpression><![CDATA[$F{id_bv}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="nama">
+							<datasetParameterExpression><![CDATA["Tampak depan terlihat nomor "]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="11" width="11">
+						<staticText>
+							<reportElement x="0" y="0" width="11" height="11" forecolor="#FF0000"/>
+							<box>
+								<pen lineColor="#000000"/>
+								<topPen lineWidth="0.25" lineColor="#000000"/>
+								<leftPen lineWidth="0.25" lineColor="#000000"/>
+								<bottomPen lineWidth="0.25" lineColor="#000000"/>
+								<rightPen lineWidth="0.25" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center">
+								<font size="8"/>
+							</textElement>
+							<text><![CDATA[X]]></text>
+						</staticText>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<componentElement>
+				<reportElement x="131" y="568" width="11" height="11"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset1">
+						<datasetParameter name="idbv">
+							<datasetParameterExpression><![CDATA[$F{id_bv}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="nama">
+							<datasetParameterExpression><![CDATA["Tampak depan terlihat papan nama usaha "]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="11" width="11">
+						<staticText>
+							<reportElement x="0" y="0" width="11" height="11" forecolor="#FF0000"/>
+							<box>
+								<pen lineColor="#000000"/>
+								<topPen lineWidth="0.25" lineColor="#000000"/>
+								<leftPen lineWidth="0.25" lineColor="#000000"/>
+								<bottomPen lineWidth="0.25" lineColor="#000000"/>
+								<rightPen lineWidth="0.25" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center">
+								<font size="8"/>
+							</textElement>
+							<text><![CDATA[X]]></text>
+						</staticText>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<componentElement>
+				<reportElement x="131" y="579" width="11" height="11"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset1">
+						<datasetParameter name="idbv">
+							<datasetParameterExpression><![CDATA[$F{id_bv}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="nama">
+							<datasetParameterExpression><![CDATA["Tampak plang nama jalan (jika ada) "]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="11" width="11">
+						<staticText>
+							<reportElement x="0" y="0" width="11" height="11" forecolor="#FF0000"/>
+							<box>
+								<pen lineColor="#000000"/>
+								<topPen lineWidth="0.25" lineColor="#000000"/>
+								<leftPen lineWidth="0.25" lineColor="#000000"/>
+								<bottomPen lineWidth="0.25" lineColor="#000000"/>
+								<rightPen lineWidth="0.25" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center">
+								<font size="8"/>
+							</textElement>
+							<text><![CDATA[X]]></text>
+						</staticText>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<componentElement>
+				<reportElement x="526" y="557" width="11" height="11"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset1">
+						<datasetParameter name="idbv">
+							<datasetParameterExpression><![CDATA[$F{id_bv}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="nama">
+							<datasetParameterExpression><![CDATA["Aktifitas usaha "]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="11" width="11">
+						<staticText>
+							<reportElement x="0" y="0" width="11" height="11" forecolor="#FF0000"/>
+							<box>
+								<pen lineColor="#000000"/>
+								<topPen lineWidth="0.25" lineColor="#000000"/>
+								<leftPen lineWidth="0.25" lineColor="#000000"/>
+								<bottomPen lineWidth="0.25" lineColor="#000000"/>
+								<rightPen lineWidth="0.25" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center">
+								<font size="8"/>
+							</textElement>
+							<text><![CDATA[X]]></text>
+						</staticText>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<componentElement>
+				<reportElement x="322" y="557" width="11" height="11"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset1">
+						<datasetParameter name="idbv">
+							<datasetParameterExpression><![CDATA[$F{id_bv}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="nama">
+							<datasetParameterExpression><![CDATA["Stok Barang (di dalam kotak / dus) "]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="11" width="11">
+						<staticText>
+							<reportElement x="0" y="0" width="11" height="11" forecolor="#FF0000"/>
+							<box>
+								<pen lineColor="#000000"/>
+								<topPen lineWidth="0.25" lineColor="#000000"/>
+								<leftPen lineWidth="0.25" lineColor="#000000"/>
+								<bottomPen lineWidth="0.25" lineColor="#000000"/>
+								<rightPen lineWidth="0.25" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center">
+								<font size="8"/>
+							</textElement>
+							<text><![CDATA[X]]></text>
+						</staticText>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<componentElement>
+				<reportElement x="322" y="568" width="11" height="11"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset1">
+						<datasetParameter name="idbv">
+							<datasetParameterExpression><![CDATA[$F{id_bv}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="nama">
+							<datasetParameterExpression><![CDATA["Stok Barang (di luar kotak / dus) "]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="11" width="11">
+						<staticText>
+							<reportElement x="0" y="0" width="11" height="11" forecolor="#FF0000"/>
+							<box>
+								<pen lineColor="#000000"/>
+								<topPen lineWidth="0.25" lineColor="#000000"/>
+								<leftPen lineWidth="0.25" lineColor="#000000"/>
+								<bottomPen lineWidth="0.25" lineColor="#000000"/>
+								<rightPen lineWidth="0.25" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center">
+								<font size="8"/>
+							</textElement>
+							<text><![CDATA[X]]></text>
+						</staticText>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<componentElement>
+				<reportElement x="322" y="579" width="11" height="11"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset1">
+						<datasetParameter name="idbv">
+							<datasetParameterExpression><![CDATA[$F{id_bv}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="nama">
+							<datasetParameterExpression><![CDATA["Tampak lingkungan lokasi usaha "]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="11" width="11">
+						<staticText>
+							<reportElement x="0" y="0" width="11" height="11" forecolor="#FF0000"/>
+							<box>
+								<pen lineColor="#000000"/>
+								<topPen lineWidth="0.25" lineColor="#000000"/>
+								<leftPen lineWidth="0.25" lineColor="#000000"/>
+								<bottomPen lineWidth="0.25" lineColor="#000000"/>
+								<rightPen lineWidth="0.25" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center">
+								<font size="8"/>
+							</textElement>
+							<text><![CDATA[X]]></text>
+						</staticText>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<componentElement>
+				<reportElement x="526" y="568" width="11" height="11"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset1">
+						<datasetParameter name="idbv">
+							<datasetParameterExpression><![CDATA[$F{id_bv}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="nama">
+							<datasetParameterExpression><![CDATA["Mesin / peralatan usaha yang digunakan "]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="11" width="11">
+						<staticText>
+							<reportElement x="0" y="0" width="11" height="11" forecolor="#FF0000"/>
+							<box>
+								<pen lineColor="#000000"/>
+								<topPen lineWidth="0.25" lineColor="#000000"/>
+								<leftPen lineWidth="0.25" lineColor="#000000"/>
+								<bottomPen lineWidth="0.25" lineColor="#000000"/>
+								<rightPen lineWidth="0.25" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center">
+								<font size="8"/>
+							</textElement>
+							<text><![CDATA[X]]></text>
+						</staticText>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<frame>
+				<reportElement positionType="Float" x="6" y="606" width="713" height="11"/>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement x="124" y="0" width="585" height="11"/>
+					<textElement verticalAlignment="Top">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{info_s1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="119" y="0" width="5" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="0" width="119" height="11"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Info Sumber Informasi (SI) 1]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="6" y="617" width="713" height="11"/>
+				<staticText>
+					<reportElement x="119" y="0" width="5" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement x="124" y="0" width="585" height="11"/>
+					<textElement verticalAlignment="Top">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{info_s2}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="119" height="11"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Info Sumber Informasi (SI) 2]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="3" y="628" width="716" height="11"/>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement x="127" y="0" width="585" height="11"/>
+					<textElement verticalAlignment="Top">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{info_s3}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="122" y="0" width="5" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="3" y="0" width="119" height="11"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Info Sumber Informasi (SI) 3]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="7" y="639" width="713" height="19"/>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement x="124" y="0" width="584" height="11"/>
+					<textElement verticalAlignment="Top">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{note}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="118" y="0" width="5" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="4" y="0" width="114" height="11"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Note/Catatan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="12" y="11" width="555" height="8"/>
+					<textElement verticalAlignment="Middle">
+						<font size="6"/>
+					</textElement>
+					<text><![CDATA[* Kolom keterangan Tambahan ini diisi informasi yang tidak terdapat pada kolom di atas dan tidak menggunakan bahasa singkatan]]></text>
+				</staticText>
+			</frame>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="532" width="11" height="11" forecolor="#FF0000"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="0.25" lineColor="#000000"/>
+					<leftPen lineWidth="0.25" lineColor="#000000"/>
+					<bottomPen lineWidth="0.25" lineColor="#000000"/>
+					<rightPen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{status_lokasi}.equalsIgnoreCase( "Sewa/Kontrak" )?"X":""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="142" y="532" width="130" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Sewa/Kontrak]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="308" width="46" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Detail : Rp.]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="188" y="308" width="102" height="11"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{detail_omzet}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement positionType="Float" x="0" y="658" width="719" height="11"/>
+				<staticText>
+					<reportElement x="561" y="0" width="53" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Tgl Approver :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="361" y="0" width="38" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Approver :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="201" y="0" width="45" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Tgl Valuer :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="5" y="0" width="33" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Valuer :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="38" y="0" width="163" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{value_by}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement x="246" y="0" width="115" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{value_date}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="399" y="0" width="162" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{approve_by}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement x="614" y="0" width="105" height="11"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{approve_date}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement x="142" y="345" width="59" height="11"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Bidang Usaha :]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="201" y="345" width="503" height="11"/>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{bidang_usaha}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="19" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="3" width="680" height="8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[ Keterangan- Keterangan diatas dilakukan berdasarkan kesaksian selama pemeriksaan agunan dan tidak ada kepentingan-kepentingan apapun ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="11" width="680" height="8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[baik secara pribadi maupun orang lain, terhadap NILAI AGUNAN pada saat sekarang dan kemudian hari.]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band/>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

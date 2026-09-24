@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptLampiranImageSurveyInspeksi" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5885d615-b4da-4313-840e-15724a982c94">
+	<property name="ireport.zoom" value="1.1000000000000005"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.engine.util.JRImageLoader" value="true"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="net.sf.jasperreports.export.pdf.compressed" value="false"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="PIdLpaUmum" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PImagePath" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from
+(select gbr.*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) :: Integer AS no2  from (select a.no_lpa,
+a.nama_debitur,
+a.lokasi_fisik, b.id_laporan_dokumen,
+lo_get(b.image) img, b.nama ket, coalesce(b.catatan, '') catatan,
+(select nama from jenis_kategori where kode = a.kategori_aktiva) kategori,
+ROW_NUMBER() OVER (ORDER BY (SELECT 1)) :: Integer % 2 AS no
+from lpa_umum a
+left outer join (
+select b.id_laporan_dokumen, b.image, c.nama, b.id_survey_umum, b.id_lpa, b.catatan
+from survey_image b
+	left outer join jenis_laporan_dokumen c on b.id_laporan_dokumen = c.id
+where c.jenis_data='Foto Survey'
+) as b
+	on a.id_survey = b.id_survey_umum or a.id = b.id_lpa
+where a.id =$P{PIdLpaUmum}
+order by B.nama) gbr
+where gbr.no = 1) gbr1
+left join (select gbr.*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) :: Integer AS no2  from (select
+lo_get(b.image) img2, b.nama ket2, coalesce(b.catatan, '') catatan2,
+(select nama from jenis_kategori where kode = a.kategori_aktiva) kategori2,
+ROW_NUMBER() OVER (ORDER BY (SELECT 1)) :: Integer % 2 AS no
+from lpa_umum a
+left outer join (
+select b.id_laporan_dokumen, b.image, c.nama, b.id_survey_umum, b.id_lpa, b.catatan
+from survey_image b
+	left outer join jenis_laporan_dokumen c on b.id_laporan_dokumen = c.id
+where c.jenis_data='Foto Survey'
+) as b
+	on a.id_survey = b.id_survey_umum or a.id = b.id_lpa
+where a.id =$P{PIdLpaUmum}
+order by B.nama) gbr
+where gbr.no = 0) gbr2 on gbr1.no2 =gbr2.no2]]>
+	</queryString>
+	<field name="no_lpa" class="java.lang.String"/>
+	<field name="nama_debitur" class="java.lang.String"/>
+	<field name="lokasi_fisik" class="java.lang.String"/>
+	<field name="id_laporan_dokumen" class="java.lang.Long"/>
+	<field name="img" class="java.io.InputStream"/>
+	<field name="ket" class="java.lang.String"/>
+	<field name="catatan" class="java.lang.String"/>
+	<field name="kategori" class="java.lang.String"/>
+	<field name="no" class="java.lang.Integer"/>
+	<field name="no2" class="java.lang.Integer"/>
+	<field name="img2" class="java.io.InputStream"/>
+	<field name="ket2" class="java.lang.String"/>
+	<field name="catatan2" class="java.lang.String"/>
+	<field name="kategori2" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="140" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="088a2710-3bcb-4fa2-9355-ebcd0c59522e" key="staticText" x="0" y="51" width="142" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[No. Laporan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a96b3cdf-0806-43e4-92eb-10ca2ceb6d4e" key="staticText" x="0" y="66" width="142" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Nama Debitur	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1f452cf3-3da4-4847-8d06-49cadaff77a2" key="staticText" x="0" y="81" width="142" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Lokasi Angunan(Fisik)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8ffab70a-53be-4a66-9e7c-45f266440d20" key="staticText" x="142" y="51" width="5" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d8c8c1f9-f62b-4c54-9ca6-492568bdbeeb" key="staticText" x="142" y="66" width="5" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7bf2a46d-2584-45de-9cbe-d9eed4b85d78" key="staticText" x="142" y="81" width="5" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f8f8a331-a667-44a7-bf1f-8f5c0dc1f8b2" key="textField" x="147" y="51" width="408" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_lpa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="fd9cd210-b546-47bf-b839-44754a68fd0c" key="textField" x="147" y="66" width="408" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nama_debitur}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="d585519e-e2db-4668-b7bc-29837c89ed6f" key="textField" x="147" y="81" width="408" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lokasi_fisik}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="77cc2759-e5c1-4d8e-8878-cabb039f94c0" x="435" y="99" width="80" height="20"/>
+				<textElement textAlignment="Right">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Halaman "+$V{PAGE_NUMBER}+" dari"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="10be5857-aa02-4634-8a49-a608f8585361" x="515" y="99" width="40" height="20"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="9f8e8d26-e1ee-45e9-b36e-8c93fdcb6b11" mode="Opaque" x="0" y="120" width="555" height="20" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Gambar Hasil Survey]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="0abdf76b-a205-43f2-b40c-29dad492df58" mode="Opaque" x="142" y="0" width="413" height="37" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["LAPORAN PENILAIAN AGUNAN\n"+
+"ATAS "+$F{kategori}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="8e4c20b6-cb52-44a3-8199-4ba82a728d10" key="staticText" mode="Opaque" x="0" y="0" width="142" height="37" backcolor="#FFFFFF"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="016a105d-47ef-4f02-9823-3209b8594e0d" x="0" y="-14" width="142" height="51"/>
+				<imageExpression><![CDATA[($P{SUBREPORT_DIR}!=null?$P{SUBREPORT_DIR}:"") + "logo_rpt_format_lpa.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="211" splitType="Prevent">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="9aeb3b6c-5646-4ead-a66f-24716551630c" positionType="Float" stretchType="RelativeToTallestObject" x="277" y="0" width="277" height="211" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" forecolor="#000000"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ket2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="48dbb59b-0707-41c9-85ea-a16865feae67" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="277" height="211" isPrintWhenDetailOverflows="true"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="4ad0390a-e94a-4419-b585-952c9473b8e9" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="181" width="277" height="30" isPrintWhenDetailOverflows="true"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ket} +""+ ($F{catatan}.equalsIgnoreCase( "" )? "":" - "+$F{catatan})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="4b0c28a1-cb96-4b59-a821-83b37769cae0" positionType="Float" stretchType="RelativeToTallestObject" x="277" y="181" width="277" height="30" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ket2} +""+ ($F{catatan2}.equalsIgnoreCase( "" )? "":" - "+$F{catatan2})]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement uuid="2c38a07d-2974-470b-83af-4e787e5fe186" key="image" x="0" y="7" width="277" height="174"/>
+				<imageExpression><![CDATA[$F{img}]]></imageExpression>
+			</image>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement uuid="437be259-bc68-4dd0-8e3c-0c98a244a4c2" key="image" x="277" y="7" width="277" height="174"/>
+				<imageExpression><![CDATA[$F{img2}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<line>
+				<reportElement uuid="933f7609-f437-4019-85b8-2d143b28829e" key="line" x="0" y="21" width="555" height="1" forecolor="#FF99CC"/>
+			</line>
+			<staticText>
+				<reportElement uuid="ef8b34c0-139f-4240-8947-e7ff75820859" key="staticText" x="0" y="0" width="555" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Keterangan- Keterangan diatas dilakukan berdasarkan kesaksian selama Inspeksi yang dilakukan oleh Staf ColVal & RM secara Independen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2a16d88c-1785-4d68-9c69-46b22e255dc4" key="staticText" x="0" y="22" width="285" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Laporan ini merupakan hasil cetakan komputer, tidak memerlukan tanda tangan.]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

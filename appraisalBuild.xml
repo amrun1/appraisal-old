@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="main" name="WebAppraisal">
+  <property environment="env" />
+  <property name="projectName" value="appraisal" />
+  <property name="src.dir" location="src" />
+  <property name="build.dir" location="bin" />
+  <property name="dist.dir" location="dist" />
+  <property name="dist.lib.dir" location="dist/lib" />
+  <property name="lib.dir" value="web/WEB-INF/lib" />
+  <property name="main-class" value="" />
+  <property name="general.lib.directory" value="web/WEB-INF/lib" />
+  <property name="src.permata.dir" location="src/com/permata"/>
+  <property name="general.classes.directory" value="web/WEB-INF/classes/com/permata"/>
+  <property name="src.permata.dir" location="src/com/permata"/>
+
+  <target name="init">
+    <mkdir dir="${build.dir}" />
+    <mkdir dir="${dist.dir}" />
+    <mkdir dir="${general.lib.directory}" />
+  </target>
+
+  <target name="clean" description="clean up">
+    <delete dir="${build.dir}" failonerror="false" />
+    <delete dir="${dist.dir}" failonerror="false" />
+  </target>
+
+  <!-- external libraries classpath, we don't need sources and javadoc -->
+  <path id="classpath">
+    <fileset dir="${lib.dir}" includes="**/*.jar" excludes="**/*sources.jar, **/*javadoc.jar, *.war" />
+  </path>
+  <!-- To work with external libraries, need classpath to compile -->
+  <target name="compile" depends="clean, init" description="compile the source ">
+    <javac includeantruntime="false" srcdir="${src.dir}" destdir="${build.dir}" classpathref="classpath" debug="true" debuglevel="lines,vars,source" />
+  </target>
+
+  <path id="propertiesPath">
+    <fileset dir="${lib.dir}" includes="*.jar"/>
+  </path>
+  <target name="compilePath" depends="clean, init" description="compile the source ">
+    <javac includeantruntime="false" srcdir="${general.classes.directory}" destdir="${build.dir}" classpathref="propertiesPath" debug="true" debuglevel="lines, vars, source"/>
+  </target>
+
+  <!-- jar it, and declares the ext libraries in manifest.mf file -->
+  <target name="war" depends="compile" description="package, output to WAR">
+    <war destfile="${dist.dir}/${projectName}.war"  webxml="./web/WEB-INF/web.xml">
+      <manifest>
+        <attribute name="Created-By" value="${created.by}" />
+      </manifest>
+      <fileset dir="web">
+        <include name="*/**" />
+      	<exclude name="*.war"/>
+      	<exclude name="/WEB-INF/lib/*.jar"/>
+      </fileset>
+      <zipfileset dir="${lib.dir}" prefix="WEB-INF/lib">
+      	<include name="commons-dbcp-1.4.jar"/>
+      	<include name="hibernate-validator-4.3.1.Final.jar"/>
+      	<include name="jaxrpc.jar"/>
+      	<include name="spring-security-taglibs-3.2.5.RELEASE.jar"/>
+      	<include name="commons-beanutils-1.9.1.jar"/>
+      	<include name="spring-beans-4.0.3.RELEASE.jar"/>
+      	<include name="axis.jar"/>
+      	<include name="log4j-1.2.17.jar"/>
+      	<include name="hibernate-core-4.2.11.Final.jar"/>
+      	<include name="wsdl4j-1.5.1.jar"/>
+      	<include name="commons-discovery-0.2.jar"/>
+      	<include name="hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
+      	<include name="itextpdf-5.5.0.jar"/>
+      	<include name="displaytag-1.1.jar"/>
+      	<include name="jboss-logging-3.1.0.CR2.jar"/>
+      	<include name="sitemesh-3.0.1.jar"/>
+      	<include name="spring-jdbc-4.0.3.RELEASE.jar"/>
+      	<include name="postgresql-42.2.19.jar"/>
+      	<include name="commons-net-3.5.jar"/>
+      	<include name="validation-api-1.0.0.GA.jar"/>
+      	<include name="jstl-1.2.jar"/>
+      	<include name="commons-fileupload-1.3.1.jar"/>
+      	<include name="jackson-core-asl-1.9.13.jar"/>
+      	<include name="spring-security-core-3.2.5.RELEASE.jar"/>
+      	<include name="jackson-mapper-asl-1.9.13.jar"/>
+      	<include name="hibernate-commons-annotations-4.0.2.Final.jar"/>
+      	<include name="commons-lang-2.6.jar"/>
+      	<include name="aopalliance-1.0.jar"/>
+      	<include name="commons-io-2.4.jar"/>
+      	<include name="mail.jar"/>
+      	<include name="jxl.jar"/>
+      	<include name="plus-client.jar"/>
+      	<include name="servlet-api-2.5.jar"/>
+      	<include name="poi-3.10.1.jar"/>
+      	<include name="spring-expression-4.0.3.RELEASE.jar"/>
+      	<include name="spring-security-config-3.2.5.RELEASE.jar"/>
+      	<include name="spring-context-support-4.0.3.RELEASE.jar"/>
+      	<include name="spring-web-4.0.3.RELEASE.jar"/>
+      	<include name="spring-security-web-3.2.5.RELEASE.jar"/>
+      	<include name="spring-core-4.0.3.RELEASE.jar"/>
+      	<include name="javassist-3.18.1-GA.jar"/>
+      	<include name="spring-orm-4.0.3.RELEASE.jar"/>
+      	<include name="iloan-intapr.jar"/>
+      	<include name="antlr-2.7.7.jar"/>
+      	<include name="commons-pool-1.5.4.jar"/>
+      	<include name="jboss-transaction-api_1.1_spec-1.0.1.Final.jar"/>
+      	<include name="commons-digester-2.1.jar"/>
+      	<include name="dom4j-1.6.1.jar"/>
+      	<include name="jasperreports-6.0.0.jar"/>
+      	<include name="commons-collections-3.2.1.jar"/>
+      	<include name="spring-context-4.0.3.RELEASE.jar"/>
+      	<include name="spring-aop-4.0.3.RELEASE.jar"/>
+      	<include name="mysql-connector-java-5.0.8-bin.jar"/>
+      	<include name="itext-pdfa-5.5.0.jar"/>
+      	<include name="spring-webmvc-4.0.3.RELEASE.jar"/>
+      	<include name="carm-client.jar"/>
+      	<include name="saaj.jar"/>
+      	<include name="spring-tx-4.0.3.RELEASE.jar"/>
+      	<include name="iloan-los.jar"/>
+      	<include name="commons-logging-1.1.3.jar"/>
+      </zipfileset>
+      <classes dir="${build.dir}" />
+      <zipfileset dir="src" prefix ="WEB-INF/classes">
+        <include name="jdbc.properties"/>
+        <include name="log4j.properties"/>
+        <include name="jasper-report.xml"/>
+        <include name="root-context.xml"/>
+        <include name="servlet-context.xml"/>
+        <include name="spring-database.xml"/>
+        <include name="spring-security.xml"/>
+      </zipfileset>
+    </war>
+  </target>
+
+  <!-- Default, run this -->
+  <target name="main" depends="war" />
+</project>

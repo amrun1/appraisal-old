@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptProductivityAdmin" pageWidth="950" pageHeight="120" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="950" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="87e45c8f-6081-42d1-84a4-17d5916024d3">
+	<property name="ireport.zoom" value="2.3579476910000157"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.columns" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<subDataset name="Bisnis" uuid="a4058ca4-1e99-4be1-932a-cfe44a1eaa26">
+		<parameter name="pId" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select nama
+from cabang
+where id = $P{pId}]]>
+		</queryString>
+		<field name="nama" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="Cabang" uuid="9610bbbd-9889-4468-9cae-c61f5bd4e528">
+		<parameter name="pId" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select nama
+from appraisal_cabang
+where id = $P{pId}]]>
+		</queryString>
+		<field name="nama" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="JenisAppraisal" uuid="1d62a598-ac2e-4569-b0d3-b81f1af216e2">
+		<parameter name="id" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="id_umum" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select case when b.kategori_appraisal = 'Internal' then 'Internal' when b.kategori_appraisal = 'Eksternal' then 'Eksternal' else a.nama end nama
+from jenis_appraisal a
+left outer join data_umum b on a.id=b.jenis_appraisal_id
+where a.id = $P{id}
+and b.id = $P{id_umum}]]>
+		</queryString>
+		<field name="nama" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="user" uuid="3fc85db7-4de2-401f-972a-597d8e924b1f">
+		<parameter name="pUserId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select a.nama
+from person a
+and a.user_id = $P{pUserId}]]>
+		</queryString>
+		<field name="nama" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="statusJaminan" uuid="d3ad3e69-1f41-4bae-b5d3-1669e7c4967a">
+		<parameter name="pId" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select nama
+from status_jaminan
+where id = $P{pId}]]>
+		</queryString>
+		<field name="nama" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="jenisAktiva" uuid="26ec01b3-1a11-4c3c-9e99-b4e28fdf5dbf">
+		<parameter name="pId" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select nama
+from jenis_aktiva
+where id =$P{pId}]]>
+		</queryString>
+		<field name="nama" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="apraisalCabang" uuid="abdbe217-ec78-4047-8429-1f97160b86fe">
+		<parameter name="pId" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select nama
+from appraisal_cabang
+where id =$P{pId}]]>
+		</queryString>
+		<field name="nama" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="pCabangApppraisal" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pPosisi" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pSubmitDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pCloseDate" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pUserId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pUserName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pTimUser" class="java.lang.Integer"/>
+	<parameter name="pCabang" class="java.lang.Long"/>
+	<parameter name="pCabangDesk" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select c.id,
+c.no_order,
+c.nama nama_debitur,
+c.status_jaminan_id,
+c.cabang_id bisnis,
+b.id_jenis_aktiva object_penilaian,
+b.alamat lokasi_agunan,
+c.kategori_appraisal jenis_lpa,
+c.jenis_appraisal_id,
+c.jenis_laporan,
+d.tgl_claim,
+(select nama from status_jaminan where id = a.id_status_jaminan) status_jaminan,
+(select nama from cabang where id = c.cabang_id) cb_bisnis,
+(select nama from jenis_aktiva where id = b.id_jenis_aktiva) obj_nilai,
+(select nama from jenis_appraisal where id = c.jenis_appraisal_id) jenis_app
+from data_detail b
+left join data_umum c on c.id = b.id_data_umum
+left join lpa_umum a on a.id_data_umum = b.id
+left join (select max(id), max(tanggal) tgl_claim, id_data_umum id_umum
+from task_flow_history
+where catatan='Admin Appraisal Claim'
+group by id_data_umum) d on d.id_umum = c.id
+where c.appraisal_cabang_id=$P{pCabangApppraisal} and d.tgl_claim between $P{pSubmitDate} and $P{pCloseDate}
+and c.submit_date is not null
+and c.closed_date is not null
+$P!{pUserId}]]>
+	</queryString>
+	<field name="id" class="java.lang.Long"/>
+	<field name="no_order" class="java.lang.String"/>
+	<field name="nama_debitur" class="java.lang.String"/>
+	<field name="status_jaminan_id" class="java.lang.Long"/>
+	<field name="bisnis" class="java.lang.Long"/>
+	<field name="object_penilaian" class="java.lang.Long"/>
+	<field name="lokasi_agunan" class="java.lang.String"/>
+	<field name="jenis_lpa" class="java.lang.String"/>
+	<field name="jenis_appraisal_id" class="java.lang.Long"/>
+	<field name="jenis_laporan" class="java.lang.String"/>
+	<field name="tgl_claim" class="java.sql.Timestamp"/>
+	<field name="status_jaminan" class="java.lang.String"/>
+	<field name="cb_bisnis" class="java.lang.String"/>
+	<field name="obj_nilai" class="java.lang.String"/>
+	<field name="jenis_app" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="81" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="59c5066d-602c-4ffd-8318-bee93b77d6aa" mode="Opaque" x="0" y="0" width="950" height="15" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Report Produktivitas Admin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6264a387-8077-4964-b718-615dbf36bcbd" mode="Transparent" x="0" y="37" width="117" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[User]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8b22c452-3c4f-4643-8aa2-ff689fc4eaf2" mode="Transparent" x="0" y="48" width="117" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Periode Tgl Close]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement uuid="0c92d03a-7a13-4711-b52e-1f9caaa1cdf8" mode="Transparent" x="117" y="48" width="100" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{pSubmitDate}) + "               s/d"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="ea0e3191-7736-45a5-8276-c7dc075cef41" mode="Transparent" x="217" y="48" width="61" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pCloseDate}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement uuid="7d3ee785-6a0a-490c-bd98-7392e5a4061b" stretchType="RelativeToTallestObject" mode="Transparent" x="117" y="37" width="100" height="11" isPrintWhenDetailOverflows="true">
+					<printWhenExpression><![CDATA[$P{pUserName}!=null]]></printWhenExpression>
+				</reportElement>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical" ignoreWidth="true">
+					<datasetRun subDataset="user" uuid="81598d9b-cee3-42d6-879f-49f3e4f8b0e7">
+						<datasetParameter name="pUserId">
+							<datasetParameterExpression><![CDATA[$P{pUserName}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="11" width="100">
+						<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+							<reportElement uuid="fc5a5bd9-a1ea-401f-a1dc-d18c4588012b" stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="0" width="100" height="11"/>
+							<textElement verticalAlignment="Top">
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="9b7e0370-1aa4-40fa-9b8c-0573a9e42eab" mode="Transparent" x="117" y="37" width="100" height="11" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pUserName}.equals( "" ) ? "All":""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="3a884ebd-a200-409a-9709-5a24b7560c03" mode="Transparent" x="0" y="15" width="117" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Cabang Coll. Val.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7895e7e6-2393-446b-8b78-8f89534b84a0" mode="Transparent" x="0" y="26" width="117" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Petugas]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="5176a1a3-7f5e-4220-bc73-bf42e861f1a0" x="117" y="26" width="100" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pPosisi}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement uuid="1747a8e5-e964-4e48-9407-299a33deb6d2" stretchType="RelativeToTallestObject" mode="Transparent" x="117" y="15" width="100" height="11" isPrintWhenDetailOverflows="true"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical" ignoreWidth="true">
+					<datasetRun subDataset="apraisalCabang" uuid="8349ffd6-5257-445b-bbe3-5f328c8df930">
+						<datasetParameter name="pId">
+							<datasetParameterExpression><![CDATA[$P{pCabangApppraisal}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="11" width="100">
+						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<reportElement uuid="ef01ca0d-fe51-43c0-a500-f51abf286dd3" stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="0" width="100" height="11"/>
+							<box leftPadding="0" rightPadding="0">
+								<leftPen lineWidth="0.0"/>
+								<bottomPen lineWidth="0.0"/>
+							</box>
+							<textElement verticalAlignment="Top">
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<staticText>
+				<reportElement uuid="16991916-8797-4b49-a1a1-97eddc3be6c8" mode="Opaque" x="0" y="59" width="31" height="22" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box leftPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8167757d-371f-4877-94dc-f311a651f677" mode="Opaque" x="31" y="59" width="86" height="22" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box leftPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Order]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="dc798861-7971-47fc-b2df-c6464da3ff04" mode="Opaque" x="117" y="59" width="100" height="22" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box leftPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nasabah]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cfe40c4f-d3ea-493a-a697-0ab076815521" mode="Opaque" x="217" y="59" width="61" height="22" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box leftPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status
+Jaminan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ec79c723-a625-47b8-b5b0-f6a7589105ca" mode="Opaque" x="278" y="59" width="59" height="22" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box leftPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cabang
+Bisnis]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3cb9bdc5-582b-4879-8ca6-63deacb12c52" mode="Opaque" x="413" y="59" width="134" height="22" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box leftPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lokasi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cbbe53e4-9cc9-4af1-bf55-70f837594a54" mode="Opaque" x="613" y="59" width="85" height="22" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box leftPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tgl Claim]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a84ef938-d2da-48df-b13e-b3ff02ae276c" mode="Opaque" x="782" y="59" width="84" height="22" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box leftPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jenis LPA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="10d93197-e188-4b9e-9fcf-6aaa35eb94b6" mode="Opaque" x="698" y="59" width="84" height="22" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box leftPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jenis Appraisal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c9cf3c3a-86fb-4876-91b4-4d1bce0122ac" mode="Opaque" x="866" y="59" width="84" height="22" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box leftPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jenis Laporan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="111984a1-8da3-4ec1-b10d-fc5fd0b03ede" mode="Opaque" x="337" y="59" width="76" height="22" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box leftPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Object
+Penilaian]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="083da4ac-8200-43a6-a149-557c3439b50c" mode="Opaque" x="547" y="59" width="66" height="22" forecolor="#FFFFFF" backcolor="#0064FF"/>
+				<box leftPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Coll Val
+Leader]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="a624c030-0291-4868-86ba-fefd5ae59403" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="31" y="0" width="86" height="11"/>
+				<box leftPadding="3" rightPadding="4">
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_order}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="26ce07fe-76c9-4d5d-a547-d2d3f716e913" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="117" y="0" width="100" height="11"/>
+				<box leftPadding="3" rightPadding="4">
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nama_debitur}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="02dbbd1b-080a-4258-9c6e-8fff1e51c24a" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="413" y="0" width="134" height="11"/>
+				<box leftPadding="3" rightPadding="4">
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lokasi_agunan}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH:mm:ss" isBlankWhenNull="true">
+				<reportElement uuid="6fb0d8d6-6dcc-46e9-8159-e1e2aae20d35" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="613" y="0" width="85" height="11"/>
+				<box leftPadding="3" rightPadding="4">
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_claim}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="71e648af-a43f-4ef0-86a8-bb0a363aab5f" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="782" y="0" width="84" height="11"/>
+				<box leftPadding="3" rightPadding="4">
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jenis_lpa}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="5a55df58-e007-4024-af07-5b5dc46aa499" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="866" y="0" width="84" height="11"/>
+				<box leftPadding="3" rightPadding="4">
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jenis_laporan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="342d09a3-62bd-4bc1-842a-f79794c83029" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="547" y="0" width="66" height="11" backcolor="#CCCCCC"/>
+				<box leftPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[admin]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="dcc7ea7f-693f-402c-8f36-1cd91c478b65" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="217" y="0" width="61" height="11"/>
+				<box leftPadding="3" rightPadding="4">
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{status_jaminan}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="ce42632c-ba5f-465f-af24-d51ff38ae0fa" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="278" y="0" width="59" height="11"/>
+				<box leftPadding="3" rightPadding="4">
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cb_bisnis}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="960a1d31-1320-4edd-b89f-cc030e74a2a9" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="337" y="0" width="76" height="11"/>
+				<box leftPadding="3" rightPadding="4">
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{obj_nilai}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="500ad560-0ae4-4502-b1b4-3d1104d00fb3" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="698" y="0" width="84" height="11"/>
+				<box leftPadding="3" rightPadding="4">
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jenis_app}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="04e6f78a-4914-4064-a80b-900fcc9588d4" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="31" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+	<noData>
+		<band height="11">
+			<staticText>
+				<reportElement uuid="d01d8611-2995-4bcd-9187-d0b35036f003" x="0" y="0" width="117" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Data Tidak Ada]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>
